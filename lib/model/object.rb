@@ -66,4 +66,17 @@ class Object
     def unfile
         Services.multi_filing.remove_object_from_folder(repository_id, object_id, nil)
     end
+
+
+    def acls
+        Services.acl.get_acl(repository_id, object_id, nil)
+    end
+
+    def add_aces(aces)
+        Services.acl.apply_acl(repository_id, object_id, aces, nil, nil)
+    end
+
+    def remove_aces(aces)
+        Services.acl.apply_acl(repository_id, object_id, nil, aces, nil)
+    end
 end
