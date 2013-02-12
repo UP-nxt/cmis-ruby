@@ -1,5 +1,6 @@
 require_relative 'services'
 require_relative 'object'
+require_relative 'type'
 
 module Model
     class Repository

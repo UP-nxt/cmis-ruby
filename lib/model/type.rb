@@ -9,7 +9,7 @@ module Model
         end
 
         def to_hash
-            raw
+            @raw
         end
     end
 end
