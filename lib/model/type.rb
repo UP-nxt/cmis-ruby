@@ -17,8 +17,8 @@ module Model
         attr_accessor :queryable
         attr_accessor :controllable_policy
         attr_accessor :controllable_acl
-        attr_accessor :fulletext_indexed
-        attr_accessor :include_in_supertype_query
+        attr_accessor :fulltext_indexed
+        attr_accessor :included_in_supertype_query
         attr_accessor :property_definitions
 
         def initialize(hash = {})
@@ -35,8 +35,8 @@ module Model
             @queryable = hash[:queryable]
             @controllable_policy = hash[:controllablePolicy]
             @controllable_acl = hash[:controllableACL]
-            @fulletext_indexed = hash[:fulletextIndexed]
-            @include_in_supertype_query = hash[:includeInSupertype_query]
+            @fulltext_indexed = hash[:fulltextIndexed]
+            @included_in_supertype_query = hash[:includedInSupertype_query]
             @property_definitions = hash[:propertyDefinitions] || {}
         end
 
@@ -59,8 +59,8 @@ module Model
             hash[:queryable]= queryable
             hash[:controllablePolicy]= controllable_policy
             hash[:controllableACL]= controllable_acl
-            hash[:fulletextIndexed]= fulletext_indexed
-            hash[:includeInSupertype_query]= include_in_supertype_query
+            hash[:fulltextIndexed]= fulltext_indexed
+            hash[:includedInSupertypeQuery]= included_in_supertype_query
             hash[:propertyDefinitions]= property_definitions
             hash
         end
