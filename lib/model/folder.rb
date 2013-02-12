@@ -24,7 +24,7 @@ class Folder < Object
     end
 
     def delete_tree
-
+        Services.object.delete_tree(repository_id, object_id, true, false, false)
     end
 
 end
