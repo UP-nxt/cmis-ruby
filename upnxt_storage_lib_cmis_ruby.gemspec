@@ -1,12 +1,12 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
-require "upnxt_storage_lib_cmis_ruby/version"
+require "upnxt_storage_lib_cmis_ruby"
 
 Gem::Specification.new do |s|
   s.name        = 'upnxt_storage_lib_cmis_ruby'
   s.version     = UpnxtStorageLibCmisRuby::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ['Kenneth']
+  s.authors     = ['Kenneth', 'Michael']
   s.email       = ['gem@upnxt.com']
   s.homepage    = 'http://www.up-nxt.com'
   s.summary     = 'Ruby CMIS browser binding client lib.'
@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'multi_json', '~> 1.5.1'
 
   s.files         = `git ls-files`.split("\n")
-  # s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
-  # s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
+  s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
+  s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ['lib']
 end
