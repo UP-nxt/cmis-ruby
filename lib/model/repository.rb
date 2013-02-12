@@ -19,7 +19,7 @@ module Model
         attr_reader :description
 
         def root_folder_id
-            @raw[:root_folder_id]
+            @raw[:rootFolderId]
         end
 
         def root
