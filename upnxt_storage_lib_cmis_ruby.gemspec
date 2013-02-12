@@ -13,6 +13,7 @@ Gem::Specification.new do |s|
   s.description = 'Ruby CMIS browser binding client lib.'
 
   s.add_dependency 'httparty', '~> 0.10.2'
+  s.add_dependency 'multipart-post', '~> 1.1.5'
   s.add_dependency 'multi_json', '~> 1.5.1'
 
   s.files         = `git ls-files`.split("\n")
