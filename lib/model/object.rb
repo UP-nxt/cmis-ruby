@@ -61,4 +61,9 @@ class Object
             Policy.create(policy)
         end
     end
+
+    # remove from all folders
+    def unfile
+        Services.multi_filing.remove_object_from_folder(repository_id, object_id, nil)
+    end
 end

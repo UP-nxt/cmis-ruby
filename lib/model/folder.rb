@@ -37,4 +37,11 @@ class Folder < Object
         Services.object.delete_tree(repository_id, object_id, true, false, false)
     end
 
+    def add(object)
+        Services.multi_filing.add_object_to_folder(repository_id, object.object_id, object_id, nil)
+    end
+
+    def remove(object)
+        Services.multi_filing.remove_object_from_folder(repository_id, object.object_id, object_id)
+    end
 end
