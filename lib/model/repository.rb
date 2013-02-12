@@ -9,11 +9,20 @@ class Repository
         @id = raw[:repositoryId]
         @name = raw[:repositoryName]
         @description = raw[:repositoryDescription]
+        @raw = raw
     end
 
     attr_reader :id
     attr_reader :name
     attr_reader :description
+
+    def root_folder_id
+        @raw[:root_folder_id]
+    end
+
+    def root
+        Object.create(Services.object.get_object(id, root_folder_id, nil, false, false, nil, false, false))
+    end
 
     def type(type_id)
         Type.create(Services.repository.get_type_definition(id, type_id))

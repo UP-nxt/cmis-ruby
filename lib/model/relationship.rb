@@ -1,6 +1,9 @@
 require_relative 'services'
 
 class Relationship < Object
+    def self.create(raw)
+    end
+
     attr_reader :source_id
     attr_reader :target_id
 

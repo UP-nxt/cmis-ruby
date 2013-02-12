@@ -1,8 +1,21 @@
 require_relative 'services'
 
 class Object
-    def self.create(raw_object)
-
+    def self.create(raw)
+        base_type_id = raw['cmis:baseTypeId']
+        if 'cmis:folder'.eql?(base_type_id)
+            Folder.create(raw)
+        elsif 'cmis:document'.eql?(base_type_id)
+            Document.create(raw)
+        elsif 'cmis:relationship'.eql?(base_type_id)
+            Relationship.create(raw)
+        elsif 'cmis:policy'.eql?(base_type_id)
+            Policy.create(raw)
+        elsif 'cmis:item'.eql?(base_type_id)
+            Item.create(raw)
+        else
+            raise "unexpected baseTypeId - #{base_type_id}"
+        end
     end
 
     attr_reader :repository_id

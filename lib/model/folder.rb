@@ -1,9 +1,17 @@
 require_relative 'services'
 
 class Folder < Object
+    def self.create(raw)
+        Folder.new(raw)
+    end
+
     attr_reader :parent_id
     attr_reader :path
     attr_reader :allowed_child_object_type_ids
+
+    def initialize(raw)
+        @raw = raw
+    end
 
     def parent
 

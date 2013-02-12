@@ -1,6 +1,9 @@
 require_relative 'services'
 
 class Document < Object
+    def self.create(raw)
+    end
+
     attr_reader :is_immutable
     attr_reader :is_latest_version
     attr_reader :is_major_version
