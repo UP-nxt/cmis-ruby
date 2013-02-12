@@ -1,3 +1,5 @@
+require_relative 'services'
+
 class Relationship < Object
     attr_reader :source_id
     attr_reader :target_id

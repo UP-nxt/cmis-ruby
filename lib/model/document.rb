@@ -1,3 +1,5 @@
+require_relative 'services'
+
 class Document < Object
     attr_reader :is_immutable
     attr_reader :is_latest_version

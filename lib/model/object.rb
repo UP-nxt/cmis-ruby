@@ -1,3 +1,5 @@
+require_relative 'services'
+
 class Object
     def self.create(raw_object)
 

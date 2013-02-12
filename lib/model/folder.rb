@@ -1,3 +1,5 @@
+require_relative 'services'
+
 class Folder < Object
     attr_reader :parent_id
     attr_reader :path

@@ -1,3 +1,5 @@
+require_relative 'services'
+
 class Policy < Object
     attr_reader :policy_text
 
