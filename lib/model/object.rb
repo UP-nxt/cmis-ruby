@@ -1,3 +1,4 @@
+require_relative 'server'
 require_relative 'services'
 
 class Object
@@ -34,11 +35,11 @@ class Object
     attr_reader :properties
 
     def repository
-
+        Server.repository(repository_id)
     end
 
     def object_type
-
+        repository.type(object_type_id)
     end
 
     def delete
@@ -46,14 +47,18 @@ class Object
     end
 
     def allowable_actions
-
+        Services.object.get_allowable_actions(repository_id, object_id)
     end
 
     def relationships(direction)
-
+        Services.relationship.get_object_relationships(repository_id, object_id, nil, direction, nil, nil, false, nil, nil).map do |r|
+            Relationship.create(r)
+        end
     end
 
     def policies
-
+        Services.policy.get_applied_policies(repository_id, object_id, nil).map do |policy|
+            Policy.create(policy)
+        end
     end
 end
