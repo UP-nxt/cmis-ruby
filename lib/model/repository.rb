@@ -24,6 +24,10 @@ class Repository
         Object.create(Services.object.get_object(id, root_folder_id, nil, false, false, nil, false, false))
     end
 
+    def object(object_id)
+        Object.create(Services.object.get_object(id, object_id, nil, false, false, nil, false, false))
+    end
+
     def type(type_id)
         Type.create(Services.repository.get_type_definition(id, type_id))
     end
