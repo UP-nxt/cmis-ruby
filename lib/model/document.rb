@@ -40,7 +40,7 @@ class Document < Object
     attr_reader :content_stream_file_name
     attr_reader :content_stream_id
 
-    def copyInFolder(folder)
+    def copy_in_folder(folder)
         new_object_id = Services.object.create_document_from_source(repository_id, object_id, nil, folder.object_id, nil, nil, nil, nil)
         repository.object(new_object_id)
     end
