@@ -1,0 +1,3 @@
+class Item < Object
+
+end
