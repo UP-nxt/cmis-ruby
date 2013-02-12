@@ -1,5 +1,10 @@
 require_relative 'server'
 require_relative 'services'
+require_relative 'folder'
+require_relative 'document'
+require_relative 'relationship'
+require_relative 'policy'
+require_relative 'item'
 
 class Object
     def self.create(raw)

@@ -1,4 +1,5 @@
 require_relative 'services'
+require_relative 'repository'
 
 class Server
     def self.repositories

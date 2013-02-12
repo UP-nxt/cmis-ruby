@@ -1,4 +1,5 @@
 require_relative 'services'
+require_relative 'object'
 
 class Repository
     def self.create(raw_repository)
