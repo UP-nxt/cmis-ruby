@@ -2,6 +2,13 @@ require_relative 'services'
 
 class Relationship < Object
     def self.create(raw)
+        Relationship.new(raw)
+    end
+
+    def initialize(raw)
+        super(raw)
+        @source_id = raw['cmis:sourceId']
+        @target_id = raw['cmis:targetId']
     end
 
     attr_reader :source_id

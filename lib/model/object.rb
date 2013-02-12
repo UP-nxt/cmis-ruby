@@ -19,6 +19,21 @@ class Object
         end
     end
 
+    def initialize(raw)
+        @repository_id = raw['cmis:repositoryId']
+        @object_id = raw['cmis:objectId']
+        @base_type_id = raw['cmis:baseTypeId']
+        @object_type_id = raw['cmis:objectTypeId']
+        @secondary_object_type_ids = raw['cmis:secondaryObjectTypeId']
+        @name = raw['cmis:name']
+        @description = raw['cmis:description']
+        @created_by = raw['cmis:createdBy']
+        @creation_date = raw['cmis:creationDate']
+        @last_modified_by = raw['cmis:lastModifiedBy']
+        @last_modification_date = raw['cmis:lastModificationDate']
+        @change_token = raw['cmis:changeToken']
+    end
+
     attr_reader :repository_id
     attr_reader :object_id
     attr_reader :base_type_id

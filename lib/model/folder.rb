@@ -10,7 +10,7 @@ class Folder < Object
     attr_reader :allowed_child_object_type_ids
 
     def initialize(raw)
-        @raw = raw
+        super(raw)
         @parent_id = raw['cmis:parentId']
         @path = raw['cmis:path']
         @allowed_child_object_type_ids = raw['cmis:allowedChildObjectTypeIds']
