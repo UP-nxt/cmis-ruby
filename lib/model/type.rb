@@ -1,13 +1,15 @@
-class Type
-    def self.create(raw)
-        Type.new(raw)
-    end
+module Model
+    class Type
+        def self.create(raw)
+            Type.new(raw)
+        end
 
-    def initialize(raw)
-        @raw = raw
-    end
+        def initialize(raw)
+            @raw = raw
+        end
 
-    def to_hash
-        raw
+        def to_hash
+            raw
+        end
     end
 end
