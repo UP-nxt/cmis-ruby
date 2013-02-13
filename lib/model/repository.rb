@@ -23,6 +23,8 @@ module Model
       @raw[:rootFolderId]
     end
 
+    # object
+
     def root
       ObjectFactory.create(Services.object.get_object(id, root_folder_id, nil, false, 'none', nil, false, false))
     end
@@ -30,6 +32,8 @@ module Model
     def object(object_id)
       ObjectFactory.create(Services.object.get_object(id, object_id, nil, false, false, nil, false, false))
     end
+
+    # type
 
     def type(type_id)
       Type.create(Services.repository.get_type_definition(id, type_id))
@@ -49,6 +53,14 @@ module Model
 
     def delete_type(type_id)
       Services.repository.delete_type(id, type_id)
+    end
+
+    # discovery
+
+    def query(statement)
+      Services.discovery.query(id, statement, false, nil, nil, nil, nil, nil).map do |o|
+        ObjectFactory.create(o)
+      end
     end
   end
 end
