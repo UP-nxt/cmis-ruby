@@ -10,7 +10,8 @@ module Model
 
     def initialize(raw)
       super(raw)
-      @policy_text = raw[:'cmis:policyText']
+      properties = raw[:properties]
+      @policy_text = get_property_value(properties, :'cmis:policyText')
     end
 
     def apply_to(object)

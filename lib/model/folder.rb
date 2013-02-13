@@ -11,9 +11,10 @@ module Model
 
     def initialize(raw)
       super(raw)
-      @parent_id = raw[:'cmis:parentId']
-      @path = raw[:'cmis:path']
-      @allowed_child_object_type_ids = raw[:'cmis:allowedChildObjectTypeIds']
+      properties = raw[:properties]
+      @parent_id = get_property_value(properties, :'cmis:parentId')
+      @path = get_property_value(properties, :'cmis:path')
+      @allowed_child_object_type_ids = get_property_value(properties, :'cmis:allowedChildObjectTypeIds')
     end
 
     def parent

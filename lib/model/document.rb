@@ -7,21 +7,22 @@ module Model
 
     def initialize(raw)
       super(raw)
-      @is_immutable = raw[:'cmis:isImmutable']
-      @is_latest_version = raw[:'cmis:isLatestVersion']
-      @is_major_version = raw[:'cmis:isMajorVersion']
-      @is_lastest_major_version = raw[:'cmis:isLatestMajorVersion']
-      @is_private_working_copy = raw[:'cmis:isPrivateWorkingCopy']
-      @version_label = raw[:'cmis:versionLabel']
-      @version_series_id = raw[:'cmis:versionSeriesId']
-      @version_series_checked_out = raw[:'cmis:isVersionSeriesCheckedOut']
-      @version_series_checked_out_by = raw[:'cmis:versionSeriesCheckedOutBy']
-      @version_series_checked_out_id = raw[:'cmis:versionSeriesCheckedOutId']
-      @checkin_comment = raw[:'cmis:checkinComment']
-      @content_stream_length = raw[:'cmis:contentStreamLength']
-      @content_stream_mime_type = raw[:'cmis:contentStreamMimeType']
-      @content_stream_file_name = raw[:'cmis:contentStreamFileName']
-      @content_stream_id = raw[:'cmis:contentStreamId']
+      properties = raw[:properties]
+      @is_immutable = get_property_value(properties, :'cmis:isImmutable')
+      @is_latest_version = get_property_value(properties, :'cmis:isLatestVersion')
+      @is_major_version = get_property_value(properties, :'cmis:isMajorVersion')
+      @is_lastest_major_version = get_property_value(properties, :'cmis:isLatestMajorVersion')
+      @is_private_working_copy = get_property_value(properties, :'cmis:isPrivateWorkingCopy')
+      @version_label = get_property_value(properties, :'cmis:versionLabel')
+      @version_series_id = get_property_value(properties, :'cmis:versionSeriesId')
+      @version_series_checked_out = get_property_value(properties, :'cmis:isVersionSeriesCheckedOut')
+      @version_series_checked_out_by = get_property_value(properties, :'cmis:versionSeriesCheckedOutBy')
+      @version_series_checked_out_id = get_property_value(properties, :'cmis:versionSeriesCheckedOutId')
+      @checkin_comment = get_property_value(properties, :'cmis:checkinComment')
+      @content_stream_length = get_property_value(properties, :'cmis:contentStreamLength')
+      @content_stream_mime_type = get_property_value(properties, :'cmis:contentStreamMimeType')
+      @content_stream_file_name = get_property_value(properties, :'cmis:contentStreamFileName')
+      @content_stream_id = get_property_value(properties, :'cmis:contentStreamId')
     end
 
     attr_reader :is_immutable

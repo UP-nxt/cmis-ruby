@@ -24,7 +24,7 @@ module Model
     end
 
     def root
-      Object.create(Services.object.get_object(id, root_folder_id, nil, false, false, nil, false, false))
+      Object.create(Services.object.get_object(id, root_folder_id, nil, false, 'none', nil, false, false))
     end
 
     def object(object_id)
