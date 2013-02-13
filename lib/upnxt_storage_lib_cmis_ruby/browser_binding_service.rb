@@ -6,11 +6,13 @@ module UpnxtStorageLibCmisRuby
   module BrowserBindingService
     include HTTParty
     base_uri 'http://localhost:8080/upncmis/browser'
+    parser Proc.new { |body| MultiJson.load(body, symbolize_keys: true) }
 
     def self.multipart_post(path, options={})
       url = URI.parse("#{base_uri}#{path}")
       req = Net::HTTP::Post::Multipart.new(url.path, options[:body])
-      Net::HTTP.start(url.host, url.port) { |http| http.request(req) }
+      res = Net::HTTP.start(url.host, url.port) { |http| http.request(req) }
+      MultiJson.load(res.body, symbolize_keys: true)
     end
   end
 end
