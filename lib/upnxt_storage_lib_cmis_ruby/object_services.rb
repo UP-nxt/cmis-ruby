@@ -34,7 +34,6 @@ module UpnxtStorageLibCmisRuby
         policies: policies,
         addACEs: add_aces,
         removeACEs: remove_aces,
-        #succinct: true
       }
       if folder_id.nil?
         BrowserBindingService.multipart_post("/#{repository_id}", body: body)
@@ -57,7 +56,7 @@ module UpnxtStorageLibCmisRuby
         addACEs: add_aces,
         removeACEs: remove_aces
       }
-      BrowserBindingService.multipart_post("/#{repository_id}/root", body: body)
+      BrowserBindingService.post("/#{repository_id}/root", body: body)
     end
 
     def create_relationship(repository_id, properties, policies, add_aces, remove_aces, extension={})
@@ -68,7 +67,7 @@ module UpnxtStorageLibCmisRuby
         addACEs: add_aces,
         removeACEs: remove_aces
       }
-      BrowserBindingService.multipart_post("/#{repository_id}", body: body)
+      BrowserBindingService.post("/#{repository_id}", body: body)
     end
 
     def create_policy(repository_id, properties, folder_id, policies, add_aces, remove_aces, extension={})
@@ -80,7 +79,7 @@ module UpnxtStorageLibCmisRuby
         addACEs: add_aces,
         removeACEs: remove_aces
       }
-      BrowserBindingService.multipart_post("/#{repository_id}", body: body)
+      BrowserBindingService.post("/#{repository_id}", body: body)
     end
 
     def create_item(repository_id, properties, folder_id, policies, add_aces, remove_aces, extension={})
@@ -92,7 +91,7 @@ module UpnxtStorageLibCmisRuby
         addACEs: add_aces,
         removeACEs: remove_aces
       }
-      BrowserBindingService.multipart_post("/#{repository_id}", body: body)
+      BrowserBindingService.post("/#{repository_id}", body: body)
     end
 
     def get_allowable_actions(repository_id, object_id, extension={})
@@ -151,20 +150,3 @@ module UpnxtStorageLibCmisRuby
     end
   end
 end
-
-
-# services = UpnxtStorageLibCmisRuby::ObjectServices.new
-# puts services.get_properties('blueprint', 'fdul26ye4wlmcrercztw6oup2ry', nil).body
-# puts services.create_document('blueprint',
-#                               { 'cmis:name' => 'L1 Document', 'cmis:objectTypeId' => 'cmis:document', 'upn:body' => 'Lalala' },
-#                               'fb4jwpirlh64hekiqltelq6zav4',
-#                               UploadIO.new(StringIO.new('Lorem ipsum...'), 'text/plain', 'lorem.txt'),
-#                               nil, nil, nil, nil).body
-# puts services.create_folder('blueprint',
-#                             { 'cmis:name' => 'L2 Folder (bis)', 'cmis:objectTypeId' => 'cmis:folder' },
-#                             'fb4jwpirlh64hekiqltelq6zav4',
-#                             nil, nil, nil).body
-# puts services.create_relationship('blueprint',
-#                                   { 'cmis:name' => 'Relation X', 'cmis:objectTypeId' => 'cmis:relationship', 'cmis:sourceId' => 'dayj2o53aj5w3ubfkjz4wn4hpki', 'cmis:targetId' => 'dg62lj2jtppxytxtu74bovfalfi' },
-#                                   nil, nil, nil).body
-# puts services.get_content_stream('blueprint', 'dhvxd4hgplkq32xw2edkiiu23oy', nil, nil, nil).body
