@@ -67,11 +67,27 @@ module UpnxtStorageLibCmisRuby
     end
 
     def create_policy(repository_id, properties, folder_id, policies, add_aces, remove_aces, extension={})
-      # TODO
+      body = {
+        cmisaction: 'createPolicy',
+        properties: properties,
+        folderId: folder_id,
+        policies: policies,
+        addACEs: add_aces,
+        removeACEs: remove_aces
+      }
+      BrowserBindingService.multipart_post("/#{repository_id}", body: body)
     end
 
     def create_item(repository_id, properties, folder_id, policies, add_aces, remove_aces, extension={})
-      # TODO
+      body = {
+        cmisaction: 'createItem',
+        properties: properties,
+        folderId: folder_id,
+        policies: policies,
+        addACEs: add_aces,
+        removeACEs: remove_aces
+      }
+      BrowserBindingService.multipart_post("/#{repository_id}", body: body)
     end
 
     def get_allowable_actions(repository_id, object_id, extension={})
