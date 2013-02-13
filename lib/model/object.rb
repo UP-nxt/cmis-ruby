@@ -1,30 +1,8 @@
 require_relative 'server'
 require_relative 'services'
-require_relative 'folder'
-require_relative 'document'
-require_relative 'relationship'
-require_relative 'policy'
-require_relative 'item'
 
 module Model
   class Object
-    def self.create(raw)
-      properties = raw[:properties]
-      base_type_id = properties[:'cmis:baseTypeId'][:value]
-      if 'cmis:folder'.eql?(base_type_id)
-        Folder.create(raw)
-      elsif 'cmis:document'.eql?(base_type_id)
-        Document.create(raw)
-      elsif 'cmis:relationship'.eql?(base_type_id)
-        Relationship.create(raw)
-      elsif 'cmis:policy'.eql?(base_type_id)
-        Policy.create(raw)
-      elsif 'cmis:item'.eql?(base_type_id)
-        Item.create(raw)
-      else
-        raise "unexpected baseTypeId - #{base_type_id}"
-      end
-    end
 
     def initialize(raw)
       properties = raw[:properties]
@@ -106,7 +84,9 @@ module Model
     private
 
     def get_property_value(properties, key)
-      properties[key][:value]
+      property = properties[key]
+      return nil if property.nil?
+      property[:value]
     end
   end
 end

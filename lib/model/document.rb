@@ -1,4 +1,6 @@
+require_relative 'object'
 require_relative 'services'
+
 module Model
   class Document < Object
     def self.create(raw)

@@ -1,5 +1,5 @@
 require_relative 'services'
-require_relative 'object'
+require_relative 'object_factory'
 require_relative 'type'
 
 module Model
@@ -24,11 +24,11 @@ module Model
     end
 
     def root
-      Object.create(Services.object.get_object(id, root_folder_id, nil, false, 'none', nil, false, false))
+      ObjectFactory.create(Services.object.get_object(id, root_folder_id, nil, false, 'none', nil, false, false))
     end
 
     def object(object_id)
-      Object.create(Services.object.get_object(id, object_id, nil, false, false, nil, false, false))
+      ObjectFactory.create(Services.object.get_object(id, object_id, nil, false, false, nil, false, false))
     end
 
     def type(type_id)

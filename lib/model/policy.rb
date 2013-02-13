@@ -1,3 +1,4 @@
+require_relative 'object'
 require_relative 'services'
 
 module Model

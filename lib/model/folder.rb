@@ -1,4 +1,6 @@
+require_relative 'object'
 require_relative 'services'
+
 module Model
   class Folder < Object
     def self.create(raw)
