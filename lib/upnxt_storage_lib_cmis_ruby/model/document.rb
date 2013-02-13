@@ -3,12 +3,12 @@ require_relative 'services'
 
 module Model
   class Document < Object
-    def self.create(raw)
-      Document.new(raw)
+    def self.create(repository_id, raw)
+      Document.new(repository_id, raw)
     end
 
-    def initialize(raw = {})
-      super(raw)
+    def initialize(repository_id, raw = {})
+      super(repository_id, raw)
       properties = raw[:properties]
       @is_immutable = get_property_value(properties, :'cmis:isImmutable')
       @is_latest_version = get_property_value(properties, :'cmis:isLatestVersion')

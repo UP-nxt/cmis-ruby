@@ -4,9 +4,9 @@ require_relative 'services'
 module Model
   class Object
 
-    def initialize(raw = {})
+    def initialize(repository_id, raw = {})
+      @repository_id = repository_id
       properties = raw[:properties]
-      @repository_id = get_property_value(properties, :'cmis:repositoryId')
       @object_id = get_property_value(properties, :'cmis:objectId')
       @base_type_id = get_property_value(properties, :'cmis:baseTypeId')
       @object_type_id = get_property_value(properties, :'cmis:objectTypeId')

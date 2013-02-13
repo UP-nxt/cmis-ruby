@@ -3,16 +3,16 @@ require_relative 'services'
 
 module Model
   class Folder < Object
-    def self.create(raw)
-      Folder.new(raw)
+    def self.create(repository_id, raw)
+      Folder.new(repository_id, raw)
     end
 
     attr_reader :parent_id
     attr_reader :path
     attr_reader :allowed_child_object_type_ids
 
-    def initialize(raw = {})
-      super(raw)
+    def initialize(repository_id, raw = {})
+      super(repository_id, raw)
       properties = raw[:properties]
       @parent_id = get_property_value(properties, :'cmis:parentId')
       @path = get_property_value(properties, :'cmis:path')

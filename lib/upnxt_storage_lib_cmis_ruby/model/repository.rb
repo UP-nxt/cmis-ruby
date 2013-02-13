@@ -43,31 +43,31 @@ module Model
     attr_reader :root_folder_url
 
     def new_folder
-      o = Folder.new
+      o = Folder.new(id)
       o.properties['cmis:baseTypeId'] = 'cmis:folder'
       o
     end
 
     def new_document
-      o = Document.new
+      o = Document.new(id)
       o.properties['cmis:baseTypeId'] = 'cmis:document'
       o
     end
 
     def new_relationship
-      o = Relationship.new
+      o = Relationship.new(id)
       o.properties['cmis:baseTypeId'] = 'cmis:relationship'
       o
     end
 
     def new_policy
-      o = Policy.new
+      o = Policy.new(id)
       o.properties['cmis:baseTypeId'] = 'cmis:policy'
       o
     end
 
     def new_item
-      o = Item.new
+      o = Item.new(id)
       o.properties['cmis:baseTypeId'] = 'cmis:item'
       o
     end
@@ -75,11 +75,11 @@ module Model
     # object
 
     def root
-      ObjectFactory.create(Services.object.get_object(id, root_folder_id, nil, false, 'none', nil, false, false))
+      ObjectFactory.create(id, Services.object.get_object(id, root_folder_id, nil, false, 'none', nil, false, false))
     end
 
     def object(object_id)
-      ObjectFactory.create(Services.object.get_object(id, object_id, nil, false, false, nil, false, false))
+      ObjectFactory.create(id, Services.object.get_object(id, object_id, nil, false, false, nil, false, false))
     end
 
     # type
@@ -108,7 +108,7 @@ module Model
 
     def query(statement)
       Services.discovery.query(id, statement, false, nil, nil, nil, nil, nil).map do |o|
-        ObjectFactory.create(o)
+        ObjectFactory.create(id, o)
       end
     end
   end

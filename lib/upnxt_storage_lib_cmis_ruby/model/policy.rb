@@ -3,14 +3,14 @@ require_relative 'services'
 
 module Model
   class Policy < Object
-    def self.create(raw)
-      Policy.new(raw)
+    def self.create(repository_id, raw)
+      Policy.new(repository_id, raw)
     end
 
     attr_reader :policy_text
 
-    def initialize(raw = {})
-      super(raw)
+    def initialize(repository_id, raw = {})
+      super(repository_id, raw)
       properties = raw[:properties]
       @policy_text = get_property_value(properties, :'cmis:policyText')
     end

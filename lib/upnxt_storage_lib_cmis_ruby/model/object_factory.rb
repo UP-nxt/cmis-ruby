@@ -6,19 +6,19 @@ require_relative 'item'
 
 module Model
   class ObjectFactory
-    def self.create(raw)
+    def self.create(repository_id, raw)
       properties = raw[:properties]
       base_type_id = properties[:'cmis:baseTypeId'][:value]
       if 'cmis:folder'.eql?(base_type_id)
-        Folder.create(raw)
+        Folder.create(repository_id, raw)
       elsif 'cmis:document'.eql?(base_type_id)
-        Document.create(raw)
+        Document.create(repository_id, raw)
       elsif 'cmis:relationship'.eql?(base_type_id)
-        Relationship.create(raw)
+        Relationship.create(repository_id, raw)
       elsif 'cmis:policy'.eql?(base_type_id)
-        Policy.create(raw)
+        Policy.create(repository_id, raw)
       elsif 'cmis:item'.eql?(base_type_id)
-        Item.create(raw)
+        Item.create(repository_id, raw)
       else
         raise "unexpected baseTypeId - #{base_type_id}"
       end

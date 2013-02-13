@@ -3,12 +3,12 @@ require_relative 'services'
 
 module Model
   class Relationship < Object
-    def self.create(raw)
-      Relationship.new(raw)
+    def self.create(repository_id, raw)
+      Relationship.new(repository_id, raw)
     end
 
-    def initialize(raw = {})
-      super(raw)
+    def initialize(repository_id, raw = {})
+      super(repository_id, raw)
       @source_id = raw['cmis:sourceId']
       @target_id = raw['cmis:targetId']
     end
