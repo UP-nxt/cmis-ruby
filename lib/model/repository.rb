@@ -12,16 +12,35 @@ module Model
       @id = raw[:repositoryId]
       @name = raw[:repositoryName]
       @description = raw[:repositoryDescription]
-      @raw = raw
+      @root_folder_id = raw[:rootFolderId]
+      @capabilities = raw[:capabilities]
+      @url = raw[:repositoryUrl]
+      @latest_change_log_token = raw[:latestChangeLogToken]
+      @vendor_name = raw[:vendorName]
+      @cmis_version_supported = raw[:cmisVersionSupported]
+      @acl_capabilities = raw[:aclCapabilities]
+      @product_name = raw[:productName]
+      @product_version = raw[:productVersion]
+      @thin_client_uri = raw[:thinClientUri]
+      @changes_on_type = raw[:changesOnType]
+      @root_folder_url = raw[:rootFolderUrl]
     end
 
     attr_reader :id
     attr_reader :name
     attr_reader :description
-
-    def root_folder_id
-      @raw[:rootFolderId]
-    end
+    attr_reader :root_folder_id
+    attr_reader :capabilities
+    attr_reader :url
+    attr_reader :latest_change_log_token
+    attr_reader :vendor_name
+    attr_reader :cmis_version_supported
+    attr_reader :acl_capabilities
+    attr_reader :product_name
+    attr_reader :product_version
+    attr_reader :thin_client_uri
+    attr_reader :changes_on_type
+    attr_reader :root_folder_url
 
     # object
 
