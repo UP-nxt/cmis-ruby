@@ -54,15 +54,15 @@ module Model
 
     def set_content(stream, mime_type, filename)
       content = {stream: stream, mime_type: mime_type, filename: filename}
-      Services.object.set_content_stream(repository_id, object_id, nil, nil, content)
+      if detached?
+        @local_content = content
+      else
+        Services.object.set_content_stream(repository_id, object_id, nil, nil, content)
+      end
     end
 
-    def set_local_content(stream, mime_type, filename)
-      @local_content = {stream: stream, mime_type: mime_type, filename: filename}
-    end
-
-    def local_content
-      @local_content
+    def create_in_folder(folder_id)
+      Services.object.create_document(repository_id, create_properties, folder_id, @local_content, nil, nil, nil, nil)
     end
   end
 end

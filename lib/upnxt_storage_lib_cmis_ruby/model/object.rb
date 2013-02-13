@@ -88,6 +88,10 @@ module Model
       props.merge(properties)
     end
 
+    def detached?
+      object_id.nil?
+    end
+
     private
 
     def get_property_value(properties, key)
