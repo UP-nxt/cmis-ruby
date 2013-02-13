@@ -44,7 +44,7 @@ module UpnxtStorageLibCmisRuby
     end
 
     def create_document_from_source(repository_id, source_id, properties, folder_id, versioning_state, policies, add_aces, remove_aces, extension={})
-      # TODO
+      raise 'Not supported.'
     end
 
     def create_folder(repository_id, properties, folder_id, policies, add_aces, remove_aces, extension={})
@@ -95,15 +95,26 @@ module UpnxtStorageLibCmisRuby
     end
 
     def get_allowable_actions(repository_id, object_id, extension={})
-      # TODO
+      query = {
+        cmisselector: 'allowableActions',
+        objectId: object_id,
+      }
+      BrowserBindingService.get("/#{repository_id}/root", query: query)
     end
 
     def get_renditions(repository_id, object_id, rendition_filter, max_items, skip_count, extension={})
-      # TODO
+      query = {
+        cmisselector: 'renditions',
+        objectId: object_id,
+        renditionFilter: rendition_filter,
+        maxItems: max_items,
+        skipCount: skip_count
+      }
+      BrowserBindingService.get("/#{repository_id}/root", query: query)
     end
 
     def get_object_by_path(repository_id, path, filter, include_allowable_actions, include_relationships, rendition_filter, include_policy_ids, include_acl, extension={})
-      # TODO
+      raise 'Not supported.'
     end
 
     def get_content_stream(repository_id, object_id, stream_id, offset, length, extension={})

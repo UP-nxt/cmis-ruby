@@ -17,13 +17,8 @@ module UpnxtStorageLibCmisRuby
       HTTParty::HashConversions.to_params(adjusted_hash)
     end
 
-    JSON_RESULT_PARSER = Proc.new do |body|
-      MultiJson.load(body, symbolize_keys: true)
-    end
-
     # For GET and POST, rely on HttParty
     query_string_normalizer QUERY_STRING_NORMALIZER
-    parser JSON_RESULT_PARSER
 
     # For Multipart POST, normalize params and parse result
     def self.multipart_post(path, options={})
@@ -31,7 +26,7 @@ module UpnxtStorageLibCmisRuby
       body = QUERY_HASH_TRANSFORMER.call(options[:body])
       req = Net::HTTP::Post::Multipart.new(url.path, body)
       res = Net::HTTP.start(url.host, url.port) { |http| http.request(req) }
-      JSON_RESULT_PARSER.call(res.body)
+      res.body
     end
 
     module HashConversions
