@@ -47,5 +47,9 @@ module Model
       new_object_id = Services.object.create_document_from_source(repository_id, object_id, nil, folder.object_id, nil, nil, nil, nil)
       repository.object(new_object_id)
     end
+
+    def content
+      Services.object.get_content_stream(repository_id, object_id, nil, nil, nil)
+    end
   end
 end
