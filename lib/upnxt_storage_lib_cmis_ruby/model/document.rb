@@ -51,5 +51,10 @@ module Model
     def content
       Services.object.get_content_stream(repository_id, object_id, nil, nil, nil)
     end
+
+    def set_content(stream, mime_type, filename)
+      content = {stream: stream, mime_type: mime_type, filename: filename}
+      Services.object.set_content_stream(repository_id, object_id, nil, nil, content)
+    end
   end
 end
