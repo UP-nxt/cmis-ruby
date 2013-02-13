@@ -53,13 +53,13 @@ module Model
 
     def relationships(direction)
       Services.relationship.get_object_relationships(repository_id, object_id, nil, direction, nil, nil, false, nil, nil).map do |r|
-        Relationship.create(r)
+        Relationship.create(repository_id, r)
       end
     end
 
     def policies
       Services.policy.get_applied_policies(repository_id, object_id, nil).map do |policy|
-        Policy.create(policy)
+        Policy.create(repository_id, policy)
       end
     end
 
