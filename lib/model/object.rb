@@ -4,7 +4,7 @@ require_relative 'services'
 module Model
   class Object
 
-    def initialize(raw)
+    def initialize(raw = {})
       properties = raw[:properties]
       @repository_id = get_property_value(properties, :'cmis:repositoryId')
       @object_id = get_property_value(properties, :'cmis:objectId')
@@ -18,6 +18,7 @@ module Model
       @last_modified_by = get_property_value(properties, :'cmis:lastModifiedBy')
       @last_modification_date = get_property_value(properties, :'cmis:lastModificationDate')
       @change_token = get_property_value(properties, :'cmis:changeToken')
+      @properties = {}
     end
 
     attr_reader :repository_id
@@ -32,7 +33,6 @@ module Model
     attr_reader :last_modified_by
     attr_reader :last_modification_date
     attr_reader :change_token
-
     attr_reader :properties
 
     def repository
@@ -84,6 +84,7 @@ module Model
     private
 
     def get_property_value(properties, key)
+      return nil if properties.nil?
       property = properties[key]
       return nil if property.nil?
       property[:value]

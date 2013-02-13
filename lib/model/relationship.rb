@@ -7,7 +7,7 @@ module Model
       Relationship.new(raw)
     end
 
-    def initialize(raw)
+    def initialize(raw = {})
       super(raw)
       @source_id = raw['cmis:sourceId']
       @target_id = raw['cmis:targetId']

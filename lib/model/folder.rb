@@ -11,7 +11,7 @@ module Model
     attr_reader :path
     attr_reader :allowed_child_object_type_ids
 
-    def initialize(raw)
+    def initialize(raw = {})
       super(raw)
       properties = raw[:properties]
       @parent_id = get_property_value(properties, :'cmis:parentId')
@@ -41,7 +41,21 @@ module Model
     end
 
     def create(object)
-
+      properties = object.properties
+      object_base_type_id = properties['cmis:baseTypeId']
+      if 'cmis:folder'.eql? object_base_type_id
+        Services.object.create_folder(repository_id, properties, object_id, nil, nil, nil)
+      elsif 'cmis:document'.eql? object_base_type_id
+        Services.object.create_document(repository_id, properties, object_id, nil, nil, nil, nil, nil)
+      elsif 'cmis:relationship'.eql? object_base_type_id
+        raise 'relationship is not fileable'
+      elsif 'cmis:policy'.eql? object_base_type_id
+        Services.object.create_policy(repository_id, properties, object_id, nil, nil, nil)
+      elsif 'cmis:item'.eql? object_base_type_id
+        Services.object.create_item(repository_id, properties, object_id, nil, nil, nil)
+      else
+        raise "unexpected base_type_id #{object.base_type_id}"
+      end
     end
 
     def delete_tree

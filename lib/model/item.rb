@@ -6,7 +6,7 @@ module Model
       Item.new(raw)
     end
 
-    def initialize(raw)
+    def initialize(raw = {})
       super(raw)
     end
 

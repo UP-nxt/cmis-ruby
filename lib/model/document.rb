@@ -7,7 +7,7 @@ module Model
       Document.new(raw)
     end
 
-    def initialize(raw)
+    def initialize(raw = {})
       super(raw)
       properties = raw[:properties]
       @is_immutable = get_property_value(properties, :'cmis:isImmutable')

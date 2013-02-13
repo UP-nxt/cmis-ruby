@@ -9,7 +9,7 @@ module Model
 
     attr_reader :policy_text
 
-    def initialize(raw)
+    def initialize(raw = {})
       super(raw)
       properties = raw[:properties]
       @policy_text = get_property_value(properties, :'cmis:policyText')
