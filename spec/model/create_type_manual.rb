@@ -19,19 +19,20 @@ type.fulltext_indexed = true
 type.included_in_supertype_query = true
 
 type.add_property_definition(
-    id: 'color',
-    localName: 'color',
-    queryName: 'color',
-    displayName: 'color',
-    description: 'color',
-    propertyType: 'string',
-    cardinality: 'single',
-    updatability: 'readwrite',
-    inherited: false,
-    required: false,
-    queryable: true,
-    orderable: true
+  id: 'color',
+  localName: 'color',
+  queryName: 'color',
+  displayName: 'color',
+  description: 'color',
+  propertyType: 'string',
+  cardinality: 'single',
+  updatability: 'readwrite',
+  inherited: false,
+  required: false,
+  queryable: true,
+  orderable: true
 )
 
 full_type = repository.create_type(type)
 puts full_type.to_hash
+repository.delete_type(type.id)
