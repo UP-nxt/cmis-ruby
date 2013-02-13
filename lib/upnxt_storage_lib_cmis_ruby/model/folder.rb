@@ -45,7 +45,8 @@ module Model
       if object.is_a? Folder
         Services.object.create_folder(repository_id, properties, object_id, nil, nil, nil)
       elsif object.is_a? Document
-        Services.object.create_document(repository_id, properties, object_id, nil, nil, nil, nil, nil)
+        content = object.local_content
+        Services.object.create_document(repository_id, properties, object_id, content, nil, nil, nil, nil)
       elsif object.is_a? Relationship
         raise 'relationship is not fileable'
       elsif object.is_a? Policy

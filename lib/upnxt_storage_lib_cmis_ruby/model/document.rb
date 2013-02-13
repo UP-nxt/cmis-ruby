@@ -56,5 +56,13 @@ module Model
       content = {stream: stream, mime_type: mime_type, filename: filename}
       Services.object.set_content_stream(repository_id, object_id, nil, nil, content)
     end
+
+    def set_local_content(stream, mime_type, filename)
+      @local_content = {stream: stream, mime_type: mime_type, filename: filename}
+    end
+
+    def local_content
+      @local_content
+    end
   end
 end
