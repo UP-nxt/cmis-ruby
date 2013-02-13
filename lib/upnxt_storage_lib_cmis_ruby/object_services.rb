@@ -28,15 +28,20 @@ module UpnxtStorageLibCmisRuby
     def create_document(repository_id, properties, folder_id, content_stream, versioning_state, policies, add_aces, remove_aces, extension={})
       body = {
         cmisaction: 'createDocument',
-        objectId: folder_id, # In the example this is a query param, however this doesn't seem to work
         properties: properties,
         contentStream: content_stream,
         versioningState: versioning_state,
         policies: policies,
         addACEs: add_aces,
-        removeACEs: remove_aces
+        removeACEs: remove_aces,
+        #succinct: true
       }
-      BrowserBindingService.multipart_post("/#{repository_id}/root", body: body)
+      if folder_id.nil?
+        BrowserBindingService.multipart_post("/#{repository_id}", body: body)
+      else
+        body[:objectId] = folder_id
+        BrowserBindingService.multipart_post("/#{repository_id}/root", body: body)
+      end
     end
 
     def create_document_from_source(repository_id, source_id, properties, folder_id, versioning_state, policies, add_aces, remove_aces, extension={})
