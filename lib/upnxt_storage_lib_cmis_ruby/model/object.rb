@@ -24,9 +24,9 @@ module Model
     attr_reader :repository_id
     attr_reader :object_id
     attr_reader :base_type_id
-    attr_reader :object_type_id
+    attr_accessor :object_type_id
     attr_reader :secondary_object_type_ids
-    attr_reader :name
+    attr_accessor :name
     attr_reader :description
     attr_reader :created_by
     attr_reader :creation_date
@@ -79,6 +79,13 @@ module Model
 
     def remove_aces(aces)
       Services.acl.apply_acl(repository_id, object_id, nil, aces, nil)
+    end
+
+    protected
+
+    def create_properties
+      props = {'cmis:name' => name, 'cmis:objectTypeId' => object_type_id}
+      props.merge(properties)
     end
 
     private

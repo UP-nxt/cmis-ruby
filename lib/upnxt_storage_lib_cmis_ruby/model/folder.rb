@@ -41,17 +41,16 @@ module Model
     end
 
     def create(object)
-      properties = object.properties
-      object_base_type_id = properties['cmis:baseTypeId']
-      if 'cmis:folder'.eql? object_base_type_id
+      properties = object.create_properties
+      if object.is_a? Folder
         Services.object.create_folder(repository_id, properties, object_id, nil, nil, nil)
-      elsif 'cmis:document'.eql? object_base_type_id
+      elsif object.is_a? Document
         Services.object.create_document(repository_id, properties, object_id, nil, nil, nil, nil, nil)
-      elsif 'cmis:relationship'.eql? object_base_type_id
+      elsif object.is_a? Relationship
         raise 'relationship is not fileable'
-      elsif 'cmis:policy'.eql? object_base_type_id
+      elsif object.is_a? Policy
         Services.object.create_policy(repository_id, properties, object_id, nil, nil, nil)
-      elsif 'cmis:item'.eql? object_base_type_id
+      elsif object.is_a? Item
         Services.object.create_item(repository_id, properties, object_id, nil, nil, nil)
       else
         raise "unexpected base_type_id #{object.base_type_id}"

@@ -43,33 +43,23 @@ module Model
     attr_reader :root_folder_url
 
     def new_folder
-      o = Folder.new(id)
-      o.properties['cmis:baseTypeId'] = 'cmis:folder'
-      o
+      Folder.new(id)
     end
 
     def new_document
-      o = Document.new(id)
-      o.properties['cmis:baseTypeId'] = 'cmis:document'
-      o
+      Document.new(id)
     end
 
     def new_relationship
-      o = Relationship.new(id)
-      o.properties['cmis:baseTypeId'] = 'cmis:relationship'
-      o
+      Relationship.new(id)
     end
 
     def new_policy
-      o = Policy.new(id)
-      o.properties['cmis:baseTypeId'] = 'cmis:policy'
-      o
+      Policy.new(id)
     end
 
     def new_item
-      o = Item.new(id)
-      o.properties['cmis:baseTypeId'] = 'cmis:item'
-      o
+      Item.new(id)
     end
 
     # object
