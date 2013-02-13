@@ -25,11 +25,11 @@ module UpnxtStorageLibCmisRuby
       BrowserBindingService.get("/#{repository_id}/root", query: query)
     end
 
-    def create_document(repository_id, properties, folder_id, content_stream, versioning_state, policies, add_aces, remove_aces, extension={})
+    def create_document(repository_id, properties, folder_id, content, versioning_state, policies, add_aces, remove_aces, extension={})
       body = {
         cmisaction: 'createDocument',
         properties: properties,
-        contentStream: content_stream,
+        content: UploadIO.new(content[:stream], content[:mime_type], content[:filename]),
         versioningState: versioning_state,
         policies: policies,
         addACEs: add_aces,
