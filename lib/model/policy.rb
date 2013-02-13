@@ -10,7 +10,7 @@ module Model
 
         def initialize(raw)
             super(raw)
-            @policy_text = raw['cmis:policyText']
+            @policy_text = raw[:'cmis:policyText']
         end
 
         def apply_to(object)

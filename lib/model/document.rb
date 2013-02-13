@@ -7,21 +7,21 @@ module Model
 
         def initialize(raw)
             super(raw)
-            @is_immutable = raw['cmis:isImmutable']
-            @is_latest_version = raw['cmis:isLatestVersion']
-            @is_major_version = raw['cmis:isMajorVersion']
-            @is_lastest_major_version = raw['cmis:isLatestMajorVersion']
-            @is_private_working_copy = raw['cmis:isPrivateWorkingCopy']
-            @version_label = raw['cmis:versionLabel']
-            @version_series_id = raw['cmis:versionSeriesId']
-            @version_series_checked_out = raw['cmis:isVersionSeriesCheckedOut']
-            @version_series_checked_out_by = raw['cmis:versionSeriesCheckedOutBy']
-            @version_series_checked_out_id = raw['cmis:versionSeriesCheckedOutId']
-            @checkin_comment = raw['cmis:checkinComment']
-            @content_stream_length = raw['cmis:contentStreamLength']
-            @content_stream_mime_type = raw['cmis:contentStreamMimeType']
-            @content_stream_file_name = raw['cmis:contentStreamFileName']
-            @content_stream_id = raw['cmis:contentStreamId']
+            @is_immutable = raw[:'cmis:isImmutable']
+            @is_latest_version = raw[:'cmis:isLatestVersion']
+            @is_major_version = raw[:'cmis:isMajorVersion']
+            @is_lastest_major_version = raw[:'cmis:isLatestMajorVersion']
+            @is_private_working_copy = raw[:'cmis:isPrivateWorkingCopy']
+            @version_label = raw[:'cmis:versionLabel']
+            @version_series_id = raw[:'cmis:versionSeriesId']
+            @version_series_checked_out = raw[:'cmis:isVersionSeriesCheckedOut']
+            @version_series_checked_out_by = raw[:'cmis:versionSeriesCheckedOutBy']
+            @version_series_checked_out_id = raw[:'cmis:versionSeriesCheckedOutId']
+            @checkin_comment = raw[:'cmis:checkinComment']
+            @content_stream_length = raw[:'cmis:contentStreamLength']
+            @content_stream_mime_type = raw[:'cmis:contentStreamMimeType']
+            @content_stream_file_name = raw[:'cmis:contentStreamFileName']
+            @content_stream_id = raw[:'cmis:contentStreamId']
         end
 
         attr_reader :is_immutable
