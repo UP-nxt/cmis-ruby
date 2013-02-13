@@ -1,4 +1,4 @@
-require 'model/server'
+require 'upnxt_storage_lib_cmis_ruby/model'
 
 repository = Model::Server.repository('blueprint')
 
