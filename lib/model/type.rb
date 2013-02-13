@@ -20,6 +20,12 @@ module Model
     attr_accessor :fulltext_indexed
     attr_accessor :included_in_supertype_query
     attr_accessor :property_definitions
+    # document type
+    attr_accessor :versionable
+    attr_accessor :content_stream_allowed
+    # relationship type
+    attr_accessor :allowed_source_types
+    attr_accessor :allowed_target_types
 
     def initialize(hash = {})
       @id = hash[:id]
@@ -38,6 +44,12 @@ module Model
       @fulltext_indexed = hash[:fulltextIndexed]
       @included_in_supertype_query = hash[:includedInSupertype_query]
       @property_definitions = hash[:propertyDefinitions] || {}
+      # document type
+      @versionable = hash[:versionable]
+      @content_stream_allowed = hash[:contentStreamAllowed]
+      # relationship type
+      @allowed_source_types = hash[:allowedSourceTypes]
+      @allowed_target_types = hash[:allowedTargetTypes]
     end
 
     def add_property_definition(property)
@@ -62,6 +74,12 @@ module Model
       hash[:fulltextIndexed]= fulltext_indexed
       hash[:includedInSupertypeQuery]= included_in_supertype_query
       hash[:propertyDefinitions]= property_definitions
+      # document type
+      hash[:versionable] = versionable unless versionable.nil?
+      hash[:contentStreamAllowed] = content_stream_allowed unless content_stream_allowed.nil?
+      # relationship type
+      hash[:allowedSourceTypes] = allowed_source_types unless allowed_source_types.nil?
+      hash[:allowedTargetTypes] = allowed_target_types unless allowed_target_types.nil?
       hash
     end
   end

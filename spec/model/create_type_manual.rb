@@ -7,8 +7,8 @@ type.id = 'apple'
 type.local_name = 'apple'
 type.query_name = 'apple'
 type.display_name = 'apple'
-type.parent_id = 'cmis:folder'
-type.base_id = 'cmis:folder'
+type.parent_id = 'cmis:document'
+type.base_id = 'cmis:document'
 type.description = 'appel'
 type.creatable = true
 type.fileable = true
@@ -17,6 +17,8 @@ type.controllable_policy = true
 type.controllable_acl = true
 type.fulltext_indexed = true
 type.included_in_supertype_query = true
+type.content_stream_allowed = 'allowed'
+type.versionable = false
 
 type.add_property_definition(
   id: 'color',
