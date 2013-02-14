@@ -2,15 +2,19 @@ require_relative 'browser_binding_service'
 
 module UpnxtStorageLibCmisRuby
   class RepositoryServices
+    def initialize(service_url)
+      @service = BrowserBindingService.new(service_url)
+    end
+
     def get_repository_infos(extension={})
-      BrowserBindingService.get('')
+      @service.perform_request('')
     end
 
     def get_repository_info(repository_id, extension={})
       params = {
         cmisselector: 'repositoryInfo'
       }
-      BrowserBindingService.get("/#{repository_id}", query: params)
+      @service.perform_request("/#{repository_id}", params)
     end
 
     def get_type_children(repository_id, type_id, include_property_definitions, max_items, skip_count, extension={})
@@ -21,7 +25,7 @@ module UpnxtStorageLibCmisRuby
         maxItems: max_items,
         skipCount: skip_count
       }
-      BrowserBindingService.get("/#{repository_id}", query: params)
+      @service.perform_request("/#{repository_id}", params)
     end
 
     def get_type_descendants(repository_id, type_id, depth, include_property_definitions, extension={})
@@ -31,7 +35,7 @@ module UpnxtStorageLibCmisRuby
         depth: depth,
         includePropertyDefinitions: true,
       }
-      BrowserBindingService.get("/#{repository_id}", query: params)
+      @service.perform_request("/#{repository_id}", params)
     end
 
     def get_type_definition(repository_id, type_id, extension={})
@@ -39,7 +43,7 @@ module UpnxtStorageLibCmisRuby
         cmisselector: 'typeDefinition',
         typeId: type_id
       }
-      BrowserBindingService.get("/#{repository_id}", query: params)
+      @service.perform_request("/#{repository_id}", params)
     end
 
     def create_type(repository_id, type, extension={})
@@ -47,7 +51,7 @@ module UpnxtStorageLibCmisRuby
         cmisaction: 'createType',
         type: MultiJson.dump(type)
       }
-      BrowserBindingService.post("/#{repository_id}", body: params)
+      @service.perform_request("/#{repository_id}", params)
     end
 
     def update_type(repository_id, type, extension={})
@@ -55,7 +59,7 @@ module UpnxtStorageLibCmisRuby
         cmisaction: 'updateType',
         type: MultiJson.dump(type)
       }
-      BrowserBindingService.post("/#{repository_id}", body: params)
+      @service.perform_request("/#{repository_id}", params)
     end
 
     def delete_type(repository_id, type_id, extension={})
@@ -63,7 +67,7 @@ module UpnxtStorageLibCmisRuby
         cmisaction: 'deleteType',
         typeId: type_id
       }
-      BrowserBindingService.post("/#{repository_id}", body: params)
+      @service.perform_request("/#{repository_id}", params)
     end
   end
 end

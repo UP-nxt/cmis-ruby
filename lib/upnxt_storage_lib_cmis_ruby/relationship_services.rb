@@ -2,8 +2,12 @@ require_relative 'browser_binding_service'
 
 module UpnxtStorageLibCmisRuby
   class RelationshipServices
+    def initialize(service_url)
+      @service = BrowserBindingService.new(service_url)
+    end
+
     def get_object_relationships(repository_id, object_id, include_sub_relationship_types, relationship_direction, type_id, filter, include_allowable_actions, max_items, skip_count, extension={})
-      query = {
+      params = {
         cmisselector: 'relationships',
         objectId: object_id,
         includeSubRelationshipTypes: include_sub_relationship_types,
@@ -14,7 +18,7 @@ module UpnxtStorageLibCmisRuby
         maxItems: max_items,
         skipCount: skip_count
       }
-      BrowserBindingService.get("/#{repository_id}/root", query: query)
+      @service.perform_request("/#{repository_id}/root", params)
     end
   end
 end

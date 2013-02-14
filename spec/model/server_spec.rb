@@ -1,7 +1,6 @@
 require 'upnxt_storage_lib_cmis_ruby/model'
 
 describe Model::Server do
-
   it 'repositories' do
     Model::Server.repositories.each do |repo|
       repo.should be_a_kind_of Model::Repository

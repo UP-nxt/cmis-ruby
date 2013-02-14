@@ -2,8 +2,12 @@ require_relative 'browser_binding_service'
 
 module UpnxtStorageLibCmisRuby
   class ObjectServices
+    def initialize(service_url)
+      @service = BrowserBindingService.new(service_url)
+    end
+
     def get_object(repository_id, object_id, filter, include_allowable_actions, include_relationships, rendition_filter, include_policy_ids, include_acl, extension={})
-      query = {
+      params = {
         cmisselector: 'object',
         objectId: object_id,
         filter: filter,
@@ -13,20 +17,20 @@ module UpnxtStorageLibCmisRuby
         includePolicyIds: include_policy_ids,
         includeAcl: include_acl
       }
-      BrowserBindingService.get("/#{repository_id}/root", query: query)
+      @service.perform_request("/#{repository_id}/root", params)
     end
 
     def get_properties(repository_id, object_id, filter, extension={})
-      query = {
+      params = {
         cmisselector: 'properties',
         objectId: object_id,
         filter: filter
       }
-      BrowserBindingService.get("/#{repository_id}/root", query: query)
+      @service.perform_request("/#{repository_id}/root", params)
     end
 
     def create_document(repository_id, properties, folder_id, content, versioning_state, policies, add_aces, remove_aces, extension={})
-      body = {
+      params = {
         cmisaction: 'createDocument',
         properties: properties,
         content: UploadIO.new(content[:stream], content[:mime_type], content[:filename]),
@@ -36,10 +40,9 @@ module UpnxtStorageLibCmisRuby
         removeACEs: remove_aces,
       }
       if folder_id.nil?
-        BrowserBindingService.multipart_post("/#{repository_id}", body: body)
+        @service.perform_request("/#{repository_id}", params)
       else
-        body[:objectId] = folder_id
-        BrowserBindingService.multipart_post("/#{repository_id}/root", body: body)
+        @service.perform_request("/#{repository_id}/root", params.merge(objectId: folder_id))
       end
     end
 
@@ -48,7 +51,7 @@ module UpnxtStorageLibCmisRuby
     end
 
     def create_folder(repository_id, properties, folder_id, policies, add_aces, remove_aces, extension={})
-      body = {
+      params = {
         cmisaction: 'createFolder',
         objectId: folder_id,
         properties: properties,
@@ -56,22 +59,22 @@ module UpnxtStorageLibCmisRuby
         addACEs: add_aces,
         removeACEs: remove_aces
       }
-      BrowserBindingService.post("/#{repository_id}/root", body: body)
+      @service.perform_request("/#{repository_id}/root", params)
     end
 
     def create_relationship(repository_id, properties, policies, add_aces, remove_aces, extension={})
-      body = {
+      params = {
         cmisaction: 'createRelationship',
         properties: properties,
         policies: policies,
         addACEs: add_aces,
         removeACEs: remove_aces
       }
-      BrowserBindingService.post("/#{repository_id}", body: body)
+      @service.perform_request("/#{repository_id}", params)
     end
 
     def create_policy(repository_id, properties, folder_id, policies, add_aces, remove_aces, extension={})
-      body = {
+      params = {
         cmisaction: 'createPolicy',
         properties: properties,
         folderId: folder_id,
@@ -79,11 +82,11 @@ module UpnxtStorageLibCmisRuby
         addACEs: add_aces,
         removeACEs: remove_aces
       }
-      BrowserBindingService.post("/#{repository_id}", body: body)
+      @service.perform_request("/#{repository_id}", params)
     end
 
     def create_item(repository_id, properties, folder_id, policies, add_aces, remove_aces, extension={})
-      body = {
+      params = {
         cmisaction: 'createItem',
         properties: properties,
         folderId: folder_id,
@@ -91,26 +94,26 @@ module UpnxtStorageLibCmisRuby
         addACEs: add_aces,
         removeACEs: remove_aces
       }
-      BrowserBindingService.post("/#{repository_id}", body: body)
+      @service.perform_request("/#{repository_id}", params)
     end
 
     def get_allowable_actions(repository_id, object_id, extension={})
-      query = {
+      params = {
         cmisselector: 'allowableActions',
         objectId: object_id,
       }
-      BrowserBindingService.get("/#{repository_id}/root", query: query)
+      @service.perform_request("/#{repository_id}/root", params)
     end
 
     def get_renditions(repository_id, object_id, rendition_filter, max_items, skip_count, extension={})
-      query = {
+      params = {
         cmisselector: 'renditions',
         objectId: object_id,
         renditionFilter: rendition_filter,
         maxItems: max_items,
         skipCount: skip_count
       }
-      BrowserBindingService.get("/#{repository_id}/root", query: query)
+      @service.perform_request("/#{repository_id}/root", params)
     end
 
     def get_object_by_path(repository_id, path, filter, include_allowable_actions, include_relationships, rendition_filter, include_policy_ids, include_acl, extension={})
@@ -118,14 +121,14 @@ module UpnxtStorageLibCmisRuby
     end
 
     def get_content_stream(repository_id, object_id, stream_id, offset, length, extension={})
-      query = {
+      params = {
         cmisselector: 'content',
         objectId: object_id,
         streamId: stream_id,
         offset: offset,
         length: length
       }
-      BrowserBindingService.get("/#{repository_id}/root", query: query)
+      @service.perform_request("/#{repository_id}/root", params)
     end
 
     def update_properties(repository_id, object_id, change_token, properties, extension={})
