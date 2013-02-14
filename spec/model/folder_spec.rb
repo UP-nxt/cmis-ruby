@@ -48,6 +48,13 @@ describe Model::Folder do
     object.delete
   end
 
+  it 'create relationship' do
+    new_object = @repo.new_relationship
+    new_object.name = 'rel1'
+    new_object.object_type_id = 'cmis:relationship'
+    lambda { @repo.root.create(new_object) }.should raise_exception
+  end
+
   it 'create item' do
     new_object = @repo.new_item
     new_object.name = 'item1'
