@@ -50,11 +50,13 @@ describe Model::Repository do
       object.object_id.should eq id
     end
 
-    it 'type' do
+    it 'type - document' do
       document = @repo.type('cmis:document')
       document.should be_a_kind_of Model::Type
       document.id.should eq 'cmis:document'
+    end
 
+    it 'type - folder' do
       folder = @repo.type('cmis:folder')
       folder.should be_a_kind_of Model::Type
       folder.id.should eq 'cmis:folder'
@@ -68,6 +70,24 @@ describe Model::Repository do
 
     after do
       delete_repository('test_repository')
+    end
+
+    it 'type - relationship' do
+      relationship = @repo.type('cmis:relationship')
+      relationship.should be_a_kind_of Model::Type
+      relationship.id.should eq 'cmis:relationship'
+    end
+
+    it 'type - policy' do
+      policy = @repo.type('cmis:policy')
+      policy.should be_a_kind_of Model::Type
+      policy.id.should eq 'cmis:policy'
+    end
+
+    it 'type - item' do
+      item = @repo.type('cmis:item')
+      item.should be_a_kind_of Model::Type
+      item.id.should eq 'cmis:item'
     end
 
     it 'create, get, delete type - document' do
