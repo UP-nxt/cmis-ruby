@@ -62,7 +62,8 @@ module Model
     end
 
     def create_in_folder(folder_id)
-      Services.object.create_document(repository_id, create_properties, folder_id, @local_content, nil, nil, nil, nil)
+      hash = Services.object.create_document(repository_id, create_properties, folder_id, @local_content, nil, nil, nil, nil)
+      ObjectFactory.create(repository_id, hash)
     end
   end
 end
