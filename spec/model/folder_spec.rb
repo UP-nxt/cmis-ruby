@@ -47,4 +47,14 @@ describe Model::Folder do
     object.name.should eq 'folder1'
     object.delete
   end
+
+  it 'create item' do
+    new_object = @repo.new_item
+    new_object.name = 'item1'
+    new_object.object_type_id = 'cmis:item'
+    object = @repo.root.create(new_object)
+    object.should be_a_kind_of Model::Item
+    object.name.should eq 'item1'
+    object.delete
+  end
 end
