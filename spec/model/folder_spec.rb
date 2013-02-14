@@ -11,6 +11,19 @@ describe Model::Folder do
     delete_repository('test_folder')
   end
 
+  it 'parent - root' do
+    @repo.root.parent.should be_nil
+  end
+
+  it 'parent - root child' do
+    new_object = @repo.new_folder
+    new_object.name = 'folder1'
+    new_object.object_type_id = 'cmis:folder'
+    folder = @repo.root.create(new_object)
+    folder.parent.object_id.should eq @repo.root_folder_id
+    folder.delete
+  end
+
   it 'create document' do
     new_object = @repo.new_document
     new_object.name = 'doc1'

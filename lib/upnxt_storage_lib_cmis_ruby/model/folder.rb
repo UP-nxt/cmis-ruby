@@ -20,7 +20,7 @@ module Model
     end
 
     def parent
-      repository.object(parent_id)
+      repository.object(parent_id) unless parent_id.nil?
     end
 
     def allowed_child_object_types
