@@ -33,12 +33,12 @@ module UpnxtStorageLibCmisRuby
       params = {
         cmisaction: 'createDocument',
         properties: properties,
-        content: UploadIO.new(content[:stream], content[:mime_type], content[:filename]),
         versioningState: versioning_state,
         policies: policies,
         addACEs: add_aces,
         removeACEs: remove_aces,
       }
+      params[:content] = UploadIO.new(content[:stream], content[:mime_type], content[:filename]) unless content.nil?
       if folder_id.nil?
         @service.perform_request("/#{repository_id}", params)
       else

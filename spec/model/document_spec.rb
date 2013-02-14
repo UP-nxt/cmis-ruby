@@ -23,4 +23,23 @@ describe Model::Document do
     doc.content.should eq 'content1'
     doc.delete
   end
+
+  it 'create_in_folder without content' do
+    new_object = @repo.new_document
+    new_object.name = 'doc2'
+    new_object.object_type_id = 'cmis:document'
+    doc = new_object.create_in_folder(@repo.root_folder_id)
+    doc.name.should eq 'doc2'
+    doc.delete
+  end
+
+  #it 'set content - attached' do
+  #  new_object = @repo.new_document
+  #  new_object.name = 'doc3'
+  #  new_object.object_type_id = 'cmis:document'
+  #  doc = @repo.root.create(new_object)
+  #  doc.set_content(StringIO.new('content3'), 'text/plain', 'doc3.txt') # set content on attached doc
+  #  doc.content.should eq 'content3'
+  #  doc.delete
+  #end
 end
