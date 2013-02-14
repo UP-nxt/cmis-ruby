@@ -64,4 +64,11 @@ describe Model::Folder do
     object.name.should eq 'item1'
     object.delete
   end
+
+  it 'create object' do
+    new_object = Model::Object.new @repo.id
+    new_object.name = 'object1'
+    new_object.object_type_id = 'cmis:folder'
+    lambda { @repo.root.create(new_object) }.should raise_exception
+  end
 end
