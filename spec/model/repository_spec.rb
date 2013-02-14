@@ -12,6 +12,22 @@ describe Model::Repository do
       @repo.id.should.eql? @id
     end
 
+    it 'fields' do
+      @repo.id.should_not be_nil
+      @repo.name.should_not be_nil
+      @repo.product_version.should_not be_nil
+      @repo.description.should_not be_nil
+      @repo.root_folder_id.should_not be_nil
+      @repo.capabilities.should_not be_nil
+      @repo.url.should_not be_nil
+      @repo.changes_on_type.should_not be_nil
+      @repo.root_folder_url.should_not be_nil
+      @repo.product_name.should_not be_nil
+      @repo.product_version.should_not be_nil
+
+      %w(1.0 1.1).should include @repo.cmis_version_supported
+    end
+
     it 'new object' do
       @repo.new_folder.should be_a_kind_of Model::Folder
       @repo.new_document.should be_a_kind_of Model::Document
