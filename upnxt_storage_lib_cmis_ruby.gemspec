@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'httparty', '~> 0.10.2'
   s.add_dependency 'multipart-post', '~> 1.1.5'
-  s.add_dependency 'multi_json', '~> 1.6.0'
+  s.add_dependency 'multi_json', '~> 1.5'
 
   s.add_development_dependency 'rspec'
 
