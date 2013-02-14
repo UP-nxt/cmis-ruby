@@ -69,7 +69,7 @@ module Model
     end
 
     def object(object_id)
-      ObjectFactory.create(id, Services.object.get_object(id, object_id, nil, false, false, nil, false, false))
+      ObjectFactory.create(id, Services.object.get_object(id, object_id, nil, false, 'none', nil, false, false))
     end
 
     # type

@@ -11,6 +11,6 @@ describe Model::Server do
     id = 'meta'
     repo = Model::Server.repository(id)
     repo.should be_a_kind_of Model::Repository
-    repo.id.should.eql? id
+    repo.id.should eq id
   end
 end
