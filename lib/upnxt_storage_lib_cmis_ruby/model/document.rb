@@ -49,7 +49,7 @@ module Model
     end
 
     def content
-      Services.object.get_content_stream(repository_id, object_id, nil, nil, nil)
+      Services.object.get_content_stream(repository_id, object_id, nil, nil, nil).body
     end
 
     def set_content(stream, mime_type, filename)

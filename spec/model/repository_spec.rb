@@ -1,4 +1,5 @@
 require 'upnxt_storage_lib_cmis_ruby/model'
+require_relative 'repository_home'
 
 describe Model::Repository do
 
@@ -62,17 +63,11 @@ describe Model::Repository do
 
   context 'upn' do
     before do
-      @repo_id = 'test1'
-      @meta = Model::Server.repository('meta')
-      f = @meta.new_folder
-      f.name = @repo_id
-      f.object_type_id = 'repository'
-      @meta.root.create(f)
-      @repo = Model::Server.repository(@repo_id)
+      @repo = create_repository('test_repository')
     end
 
     after do
-      @meta.object(@repo_id).delete
+      delete_repository('test_repository')
     end
 
     it 'create, get, delete type - document' do

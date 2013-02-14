@@ -32,7 +32,7 @@ module Model
 
     def children
       Services.navigation.get_children(repository_id, object_id, nil, nil, nil, nil, nil, nil, nil, nil).map do |o|
-        Object.create(o)
+        ObjectFactory.create(repository_id, o)
       end
     end
 
@@ -43,18 +43,19 @@ module Model
     def create(object)
       properties = object.create_properties
       if object.is_a? Folder
-        Services.object.create_folder(repository_id, properties, object_id, nil, nil, nil)
+        o = Services.object.create_folder(repository_id, properties, object_id, nil, nil, nil)
       elsif object.is_a? Document
-        object.create_in_folder(object_id)
+        o = object.create_in_folder(object_id)
       elsif object.is_a? Relationship
         raise 'relationship is not fileable'
       elsif object.is_a? Policy
-        Services.object.create_policy(repository_id, properties, object_id, nil, nil, nil)
+        o = Services.object.create_policy(repository_id, properties, object_id, nil, nil, nil)
       elsif object.is_a? Item
-        Services.object.create_item(repository_id, properties, object_id, nil, nil, nil)
+        o = Services.object.create_item(repository_id, properties, object_id, nil, nil, nil)
       else
         raise "unexpected base_type_id #{object.base_type_id}"
       end
+      ObjectFactory.create(repository_id, o)
     end
 
     def delete_tree
