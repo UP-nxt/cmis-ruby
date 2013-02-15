@@ -14,15 +14,7 @@ module UpnxtStorageLibCmisRuby
       end
 
       def perform_request(required_params={}, optional_params={})
-        # Service URL
-        url = @service_url.dup
-
-        # Repository URL
-        repository_id = required_params.delete(:repositoryId)
-        url << "/#{repository_id}" unless repository_id.nil?
-
-        # Object URL
-        url << "/root" if required_params.has_key?(:objectId) # TODO Get root folder URL
+        url = get_url(required_params.delete(:repositoryId), required_params[:objectId])
 
         optional_params.reject! { |_, v| v.nil? }
         params = required_params.merge(optional_params)
@@ -35,6 +27,17 @@ module UpnxtStorageLibCmisRuby
           end
         else
           Basement.get(url, query: params)
+        end
+      end
+
+      private
+
+      def get_url(repository_id, object_id)
+        if repository_id.nil?
+          @service_url
+        else
+          repository_info = Basement.get(@service_url)[repository_id.to_sym]
+          repository_info[object_id.nil? ? :repositoryUrl : :rootFolderUrl]
         end
       end
 
