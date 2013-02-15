@@ -3,6 +3,8 @@ require_relative 'services'
 module UpnxtStorageLibCmisRuby
   module Services
     class VersioningServices
+      include Services
+
       def check_out(repository_id, object_id, content_copied, extension={})
       end
 
