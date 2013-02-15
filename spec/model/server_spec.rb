@@ -1,16 +1,16 @@
 require 'upnxt_storage_lib_cmis_ruby/model'
 
-describe Model::Server do
+describe UpnxtStorageLibCmisRuby::Model::Server do
   it 'repositories' do
-    Model::Server.repositories.each do |repo|
-      repo.should be_a_kind_of Model::Repository
+    UpnxtStorageLibCmisRuby::Model::Server.repositories.each do |repo|
+      repo.should be_a_kind_of UpnxtStorageLibCmisRuby::Model::Repository
     end
   end
 
   it 'repository' do
     id = 'meta'
-    repo = Model::Server.repository(id)
-    repo.should be_a_kind_of Model::Repository
+    repo =UpnxtStorageLibCmisRuby:: Model::Server.repository(id)
+    repo.should be_a_kind_of UpnxtStorageLibCmisRuby::Model::Repository
     repo.id.should eq id
   end
 end

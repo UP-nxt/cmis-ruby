@@ -1,7 +1,7 @@
 require 'upnxt_storage_lib_cmis_ruby/model'
 require_relative 'repository_home'
 
-describe Model::Document do
+describe UpnxtStorageLibCmisRuby::Model::Document do
 
   before do
     @repo = create_repository('test_document')

@@ -1,7 +1,7 @@
 require 'upnxt_storage_lib_cmis_ruby/model'
 require_relative 'repository_home'
 
-describe Model::Folder do
+describe UpnxtStorageLibCmisRuby::Model::Folder do
 
   before do
     @repo = create_repository('test_folder')
@@ -30,7 +30,7 @@ describe Model::Folder do
     new_object.object_type_id = 'cmis:document'
     new_object.set_content(StringIO.new('apple is a fruit'), 'text/plain', 'apple.txt')
     object = @repo.root.create(new_object)
-    object.should be_a_kind_of Model::Document
+    object.should be_a_kind_of UpnxtStorageLibCmisRuby::Model::Document
     object.name.should eq 'doc1'
     object.content_stream_mime_type.should eq 'text/plain'
     object.content_stream_file_name.should eq 'apple.txt'
@@ -43,7 +43,7 @@ describe Model::Folder do
     new_object.name = 'folder1'
     new_object.object_type_id = 'cmis:folder'
     object = @repo.root.create(new_object)
-    object.should be_a_kind_of Model::Folder
+    object.should be_a_kind_of UpnxtStorageLibCmisRuby::Model::Folder
     object.name.should eq 'folder1'
     object.delete
   end
@@ -60,13 +60,13 @@ describe Model::Folder do
     new_object.name = 'item1'
     new_object.object_type_id = 'cmis:item'
     object = @repo.root.create(new_object)
-    object.should be_a_kind_of Model::Item
+    object.should be_a_kind_of UpnxtStorageLibCmisRuby::Model::Item
     object.name.should eq 'item1'
     object.delete
   end
 
   it 'create object' do
-    new_object = Model::Object.new @repo.id
+    new_object = UpnxtStorageLibCmisRuby::Model::Object.new @repo.id
     new_object.name = 'object1'
     new_object.object_type_id = 'cmis:folder'
     lambda { @repo.root.create(new_object) }.should raise_exception

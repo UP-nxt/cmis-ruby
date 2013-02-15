@@ -1,12 +1,12 @@
 require 'upnxt_storage_lib_cmis_ruby/model'
 require_relative 'repository_home'
 
-describe Model::Repository do
+describe UpnxtStorageLibCmisRuby::Model::Repository do
 
   context 'generic' do
     before do
       @id = 'meta'
-      @repo = Model::Server.repository(@id)
+      @repo = UpnxtStorageLibCmisRuby::Model::Server.repository(@id)
     end
 
     it 'id' do
@@ -30,35 +30,35 @@ describe Model::Repository do
     end
 
     it 'new object' do
-      @repo.new_folder.should be_a_kind_of Model::Folder
-      @repo.new_document.should be_a_kind_of Model::Document
-      @repo.new_relationship.should be_a_kind_of Model::Relationship
-      @repo.new_policy.should be_a_kind_of Model::Policy
-      @repo.new_item.should be_a_kind_of Model::Item
+      @repo.new_folder.should be_a_kind_of UpnxtStorageLibCmisRuby::Model::Folder
+      @repo.new_document.should be_a_kind_of UpnxtStorageLibCmisRuby::Model::Document
+      @repo.new_relationship.should be_a_kind_of UpnxtStorageLibCmisRuby::Model::Relationship
+      @repo.new_policy.should be_a_kind_of UpnxtStorageLibCmisRuby::Model::Policy
+      @repo.new_item.should be_a_kind_of UpnxtStorageLibCmisRuby::Model::Item
     end
 
     it 'root' do
       root = @repo.root
-      root.should be_a_kind_of Model::Folder
+      root.should be_a_kind_of UpnxtStorageLibCmisRuby::Model::Folder
       root.object_id.should eq @repo.root_folder_id
     end
 
     it 'object' do
       id = @repo.root_folder_id
       object = @repo.object(id)
-      object.should be_a_kind_of Model::Folder
+      object.should be_a_kind_of UpnxtStorageLibCmisRuby::Model::Folder
       object.object_id.should eq id
     end
 
     it 'type - document' do
       document = @repo.type('cmis:document')
-      document.should be_a_kind_of Model::Type
+      document.should be_a_kind_of UpnxtStorageLibCmisRuby::Model::Type
       document.id.should eq 'cmis:document'
     end
 
     it 'type - folder' do
       folder = @repo.type('cmis:folder')
-      folder.should be_a_kind_of Model::Type
+      folder.should be_a_kind_of UpnxtStorageLibCmisRuby::Model::Type
       folder.id.should eq 'cmis:folder'
     end
   end
@@ -74,26 +74,26 @@ describe Model::Repository do
 
     it 'type - relationship' do
       relationship = @repo.type('cmis:relationship')
-      relationship.should be_a_kind_of Model::Type
+      relationship.should be_a_kind_of UpnxtStorageLibCmisRuby::Model::Type
       relationship.id.should eq 'cmis:relationship'
     end
 
     it 'type - policy' do
       policy = @repo.type('cmis:policy')
-      policy.should be_a_kind_of Model::Type
+      policy.should be_a_kind_of UpnxtStorageLibCmisRuby::Model::Type
       policy.id.should eq 'cmis:policy'
     end
 
     it 'type - item' do
       item = @repo.type('cmis:item')
-      item.should be_a_kind_of Model::Type
+      item.should be_a_kind_of UpnxtStorageLibCmisRuby::Model::Type
       item.id.should eq 'cmis:item'
     end
 
     it 'create, get, delete type - document' do
       type_id = 'apple'
 
-      type = Model::Type.new
+      type = UpnxtStorageLibCmisRuby::Model::Type.new
       type.id = type_id
       type.local_name = 'apple'
       type.query_name = 'apple'
@@ -128,7 +128,7 @@ describe Model::Repository do
 
       @repo.create_type(type)
       @repo.type(type_id).tap do |t|
-        t.should be_a_kind_of Model::Type
+        t.should be_a_kind_of UpnxtStorageLibCmisRuby::Model::Type
         t.id.should eq type_id
       end
       @repo.delete_type(type_id)

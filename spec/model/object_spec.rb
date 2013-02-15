@@ -1,7 +1,7 @@
 require 'upnxt_storage_lib_cmis_ruby/model'
 require_relative 'repository_home'
 
-describe Model::Object do
+describe UpnxtStorageLibCmisRuby::Model::Object do
 
   before do
     @repo = create_repository('test_object')
@@ -13,14 +13,14 @@ describe Model::Object do
 
   it 'repository' do
     doc = create_document
-    doc.repository.should be_a_kind_of Model::Repository
+    doc.repository.should be_a_kind_of UpnxtStorageLibCmisRuby::Model::Repository
     doc.repository.id.should eq 'test_object'
     doc.delete
   end
 
   it 'object_type' do
     doc = create_document
-    doc.object_type.should be_a_kind_of Model::Type
+    doc.object_type.should be_a_kind_of UpnxtStorageLibCmisRuby::Model::Type
     doc.object_type.id.should eq 'cmis:document'
     doc.delete
   end
@@ -48,7 +48,7 @@ describe Model::Object do
     rels.should have_key :hasMoreItems
     rels.should have_key :numItems
     rels[:objects].each do |r|
-      r.should be_a_kind_of Moddel::Relationship
+      r.should be_a_kind_of UpnxtStorageLibCmisRuby::Model::Relationship
     end
     doc.delete
   end
@@ -58,7 +58,7 @@ describe Model::Object do
     pols = doc.policies
     pols.should_not be_nil
     pols.each do |p|
-      p.should be_a_kind_of Moddel::Policy
+      p.should be_a_kind_of UpnxtStorageLibCmisRuby::Model::Policy
     end
     doc.delete
   end
