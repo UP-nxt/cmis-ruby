@@ -17,9 +17,9 @@ module UpnxtStorageLibCmisRuby
         url = get_url(required_params.delete(:repositoryId), required_params[:objectId])
 
         optional_params.reject! { |_, v| v.nil? }
-        params = required_params.merge(optional_params)
+        params = transform_hash(required_params.merge(optional_params))
 
-        if params.has_key?(:cmisaction)
+        response = if params.has_key?(:cmisaction)
           if params.has_key?(:content)
             Basement.multipart_post(url, params)
           else
@@ -27,6 +27,12 @@ module UpnxtStorageLibCmisRuby
           end
         else
           Basement.get(url, query: params)
+        end
+
+        if response.content_type == 'application/json'
+          MultiJson.load(response.body, symbolize_keys: true)
+        else
+          response.body
         end
       end
 
@@ -36,45 +42,32 @@ module UpnxtStorageLibCmisRuby
         if repository_id.nil?
           @service_url
         else
-          repository_info = Basement.get(@service_url)[repository_id.to_sym]
-          repository_info[object_id.nil? ? :repositoryUrl : :rootFolderUrl]
+          repository_info = Basement.get(@service_url)[repository_id]
+          repository_info[object_id.nil? ? 'repositoryUrl' : 'rootFolderUrl']
         end
+      end
+
+      def transform_hash(hash)
+        if hash.has_key?(:properties)
+          props = hash.delete(:properties)
+          if props.is_a?(Hash)
+            props.each_with_index do |(id, value), index|
+              hash.merge!("propertyId[#{index}]" => id,
+                          "propertyValue[#{index}]" => value)
+            end
+          end
+        end
+        hash
       end
 
       class Basement
         include HTTParty
 
-        HASH_TRANSFORMER = Proc.new do |hash|
-          if hash.has_key?(:properties)
-            props = hash.delete(:properties)
-            if props.is_a?(Hash)
-              props.each_with_index do |(id, value), index|
-                hash.merge!("propertyId[#{index}]" => id,
-                            "propertyValue[#{index}]" => value)
-              end
-            end
-          end
-          hash
-        end
-
-        QUERY_STRING_NORMALIZER = Proc.new do |hash|
-          adjusted_hash = HASH_TRANSFORMER.call(hash)
-          HTTParty::HashConversions.to_params(adjusted_hash)
-        end
-
-        RESULT_PARSER = Proc.new do |body|
-          MultiJson.load(body, symbolize_keys: true)
-        end
-
-        # For GET and POST, tell HTTParty to transform params and parse result
-        query_string_normalizer QUERY_STRING_NORMALIZER
-        parser RESULT_PARSER
-
         def self.multipart_post(url, options)
           url = URI.parse(url)
-          req = Net::HTTP::Post::Multipart.new(url.path, HASH_TRANSFORMER.call(options))
-          res = Net::HTTP.start(url.host, url.port) { |http| http.request(req) }
-          RESULT_PARSER.call(res.body)
+          Net::HTTP.start(url.host, url.port) do |http|
+            http.request(Net::HTTP::Post::Multipart.new(url.path, options))
+          end
         end
       end
     end
