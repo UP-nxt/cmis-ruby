@@ -53,6 +53,16 @@ describe Model::Object do
     doc.delete
   end
 
+  it 'policies' do
+    doc = create_document
+    pols = doc.policies
+    pols.should_not be_nil
+    pols.each do |p|
+      p.should be_a_kind_of Moddel::Policy
+    end
+    doc.delete
+  end
+
   it 'unfile' do
     doc = create_document
     doc.unfile
