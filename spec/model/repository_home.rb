@@ -1,5 +1,5 @@
 def create_repository(id)
-  meta = UpnxtStorageLibCmisRuby::Model::Server.repository('meta')
+  meta = UpnxtStorageLibCmisRuby::Model::Service.repository('meta')
   f = meta.new_folder
   f.name = id
   f.object_type_id = 'repository'
@@ -7,10 +7,10 @@ def create_repository(id)
   f.properties['supportsPolicies'] = true
   f.properties['supportsItem'] = true
   meta.root.create(f)
-  UpnxtStorageLibCmisRuby::Model::Server.repository(id)
+  UpnxtStorageLibCmisRuby::Model::Service.repository(id)
 end
 
 def delete_repository(id)
-  meta = UpnxtStorageLibCmisRuby::Model::Server.repository('meta')
+  meta = UpnxtStorageLibCmisRuby::Model::Service.repository('meta')
   meta.object(id).delete
 end

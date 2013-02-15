@@ -6,7 +6,7 @@ describe UpnxtStorageLibCmisRuby::Model::Repository do
   context 'generic' do
     before do
       @id = 'meta'
-      @repo = UpnxtStorageLibCmisRuby::Model::Server.repository(@id)
+      @repo = UpnxtStorageLibCmisRuby::Model::Service.repository(@id)
     end
 
     it 'id' do

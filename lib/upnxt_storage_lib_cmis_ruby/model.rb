@@ -1,1 +1,1 @@
-require_relative 'model/server'
+require_relative 'model/service'

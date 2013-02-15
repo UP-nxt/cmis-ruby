@@ -3,7 +3,7 @@ require_relative 'repository'
 
 module UpnxtStorageLibCmisRuby
   module Model
-    class Server
+    class Service
       def self.repositories
         Services.repository.get_repositories.values.map do |repository|
           Repository.create(repository)

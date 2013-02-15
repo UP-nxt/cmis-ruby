@@ -1,6 +1,6 @@
 require 'upnxt_storage_lib_cmis_ruby/model'
 
-repository = UpnxtStorageLibCmisRuby::Model::Server.repository('blueprint')
+repository = UpnxtStorageLibCmisRuby::Model::Service.repository('blueprint')
 
 type = UpnxtStorageLibCmisRuby::Model::Type.new
 type.id = 'apple'

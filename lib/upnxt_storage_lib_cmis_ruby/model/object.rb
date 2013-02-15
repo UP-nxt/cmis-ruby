@@ -1,4 +1,4 @@
-require_relative 'server'
+require_relative 'service'
 require_relative 'services'
 
 module UpnxtStorageLibCmisRuby
@@ -35,7 +35,7 @@ module UpnxtStorageLibCmisRuby
       end
 
       def repository
-        Server.repository(repository_id)
+        Service.repository(repository_id)
       end
 
       def object_type
