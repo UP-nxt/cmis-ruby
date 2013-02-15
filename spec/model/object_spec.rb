@@ -3,11 +3,11 @@ require_relative 'repository_home'
 
 describe UpnxtStorageLibCmisRuby::Model::Object do
 
-  before do
+  before :all do
     @repo = create_repository('test_object')
   end
 
-  after do
+  after :all do
     delete_repository('test_object')
   end
 
@@ -36,7 +36,7 @@ describe UpnxtStorageLibCmisRuby::Model::Object do
     actions = doc.allowable_actions
     actions.should_not be_nil
     actions.should_not be_empty
-    actions.values.each {|v| [true, false].should include v}
+    actions.values.each { |v| [true, false].should include v }
     doc.delete
   end
 

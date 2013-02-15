@@ -3,11 +3,11 @@ require_relative 'repository_home'
 
 describe UpnxtStorageLibCmisRuby::Model::Folder do
 
-  before do
+  before :all do
     @repo = create_repository('test_folder')
   end
 
-  after do
+  after :all do
     delete_repository('test_folder')
   end
 

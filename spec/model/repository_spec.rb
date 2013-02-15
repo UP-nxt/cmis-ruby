@@ -64,11 +64,11 @@ describe UpnxtStorageLibCmisRuby::Model::Repository do
   end
 
   context 'upn' do
-    before do
+    before :all do
       @repo = create_repository('test_repository')
     end
 
-    after do
+    after :all do
       delete_repository('test_repository')
     end
 
