@@ -7,24 +7,22 @@ module UpnxtStorageLibCmisRuby
     end
 
     def get_acl(repository_id, object_id, only_basic_permissions, extension={})
-      params = {
-        cmisselector: 'acl',
-        objectId: object_id,
-        onlyBasicPermissions: only_basic_permissions
-      }
-      @service.perform_request("/#{repository_id}/root", params)
+      required = { repositoryId: repository_id,
+                   cmisselector: 'acl',
+                   objectId: object_id,
+                   onlyBasicPermissions: only_basic_permissions }
+      @service.perform_request(required)
     end
 
     def apply_acl(repository_id, object_id, add_aces, remove_aces, acl_propagation, extension={})
-      params = {
-        cmisaction: 'applyACL',
-        policyId: policy_id,
-        objectId: object_id,
-        addACEs: add_aces,
-        removeACEs: remove_aces,
-        ACLPropagation: acl_propagation
-      }
-      @service.perform_request("/#{repository_id}/root", params)
+      required = { repositoryId: repository_id,
+                   cmisaction: 'applyACL',
+                   policyId: policy_id,
+                   objectId: object_id,
+                   addACEs: add_aces,
+                   removeACEs: remove_aces,
+                   ACLPropagation: acl_propagation }
+      @service.perform_request(required)
     end
   end
 end

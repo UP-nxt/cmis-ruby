@@ -8,8 +8,20 @@ module UpnxtStorageLibCmisRuby
       @service_url = service_url
     end
 
-    def perform_request(path, params={})
-      url = @service_url + path
+    def perform_request(required_params={}, optional_params={})
+      # Service URL
+      url = @service_url.dup
+
+      # Repository URL
+      repository_id = required_params.delete(:repositoryId)
+      url << "/#{repository_id}" unless repository_id.nil?
+
+      # Object URL
+      url << "/root" if required_params.has_key?(:objectId) # TODO Get root folder URL
+
+      optional_params.reject! { |_,v| v.nil? }
+      params = required_params.merge(optional_params)
+
       if params.has_key?(:cmisaction)
         if params.has_key?(:content)
           Basement.multipart_post(url, params)
@@ -50,11 +62,10 @@ module UpnxtStorageLibCmisRuby
         end
       end
 
-      # For GET and POST, rely on HttParty
+      # For GET and POST, tell HTTParty to transform params and parse result
       query_string_normalizer QUERY_STRING_NORMALIZER
       parser RESULT_PARSER
 
-      # For Multipart POST, transform and parse result ourselves
       def self.multipart_post(url, options)
         url = URI.parse(url)
         req = Net::HTTP::Post::Multipart.new(url.path, HASH_TRANSFORMER.call(options))

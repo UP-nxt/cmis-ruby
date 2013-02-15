@@ -4,7 +4,7 @@ require_relative 'repository'
 module Model
   class Server
     def self.repositories
-      Services.repository.get_repository_infos.values.map do |repository|
+      Services.repository.get_repositories.values.map do |repository|
         Repository.create(repository)
       end
     end
