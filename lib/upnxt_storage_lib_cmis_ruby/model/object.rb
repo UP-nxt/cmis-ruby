@@ -50,10 +50,12 @@ module Model
       Services.object.get_allowable_actions(repository_id, object_id)
     end
 
-    def relationships(direction)
-      Services.relationship.get_object_relationships(repository_id, object_id, nil, direction, nil, nil, false, nil, nil).map do |r|
+    def relationships(direction = 'either')
+      result = Services.relationship.get_object_relationships(repository_id, object_id, nil, direction, nil, nil, false, nil, nil)
+      result[:objects] = result[:objects].map do |r|
         Relationship.create(repository_id, r)
       end
+      result
     end
 
     def policies

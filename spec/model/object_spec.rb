@@ -40,12 +40,18 @@ describe Model::Object do
     doc.delete
   end
 
-  #it 'relationships' do
-  #  doc = create_document
-  #  rels = doc.relationships
-  #  rels.should_not be_nil
-  #  doc.delete
-  #end
+  it 'relationships' do
+    doc = create_document
+    rels = doc.relationships
+    rels.should_not be_nil
+    rels.should have_key :objects
+    rels.should have_key :hasMoreItems
+    rels.should have_key :numItems
+    rels[:objects].each do |r|
+      r.should be_a_kind_of Moddel::Relationship
+    end
+    doc.delete
+  end
 
   it 'unfile' do
     doc = create_document
