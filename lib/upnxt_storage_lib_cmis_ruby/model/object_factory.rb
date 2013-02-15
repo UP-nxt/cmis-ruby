@@ -10,15 +10,15 @@ module Model
       properties = raw[:properties]
       base_type_id = properties[:'cmis:baseTypeId'][:value]
       if 'cmis:folder'.eql?(base_type_id)
-        Folder.create(repository_id, raw)
+        Folder.new(repository_id, raw)
       elsif 'cmis:document'.eql?(base_type_id)
-        Document.create(repository_id, raw)
+        Document.new(repository_id, raw)
       elsif 'cmis:relationship'.eql?(base_type_id)
-        Relationship.create(repository_id, raw)
+        Relationship.new(repository_id, raw)
       elsif 'cmis:policy'.eql?(base_type_id)
-        Policy.create(repository_id, raw)
+        Policy.new(repository_id, raw)
       elsif 'cmis:item'.eql?(base_type_id)
-        Item.create(repository_id, raw)
+        Item.new(repository_id, raw)
       else
         raise "unexpected baseTypeId - #{base_type_id}"
       end

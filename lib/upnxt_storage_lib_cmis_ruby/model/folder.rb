@@ -3,10 +3,6 @@ require_relative 'services'
 
 module Model
   class Folder < Object
-    def self.create(repository_id, raw)
-      Folder.new(repository_id, raw)
-    end
-
     attr_reader :parent_id
     attr_reader :path
     attr_reader :allowed_child_object_type_ids

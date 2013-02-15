@@ -3,10 +3,6 @@ require_relative 'services'
 
 module Model
   class Policy < Object
-    def self.create(repository_id, raw)
-      Policy.new(repository_id, raw)
-    end
-
     attr_reader :policy_text
 
     def initialize(repository_id, raw = {})
