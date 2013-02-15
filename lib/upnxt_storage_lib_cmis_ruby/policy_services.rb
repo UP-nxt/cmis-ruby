@@ -12,7 +12,7 @@ module UpnxtStorageLibCmisRuby
         policyId: policy_id,
         objectId: object_id
       }
-      @service.perform_request("/#{repository_id}", params)
+      @service.perform_request("/#{repository_id}/root", params)
     end
 
     def remove_policy(repository_id, policy_id, object_id, extension={})
@@ -21,7 +21,7 @@ module UpnxtStorageLibCmisRuby
         policyId: policy_id,
         objectId: object_id
       }
-      @service.perform_request("/#{repository_id}", params)
+      @service.perform_request("/#{repository_id}/root", params)
     end
 
     def get_applied_policies(repository_id, object_id, filter, extension={})
@@ -30,7 +30,7 @@ module UpnxtStorageLibCmisRuby
         objectId: object_id,
         filter: filter
       }
-      @service.perform_request("/#{repository_id}", params)
+      @service.perform_request("/#{repository_id}/root", params)
     end
   end
 end
