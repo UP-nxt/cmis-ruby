@@ -103,7 +103,7 @@ module Model
     end
 
     def content_changes(change_log_token)
-      Services.discovery.get_content_changes(id, change_log_token, nil, nil, nil, nil, nil)
+      Services.discovery.get_content_changes(id, change_log_token, nil, nil, nil, nil)
     end
   end
 end
