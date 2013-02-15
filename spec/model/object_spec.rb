@@ -31,14 +31,15 @@ describe Model::Object do
     #TODO check
   end
 
-  #it 'allowable actions' do
-  #  doc = create_document
-  #  actions = doc.allowable_actions
-  #  actions.should_not be_nil
-  #  actions.should_not be_empty
-  #  actions.values.each {|v| [true, false].should include v}
-  #  doc.delete
-  #end
+  it 'allowable actions' do
+    doc = create_document
+    actions = doc.allowable_actions
+    puts actions
+    actions.should_not be_nil
+    actions.should_not be_empty
+    actions.values.each {|v| [true, false].should include v}
+    doc.delete
+  end
 
   #it 'relationships' do
   #  doc = create_document
