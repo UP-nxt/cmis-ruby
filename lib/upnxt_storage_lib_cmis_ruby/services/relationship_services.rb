@@ -16,7 +16,7 @@ module UpnxtStorageLibCmisRuby
                     includeAllowableActions: include_allowable_actions,
                     maxItems: max_items,
                     skipCount: skip_count}
-        @service.perform_request(required)
+        @service.perform_request(required, optional)
       end
     end
   end
