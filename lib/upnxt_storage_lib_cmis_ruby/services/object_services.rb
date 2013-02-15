@@ -130,7 +130,11 @@ module UpnxtStorageLibCmisRuby
       end
 
       def delete_object(repository_id, object_id, all_versions, extension={})
-        # TODO
+        required = {repositoryId: repository_id,
+                    cmisaction: 'delete',
+                    objectId: object_id,
+                    allVersions: all_versions}
+        @service.perform_request(required)
       end
 
       def delete_tree(repository_id, folder_id, all_versions, unfile_objects, continue_on_failure, extension={})
