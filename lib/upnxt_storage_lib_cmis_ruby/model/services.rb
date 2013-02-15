@@ -14,39 +14,39 @@ module Model
     end
 
     def self.repository
-      UpnxtStorageLibCmisRuby::RepositoryServices.new url
+      UpnxtStorageLibCmisRuby::Services::RepositoryServices.new url
     end
 
     def self.navigation
-      UpnxtStorageLibCmisRuby::NavigationServices.new url
+      UpnxtStorageLibCmisRuby::Services::NavigationServices.new url
     end
 
     def self.object
-      UpnxtStorageLibCmisRuby::ObjectServices.new url
+      UpnxtStorageLibCmisRuby::Services::ObjectServices.new url
     end
 
     def self.multi_filing
-      UpnxtStorageLibCmisRuby::MultiFilingServices.new url
+      UpnxtStorageLibCmisRuby::Services::MultiFilingServices.new url
     end
 
     def self.discovery
-      UpnxtStorageLibCmisRuby::DiscoveryServices.new url
+      UpnxtStorageLibCmisRuby::Services::DiscoveryServices.new url
     end
 
     def self.versioning
-      UpnxtStorageLibCmisRuby::VersioningServices.new url
+      UpnxtStorageLibCmisRuby::Services::VersioningServices.new url
     end
 
     def self.relationship
-      UpnxtStorageLibCmisRuby::RelationshipServices.new url
+      UpnxtStorageLibCmisRuby::Services::RelationshipServices.new url
     end
 
     def self.policy
-      UpnxtStorageLibCmisRuby::PolicyServices.new url
+      UpnxtStorageLibCmisRuby::Services::PolicyServices.new url
     end
 
     def self.acl
-      UpnxtStorageLibCmisRuby::AclServices.new url
+      UpnxtStorageLibCmisRuby::Services::AclServices.new url
     end
   end
 end
