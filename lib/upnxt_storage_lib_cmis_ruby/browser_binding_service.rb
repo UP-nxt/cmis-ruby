@@ -19,7 +19,7 @@ module UpnxtStorageLibCmisRuby
       # Object URL
       url << "/root" if required_params.has_key?(:objectId) # TODO Get root folder URL
 
-      optional_params.reject! { |_,v| v.nil? }
+      optional_params.reject! { |_, v| v.nil? }
       params = required_params.merge(optional_params)
 
       if params.has_key?(:cmisaction)
@@ -41,7 +41,7 @@ module UpnxtStorageLibCmisRuby
           props = hash.delete(:properties)
           if props.is_a?(Hash)
             props.each_with_index do |(id, value), index|
-              hash.merge!("propertyId[#{index}]"    => id,
+              hash.merge!("propertyId[#{index}]" => id,
                           "propertyValue[#{index}]" => value)
             end
           end
