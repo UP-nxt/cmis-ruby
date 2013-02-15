@@ -88,10 +88,9 @@ module UpnxtStorageLibCmisRuby
     end
 
     def get_allowable_actions(repository_id, object_id, extension={})
-      required = {
-        repositoryId: repository_id,
-        cmisselector: 'allowableActions',
-        objectId: object_id}
+      required = {repositoryId: repository_id,
+                  cmisselector: 'allowableActions',
+                  objectId: object_id}
       @service.perform_request(required)
     end
 
