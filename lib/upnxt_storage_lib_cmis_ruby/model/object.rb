@@ -96,11 +96,7 @@ module Model
     def get_properties_map(raw)
       raw_properties = raw[:properties]
       return {} if raw_properties.nil?
-      result = {}
-      raw_properties.each do |k, v|
-        result[k] = v[:value]
-      end
-      result
+      raw_properties.reduce({}) { |h, (k, v)| h.merge(k => v[:value]) }
     end
   end
 end
