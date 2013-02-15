@@ -7,8 +7,7 @@ module Model
 
     def initialize(repository_id, raw = {})
       super(repository_id, raw)
-      properties = raw[:properties]
-      @policy_text = get_property_value(properties, :'cmis:policyText')
+      @policy_text = @properties[:'cmis:policyText']
     end
 
     def apply_to(object)

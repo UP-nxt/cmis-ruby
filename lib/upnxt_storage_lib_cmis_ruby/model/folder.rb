@@ -9,10 +9,9 @@ module Model
 
     def initialize(repository_id, raw = {})
       super(repository_id, raw)
-      properties = raw[:properties]
-      @parent_id = get_property_value(properties, :'cmis:parentId')
-      @path = get_property_value(properties, :'cmis:path')
-      @allowed_child_object_type_ids = get_property_value(properties, :'cmis:allowedChildObjectTypeIds')
+      @parent_id = @properties[:'cmis:parentId']
+      @path = @properties[:'cmis:path']
+      @allowed_child_object_type_ids = @properties[:'cmis:allowedChildObjectTypeIds']
     end
 
     def parent

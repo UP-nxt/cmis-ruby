@@ -6,19 +6,18 @@ module Model
 
     def initialize(repository_id, raw = {})
       @repository_id = repository_id
-      properties = raw[:properties]
-      @object_id = get_property_value(properties, :'cmis:objectId')
-      @base_type_id = get_property_value(properties, :'cmis:baseTypeId')
-      @object_type_id = get_property_value(properties, :'cmis:objectTypeId')
-      @secondary_object_type_ids = get_property_value(properties, :'cmis:secondaryObjectTypeId')
-      @name = get_property_value(properties, :'cmis:name')
-      @description = get_property_value(properties, :'cmis:description')
-      @created_by = get_property_value(properties, :'cmis:createdBy')
-      @creation_date = get_property_value(properties, :'cmis:creationDate')
-      @last_modified_by = get_property_value(properties, :'cmis:lastModifiedBy')
-      @last_modification_date = get_property_value(properties, :'cmis:lastModificationDate')
-      @change_token = get_property_value(properties, :'cmis:changeToken')
-      @properties = {}
+      @properties = get_properties_map(raw)
+      @object_id = @properties[:'cmis:objectId']
+      @base_type_id = @properties[:'cmis:baseTypeId']
+      @object_type_id = @properties[:'cmis:objectTypeId']
+      @secondary_object_type_ids = @properties[:'cmis:secondaryObjectTypeId']
+      @name = @properties[:'cmis:name']
+      @description = @properties[:'cmis:description']
+      @created_by = @properties[:'cmis:createdBy']
+      @creation_date = @properties[:'cmis:creationDate']
+      @last_modified_by = @properties[:'cmis:lastModifiedBy']
+      @last_modification_date = @properties[:'cmis:lastModificationDate']
+      @change_token = @properties[:'cmis:changeToken']
     end
 
     attr_reader :repository_id
@@ -94,11 +93,14 @@ module Model
 
     private
 
-    def get_property_value(properties, key)
-      return nil if properties.nil?
-      property = properties[key]
-      return nil if property.nil?
-      property[:value]
+    def get_properties_map(raw)
+      raw_properties = raw[:properties]
+      return {} if raw_properties.nil?
+      result = {}
+      raw_properties.each do |k, v|
+        result[k] = v[:value]
+      end
+      result
     end
   end
 end

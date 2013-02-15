@@ -5,8 +5,8 @@ module Model
   class Relationship < Object
     def initialize(repository_id, raw = {})
       super(repository_id, raw)
-      @source_id = raw['cmis:sourceId']
-      @target_id = raw['cmis:targetId']
+      @source_id = @properties['cmis:sourceId']
+      @target_id = @properties['cmis:targetId']
     end
 
     attr_reader :source_id

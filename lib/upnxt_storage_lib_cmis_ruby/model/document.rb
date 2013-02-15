@@ -5,22 +5,21 @@ module Model
   class Document < Object
     def initialize(repository_id, raw = {})
       super(repository_id, raw)
-      properties = raw[:properties]
-      @is_immutable = get_property_value(properties, :'cmis:isImmutable')
-      @is_latest_version = get_property_value(properties, :'cmis:isLatestVersion')
-      @is_major_version = get_property_value(properties, :'cmis:isMajorVersion')
-      @is_lastest_major_version = get_property_value(properties, :'cmis:isLatestMajorVersion')
-      @is_private_working_copy = get_property_value(properties, :'cmis:isPrivateWorkingCopy')
-      @version_label = get_property_value(properties, :'cmis:versionLabel')
-      @version_series_id = get_property_value(properties, :'cmis:versionSeriesId')
-      @version_series_checked_out = get_property_value(properties, :'cmis:isVersionSeriesCheckedOut')
-      @version_series_checked_out_by = get_property_value(properties, :'cmis:versionSeriesCheckedOutBy')
-      @version_series_checked_out_id = get_property_value(properties, :'cmis:versionSeriesCheckedOutId')
-      @checkin_comment = get_property_value(properties, :'cmis:checkinComment')
-      @content_stream_length = get_property_value(properties, :'cmis:contentStreamLength')
-      @content_stream_mime_type = get_property_value(properties, :'cmis:contentStreamMimeType')
-      @content_stream_file_name = get_property_value(properties, :'cmis:contentStreamFileName')
-      @content_stream_id = get_property_value(properties, :'cmis:contentStreamId')
+      @is_immutable = @properties[:'cmis:isImmutable']
+      @is_latest_version = @properties[:'cmis:isLatestVersion']
+      @is_major_version = @properties[:'cmis:isMajorVersion']
+      @is_lastest_major_version = @properties[:'cmis:isLatestMajorVersion']
+      @is_private_working_copy = @properties[:'cmis:isPrivateWorkingCopy']
+      @version_label = @properties[:'cmis:versionLabel']
+      @version_series_id = @properties[:'cmis:versionSeriesId']
+      @version_series_checked_out = @properties[:'cmis:isVersionSeriesCheckedOut']
+      @version_series_checked_out_by = @properties[:'cmis:versionSeriesCheckedOutBy']
+      @version_series_checked_out_id = @properties[:'cmis:versionSeriesCheckedOutId']
+      @checkin_comment = @properties[:'cmis:checkinComment']
+      @content_stream_length = @properties[:'cmis:contentStreamLength']
+      @content_stream_mime_type = @properties[:'cmis:contentStreamMimeType']
+      @content_stream_file_name = @properties[:'cmis:contentStreamFileName']
+      @content_stream_id = @properties[:'cmis:contentStreamId']
     end
 
     attr_reader :is_immutable
