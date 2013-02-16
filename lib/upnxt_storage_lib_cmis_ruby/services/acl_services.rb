@@ -1,9 +1,9 @@
-require_relative 'services'
-
 module UpnxtStorageLibCmisRuby
   module Services
     class AclServices
-      include Services
+      def initialize(service_url)
+        @service = Internal::BrowserBindingService.new(service_url)
+      end
 
       def get_acl(repository_id, object_id, only_basic_permissions, extension={})
         required = {cmisselector: 'acl',

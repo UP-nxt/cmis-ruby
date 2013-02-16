@@ -1,9 +1,9 @@
-require_relative 'services'
-
 module UpnxtStorageLibCmisRuby
   module Services
     class NavigationServices
-      include Services
+      def initialize(service_url)
+        @service = Internal::BrowserBindingService.new(service_url)
+      end
 
       def get_children(repository_id, folder_id, filter, order_by, include_allowable_actions, include_relationships, rendition_filter, include_path_segment, max_items, skip_count, extension={})
         required = {cmisselector: 'children',

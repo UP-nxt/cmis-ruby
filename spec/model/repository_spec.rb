@@ -1,5 +1,4 @@
-require 'upnxt_storage_lib_cmis_ruby/model'
-require_relative 'repository_home'
+require_relative '../helper'
 
 describe UpnxtStorageLibCmisRuby::Model::Repository do
 
@@ -133,6 +132,5 @@ describe UpnxtStorageLibCmisRuby::Model::Repository do
       end
       @repo.delete_type(type_id)
     end
-
   end
 end

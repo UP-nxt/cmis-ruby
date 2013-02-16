@@ -1,6 +1,3 @@
-require_relative 'service'
-require_relative 'services'
-
 module UpnxtStorageLibCmisRuby
   module Model
     class Object
@@ -43,15 +40,15 @@ module UpnxtStorageLibCmisRuby
       end
 
       def delete
-        Services.object.delete_object(repository_id, object_id, true)
+        UpnxtStorageLibCmisRuby::Services.object.delete_object(repository_id, object_id, true)
       end
 
       def allowable_actions
-        Services.object.get_allowable_actions(repository_id, object_id)
+        UpnxtStorageLibCmisRuby::Services.object.get_allowable_actions(repository_id, object_id)
       end
 
       def relationships(direction = 'either')
-        result = Services.relationship.get_object_relationships(repository_id, object_id, nil, direction, nil, nil, false, nil, nil)
+        result = UpnxtStorageLibCmisRuby::Services.relationship.get_object_relationships(repository_id, object_id, nil, direction, nil, nil, false, nil, nil)
         result[:objects] = result[:objects].map do |r|
           Relationship.create(repository_id, r)
         end
@@ -59,27 +56,27 @@ module UpnxtStorageLibCmisRuby
       end
 
       def policies
-        Services.policy.get_applied_policies(repository_id, object_id, nil).map do |policy|
+        UpnxtStorageLibCmisRuby::Services.policy.get_applied_policies(repository_id, object_id, nil).map do |policy|
           Policy.create(repository_id, policy)
         end
       end
 
       # remove from all folders
       def unfile
-        Services.multi_filing.remove_object_from_folder(repository_id, object_id, nil)
+        UpnxtStorageLibCmisRuby::Services.multi_filing.remove_object_from_folder(repository_id, object_id, nil)
       end
 
 
       def acls
-        Services.acl.get_acl(repository_id, object_id, nil)
+        UpnxtStorageLibCmisRuby::Services.acl.get_acl(repository_id, object_id, nil)
       end
 
       def add_aces(aces)
-        Services.acl.apply_acl(repository_id, object_id, aces, nil, nil)
+        UpnxtStorageLibCmisRuby::Services.acl.apply_acl(repository_id, object_id, aces, nil, nil)
       end
 
       def remove_aces(aces)
-        Services.acl.apply_acl(repository_id, object_id, nil, aces, nil)
+        UpnxtStorageLibCmisRuby::Services.acl.apply_acl(repository_id, object_id, nil, aces, nil)
       end
 
       protected

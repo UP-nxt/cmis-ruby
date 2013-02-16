@@ -1,4 +1,4 @@
-require 'upnxt_storage_lib_cmis_ruby/model'
+require 'upnxt_storage_lib_cmis_ruby'
 
 repository = UpnxtStorageLibCmisRuby::Model::Service.repository('blueprint')
 

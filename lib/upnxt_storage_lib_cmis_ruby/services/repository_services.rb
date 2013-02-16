@@ -1,9 +1,9 @@
-require_relative 'services'
-
 module UpnxtStorageLibCmisRuby
   module Services
     class RepositoryServices
-      include Services
+      def initialize(service_url)
+        @service = Internal::BrowserBindingService.new(service_url)
+      end
 
       def get_repositories(extension={})
         @service.perform_request

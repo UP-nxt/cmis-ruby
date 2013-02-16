@@ -1,9 +1,9 @@
-require_relative 'services'
-
 module UpnxtStorageLibCmisRuby
   module Services
     class PolicyServices
-      include Services
+      def initialize(service_url)
+        @service = Internal::BrowserBindingService.new(service_url)
+      end
 
       def apply_policy(repository_id, policy_id, object_id, extension={})
         required = {cmisaction: 'applyPolicy',

@@ -1,9 +1,9 @@
-require_relative 'services'
-
 module UpnxtStorageLibCmisRuby
   module Services
     class RelationshipServices
-      include Services
+      def initialize(service_url)
+        @service = Internal::BrowserBindingService.new(service_url)
+      end
 
       def get_object_relationships(repository_id, object_id, include_sub_relationship_types, relationship_direction, type_id, filter, include_allowable_actions, max_items, skip_count, extension={})
         required = {cmisselector: 'relationships',

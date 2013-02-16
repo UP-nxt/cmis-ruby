@@ -1,9 +1,9 @@
-require_relative 'services'
-
 module UpnxtStorageLibCmisRuby
   module Services
     class DiscoveryServices
-      include Services
+      def initialize(service_url)
+        @service = Internal::BrowserBindingService.new(service_url)
+      end
 
       def query(repository_id, statement, search_all_versions, include_relationships, rendition_filter, include_allowable_actions, max_items, skip_count, extension={})
         required = {cmisselector: 'query',

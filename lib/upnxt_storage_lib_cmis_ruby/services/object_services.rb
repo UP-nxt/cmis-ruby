@@ -1,13 +1,13 @@
-require_relative 'services'
-
 module UpnxtStorageLibCmisRuby
   module Services
     class ObjectServices
-      include Services
+      def initialize(service_url)
+        @service = Internal::BrowserBindingService.new(service_url)
+      end
 
       def get_object(repository_id, object_id, filter, include_allowable_actions, include_relationships, rendition_filter, include_policy_ids, include_acl, extension={})
-        required = {repositoryId: repository_id,
-                    cmisselector: 'object',
+        required = {cmisselector: 'object',
+                    repositoryId: repository_id,
                     objectId: object_id,
                     filter: filter,
                     includeAllowableActions: include_allowable_actions,
@@ -19,16 +19,16 @@ module UpnxtStorageLibCmisRuby
       end
 
       def get_properties(repository_id, object_id, filter, extension={})
-        required = {repositoryId: repository_id,
-                    cmisselector: 'properties',
+        required = {cmisselector: 'properties',
+                    repositoryId: repository_id,
                     objectId: object_id,
                     filter: filter}
         @service.perform_request(required)
       end
 
       def create_document(repository_id, properties, folder_id, content, versioning_state, policies, add_aces, remove_aces, extension={})
-        required = {repositoryId: repository_id,
-                    cmisaction: 'createDocument',
+        required = {cmisaction: 'createDocument',
+                    repositoryId: repository_id,
                     properties: properties,
                     versioningState: versioning_state,
                     policies: policies,
@@ -44,8 +44,8 @@ module UpnxtStorageLibCmisRuby
       end
 
       def create_folder(repository_id, properties, folder_id, policies, add_aces, remove_aces, extension={})
-        required = {repositoryId: repository_id,
-                    cmisaction: 'createFolder',
+        required = {cmisaction: 'createFolder',
+                    repositoryId: repository_id,
                     objectId: folder_id,
                     properties: properties,
                     policies: policies,
@@ -55,8 +55,8 @@ module UpnxtStorageLibCmisRuby
       end
 
       def create_relationship(repository_id, properties, policies, add_aces, remove_aces, extension={})
-        required = {repositoryId: repository_id,
-                    cmisaction: 'createRelationship',
+        required = {cmisaction: 'createRelationship',
+                    repositoryId: repository_id,
                     properties: properties,
                     policies: policies,
                     addACEs: add_aces,
@@ -65,8 +65,8 @@ module UpnxtStorageLibCmisRuby
       end
 
       def create_policy(repository_id, properties, folder_id, policies, add_aces, remove_aces, extension={})
-        required = {repositoryId: repository_id,
-                    cmisaction: 'createPolicy',
+        required = {cmisaction: 'createPolicy',
+                    repositoryId: repository_id,
                     properties: properties,
                     folderId: folder_id,
                     policies: policies,
@@ -76,8 +76,8 @@ module UpnxtStorageLibCmisRuby
       end
 
       def create_item(repository_id, properties, folder_id, policies, add_aces, remove_aces, extension={})
-        required = {repositoryId: repository_id,
-                    cmisaction: 'createItem',
+        required = {cmisaction: 'createItem',
+                    repositoryId: repository_id,
                     properties: properties,
                     folderId: folder_id,
                     policies: policies,
@@ -87,15 +87,15 @@ module UpnxtStorageLibCmisRuby
       end
 
       def get_allowable_actions(repository_id, object_id, extension={})
-        required = {repositoryId: repository_id,
-                    cmisselector: 'allowableActions',
+        required = {cmisselector: 'allowableActions',
+                    repositoryId: repository_id,
                     objectId: object_id}
         @service.perform_request(required)
       end
 
       def get_renditions(repository_id, object_id, rendition_filter, max_items, skip_count, extension={})
-        required = {repositoryId: repository_id,
-                    cmisselector: 'renditions',
+        required = {cmisselector: 'renditions',
+                    repositoryId: repository_id,
                     objectId: object_id,
                     renditionFilter: rendition_filter,
                     maxItems: max_items,
@@ -108,8 +108,8 @@ module UpnxtStorageLibCmisRuby
       end
 
       def get_content_stream(repository_id, object_id, stream_id, offset, length, extension={})
-        required = {repositoryId: repository_id,
-                    cmisselector: 'content',
+        required = {cmisselector: 'content',
+                    repositoryId: repository_id,
                     objectId: object_id,
                     # streamId: stream_id,
                     offset: offset,
@@ -130,8 +130,8 @@ module UpnxtStorageLibCmisRuby
       end
 
       def delete_object(repository_id, object_id, all_versions, extension={})
-        required = {repositoryId: repository_id,
-                    cmisaction: 'delete',
+        required = {cmisaction: 'delete',
+                    repositoryId: repository_id,
                     objectId: object_id,
                     allVersions: all_versions}
         @service.perform_request(required)

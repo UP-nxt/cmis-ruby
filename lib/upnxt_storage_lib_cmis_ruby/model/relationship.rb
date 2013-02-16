@@ -1,6 +1,3 @@
-require_relative 'object'
-require_relative 'services'
-
 module UpnxtStorageLibCmisRuby
   module Model
     class Relationship < Object
@@ -8,19 +5,18 @@ module UpnxtStorageLibCmisRuby
       attr_reader :target_id
 
       def initialize(repository_id, raw={})
-        super(repository_id, raw)
+        super
         @source_id = @properties['cmis:sourceId']
         @target_id = @properties['cmis:targetId']
       end
 
       def source
-        Object.create(Services.object.get_object(repository_id, source_id, nil, false, false, nil, false, false))
+        Object.create(UpnxtStorageLibCmisRuby::Services.object.get_object(repository_id, source_id, nil, false, false, nil, false, false))
       end
 
       def target
-        Object.create(Services.object.get_object(repository_id, target_id, nil, false, false, nil, false, false))
+        Object.create(UpnxtStorageLibCmisRuby::Services.object.get_object(repository_id, target_id, nil, false, false, nil, false, false))
       end
-
     end
   end
 end

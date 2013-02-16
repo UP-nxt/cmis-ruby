@@ -1,3 +1,5 @@
+require 'upnxt_storage_lib_cmis_ruby'
+
 def create_repository(id)
   meta = UpnxtStorageLibCmisRuby::Model::Service.repository('meta')
   f = meta.new_folder

@@ -1,6 +1,3 @@
-require_relative 'object'
-require_relative 'services'
-
 module UpnxtStorageLibCmisRuby
   module Model
     class Document < Object
@@ -21,7 +18,7 @@ module UpnxtStorageLibCmisRuby
       attr_reader :content_stream_id
 
       def initialize(repository_id, raw={})
-        super(repository_id, raw)
+        super
         @is_immutable = @properties[:'cmis:isImmutable']
         @is_latest_version = @properties[:'cmis:isLatestVersion']
         @is_major_version = @properties[:'cmis:isMajorVersion']
@@ -45,7 +42,7 @@ module UpnxtStorageLibCmisRuby
       end
 
       def content
-        Services.object.get_content_stream(repository_id, object_id, nil, nil, nil)
+        UpnxtStorageLibCmisRuby::Services.object.get_content_stream(repository_id, object_id, nil, nil, nil)
       end
 
       def set_content(stream, mime_type, filename)
@@ -53,12 +50,12 @@ module UpnxtStorageLibCmisRuby
         if detached?
           @local_content = content
         else
-          Services.object.set_content_stream(repository_id, object_id, nil, nil, content)
+          UpnxtStorageLibCmisRuby::Services.object.set_content_stream(repository_id, object_id, nil, nil, content)
         end
       end
 
       def create_in_folder(folder_id)
-        hash = Services.object.create_document(repository_id, create_properties, folder_id, @local_content, nil, nil, nil, nil)
+        hash = UpnxtStorageLibCmisRuby::Services.object.create_document(repository_id, create_properties, folder_id, @local_content, nil, nil, nil, nil)
         ObjectFactory.create(repository_id, hash)
       end
     end
