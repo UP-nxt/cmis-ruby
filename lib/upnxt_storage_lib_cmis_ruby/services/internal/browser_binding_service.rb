@@ -44,7 +44,25 @@ module UpnxtStorageLibCmisRuby
           end
         end
 
+        def check(hash)
+          # maxItems integer
+          # skipcount integer
+          # filter nil / cs list (array) / *
+          # includeRelationships none source target both
+          # includePolicyIds boolean
+          # renditionFilter TODO
+          # includeACL boolean
+          # includeAllowableActions boolean
+          # orderBy cs list (+ ASC/DESC)
+        end
+
         def transform_hash(hash)
+          if hash.has_key?(:content)
+            content = hash.delete(:content)
+            hash[:content] = UploadIO.new(content[:stream],
+                                          content[:mime_type],
+                                          content[:filename])
+          end
           if hash.has_key?(:properties)
             props = hash.delete(:properties)
             if props.is_a?(Hash)
