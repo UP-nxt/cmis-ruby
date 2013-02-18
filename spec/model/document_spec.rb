@@ -1,6 +1,6 @@
 require_relative '../helper'
 
-describe UpnxtStorageLibCmisRuby::Model::Document do
+describe YACCL::Model::Document do
 
   before :all do
     @repo = create_repository('test_document')

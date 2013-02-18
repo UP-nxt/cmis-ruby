@@ -1,4 +1,4 @@
-module UpnxtStorageLibCmisRuby
+module YACCL
   module Model
     class ObjectFactory
       def self.create(repository_id, raw)

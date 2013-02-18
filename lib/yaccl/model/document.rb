@@ -1,4 +1,4 @@
-module UpnxtStorageLibCmisRuby
+module YACCL
   module Model
     class Document < Object
       attr_reader :is_immutable
@@ -37,12 +37,12 @@ module UpnxtStorageLibCmisRuby
       end
 
       def copy_in_folder(folder)
-        new_object_id = Services.object.create_document_from_source(repository_id, object_id, nil, folder.object_id, nil, nil, nil, nil)
+        new_object_id = Services.create_document_from_source(repository_id, object_id, nil, folder.object_id, nil, nil, nil, nil)
         repository.object(new_object_id)
       end
 
       def content
-        Services.object.get_content_stream(repository_id, object_id, nil, nil, nil)
+        Services.get_content_stream(repository_id, object_id, nil, nil, nil)
       end
 
       def set_content(stream, mime_type, filename)
@@ -50,12 +50,12 @@ module UpnxtStorageLibCmisRuby
         if detached?
           @local_content = content
         else
-          Services.object.set_content_stream(repository_id, object_id, nil, nil, content)
+          Services.set_content_stream(repository_id, object_id, nil, nil, content)
         end
       end
 
       def create_in_folder(folder_id)
-        hash = Services.object.create_document(repository_id, create_properties, folder_id, @local_content, nil, nil, nil, nil)
+        hash = Services.create_document(repository_id, create_properties, folder_id, @local_content, nil, nil, nil, nil)
         ObjectFactory.create(repository_id, hash)
       end
     end

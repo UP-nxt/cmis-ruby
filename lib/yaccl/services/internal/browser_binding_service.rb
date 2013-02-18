@@ -2,7 +2,7 @@ require 'httparty'
 require 'net/http/post/multipart'
 require 'multi_json'
 
-module UpnxtStorageLibCmisRuby
+module YACCL
   module Services
     class CMISRequestError < RuntimeError; end
 

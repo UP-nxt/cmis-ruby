@@ -1,4 +1,4 @@
-module UpnxtStorageLibCmisRuby
+module YACCL
   module Model
     class Type
       attr_accessor :id

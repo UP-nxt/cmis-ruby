@@ -1,8 +1,8 @@
-require 'upnxt_storage_lib_cmis_ruby'
+require 'yaccl'
 
-repository = UpnxtStorageLibCmisRuby::Model::Service.repository('blueprint')
+repository = YACCL::Model::Service.repository('blueprint')
 
-type = UpnxtStorageLibCmisRuby::Model::Type.new
+type = YACCL::Model::Type.new
 type.id = 'apple'
 type.local_name = 'apple'
 type.query_name = 'apple'

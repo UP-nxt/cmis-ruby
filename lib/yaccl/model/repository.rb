@@ -1,4 +1,4 @@
-module UpnxtStorageLibCmisRuby
+module YACCL
   module Model
     class Repository
       attr_reader :id
@@ -62,17 +62,17 @@ module UpnxtStorageLibCmisRuby
       # object
 
       def root
-        ObjectFactory.create(id, Services.object.get_object(id, root_folder_id, nil, false, nil, nil, false, false))
+        ObjectFactory.create(id, Services.get_object(id, root_folder_id, nil, false, nil, nil, false, false))
       end
 
       def object(object_id)
-        ObjectFactory.create(id, Services.object.get_object(id, object_id, nil, false, nil, nil, false, false))
+        ObjectFactory.create(id, Services.get_object(id, object_id, nil, false, nil, nil, false, false))
       end
 
       # type
 
       def type(type_id)
-        Type.create(Services.repository.get_type_definition(id, type_id))
+        Type.create(Services.get_type_definition(id, type_id))
       end
 
       def type_tree
@@ -80,27 +80,27 @@ module UpnxtStorageLibCmisRuby
       end
 
       def create_type(type)
-        Type.create(Services.repository.create_type(id, type.to_hash))
+        Type.create(Services.create_type(id, type.to_hash))
       end
 
       def update_type(type)
-        Type.create(Services.repository.update_type(id, type.to_hash))
+        Type.create(Services.update_type(id, type.to_hash))
       end
 
       def delete_type(type_id)
-        Services.repository.delete_type(id, type_id)
+        Services.delete_type(id, type_id)
       end
 
       # discovery
 
       def query(statement)
-        Services.discovery.query(id, statement, false, nil, nil, nil, nil, nil).map do |o|
+        Services.query(id, statement, false, nil, nil, nil, nil, nil).map do |o|
           ObjectFactory.create(id, o)
         end
       end
 
       def content_changes(change_log_token)
-        Services.discovery.get_content_changes(id, change_log_token, nil, nil, nil, nil)
+        Services.get_content_changes(id, change_log_token, nil, nil, nil, nil)
       end
     end
   end

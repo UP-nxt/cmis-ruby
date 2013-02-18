@@ -1,7 +1,7 @@
-require 'upnxt_storage_lib_cmis_ruby'
+require 'yaccl'
 
 def create_repository(id)
-  meta = UpnxtStorageLibCmisRuby::Model::Service.repository('meta')
+  meta = YACCL::Model::Service.repository('meta')
   f = meta.new_folder
   f.name = id
   f.object_type_id = 'repository'
@@ -9,10 +9,10 @@ def create_repository(id)
   f.properties['supportsPolicies'] = true
   f.properties['supportsItem'] = true
   meta.root.create(f)
-  UpnxtStorageLibCmisRuby::Model::Service.repository(id)
+  YACCL::Model::Service.repository(id)
 end
 
 def delete_repository(id)
-  meta = UpnxtStorageLibCmisRuby::Model::Service.repository('meta')
+  meta = YACCL::Model::Service.repository('meta')
   meta.object(id).delete
 end

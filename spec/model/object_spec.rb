@@ -1,6 +1,6 @@
 require_relative '../helper'
 
-describe UpnxtStorageLibCmisRuby::Model::Object do
+describe YACCL::Model::Object do
 
   before :all do
     @repo = create_repository('test_object')
@@ -12,14 +12,14 @@ describe UpnxtStorageLibCmisRuby::Model::Object do
 
   it 'repository' do
     doc = create_document
-    doc.repository.should be_a_kind_of UpnxtStorageLibCmisRuby::Model::Repository
+    doc.repository.should be_a_kind_of YACCL::Model::Repository
     doc.repository.id.should eq 'test_object'
     doc.delete
   end
 
   it 'object_type' do
     doc = create_document
-    doc.object_type.should be_a_kind_of UpnxtStorageLibCmisRuby::Model::Type
+    doc.object_type.should be_a_kind_of YACCL::Model::Type
     doc.object_type.id.should eq 'cmis:document'
     doc.delete
   end
@@ -47,7 +47,7 @@ describe UpnxtStorageLibCmisRuby::Model::Object do
     rels.should have_key :hasMoreItems
     rels.should have_key :numItems
     rels[:objects].each do |r|
-      r.should be_a_kind_of UpnxtStorageLibCmisRuby::Model::Relationship
+      r.should be_a_kind_of YACCL::Model::Relationship
     end
     doc.delete
   end
@@ -57,7 +57,7 @@ describe UpnxtStorageLibCmisRuby::Model::Object do
     pols = doc.policies
     pols.should_not be_nil
     pols.each do |p|
-      p.should be_a_kind_of UpnxtStorageLibCmisRuby::Model::Policy
+      p.should be_a_kind_of YACCL::Model::Policy
     end
     doc.delete
   end

@@ -1,13 +1,13 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
-require "upnxt_storage_lib_cmis_ruby"
+require 'yaccl'
 
 Gem::Specification.new do |s|
-  s.name = 'upnxt_storage_lib_cmis_ruby'
-  s.version = UpnxtStorageLibCmisRuby::VERSION
+  s.name = 'yaccl'
+  s.version = YACCL::VERSION
   s.platform = Gem::Platform::RUBY
   s.authors = ['Kenneth', 'Michael']
-  s.email = ['gem@upnxt.com']
+  s.email = ['kenneth@up-nxt.com']
   s.homepage = 'http://www.up-nxt.com'
   s.summary = 'Ruby CMIS browser binding client lib.'
   s.description = 'Ruby CMIS browser binding client lib.'

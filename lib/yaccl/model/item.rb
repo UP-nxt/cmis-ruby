@@ -1,4 +1,4 @@
-module UpnxtStorageLibCmisRuby
+module YACCL
   module Model
     class Item < Object
       def initialize(repository_id, raw={})
