@@ -30,7 +30,7 @@ module UpnxtStorageLibCmisRuby
                     repositoryId: repository_id}
         optional = {typeId: type_id,
                     depth: depth,
-                    includePropertyDefinitions: true}
+                    includePropertyDefinitions: include_property_definitions}
         @service.perform_request(required, optional)
       end
 

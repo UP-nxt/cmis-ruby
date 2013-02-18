@@ -9,11 +9,11 @@ module UpnxtStorageLibCmisRuby
       end
 
       def apply_to(object)
-        UpnxtStorageLibCmisRuby::Services.policy.apply_policy(repository_id, object_id, object.object_id)
+        Services.policy.apply_policy(repository_id, object_id, object.object_id)
       end
 
       def remove_from(object)
-        UpnxtStorageLibCmisRuby::Services.policy.remove_policy(repository_id, object_id, object.object_id)
+        Services.policy.remove_policy(repository_id, object_id, object.object_id)
       end
     end
   end

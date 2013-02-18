@@ -42,7 +42,7 @@ module UpnxtStorageLibCmisRuby
       end
 
       def content
-        UpnxtStorageLibCmisRuby::Services.object.get_content_stream(repository_id, object_id, nil, nil, nil)
+        Services.object.get_content_stream(repository_id, object_id, nil, nil, nil)
       end
 
       def set_content(stream, mime_type, filename)
@@ -50,12 +50,12 @@ module UpnxtStorageLibCmisRuby
         if detached?
           @local_content = content
         else
-          UpnxtStorageLibCmisRuby::Services.object.set_content_stream(repository_id, object_id, nil, nil, content)
+          Services.object.set_content_stream(repository_id, object_id, nil, nil, content)
         end
       end
 
       def create_in_folder(folder_id)
-        hash = UpnxtStorageLibCmisRuby::Services.object.create_document(repository_id, create_properties, folder_id, @local_content, nil, nil, nil, nil)
+        hash = Services.object.create_document(repository_id, create_properties, folder_id, @local_content, nil, nil, nil, nil)
         ObjectFactory.create(repository_id, hash)
       end
     end

@@ -40,15 +40,15 @@ module UpnxtStorageLibCmisRuby
       end
 
       def delete
-        UpnxtStorageLibCmisRuby::Services.object.delete_object(repository_id, object_id, true)
+        Services.object.delete_object(repository_id, object_id, true)
       end
 
       def allowable_actions
-        UpnxtStorageLibCmisRuby::Services.object.get_allowable_actions(repository_id, object_id)
+        Services.object.get_allowable_actions(repository_id, object_id)
       end
 
       def relationships(direction = 'either')
-        result = UpnxtStorageLibCmisRuby::Services.relationship.get_object_relationships(repository_id, object_id, nil, direction, nil, nil, false, nil, nil)
+        result = Services.relationship.get_object_relationships(repository_id, object_id, nil, direction, nil, nil, false, nil, nil)
         result[:objects] = result[:objects].map do |r|
           Relationship.create(repository_id, r)
         end
@@ -56,27 +56,27 @@ module UpnxtStorageLibCmisRuby
       end
 
       def policies
-        UpnxtStorageLibCmisRuby::Services.policy.get_applied_policies(repository_id, object_id, nil).map do |policy|
+        Services.policy.get_applied_policies(repository_id, object_id, nil).map do |policy|
           Policy.create(repository_id, policy)
         end
       end
 
       # remove from all folders
       def unfile
-        UpnxtStorageLibCmisRuby::Services.multi_filing.remove_object_from_folder(repository_id, object_id, nil)
+        Services.multi_filing.remove_object_from_folder(repository_id, object_id, nil)
       end
 
 
       def acls
-        UpnxtStorageLibCmisRuby::Services.acl.get_acl(repository_id, object_id, nil)
+        Services.acl.get_acl(repository_id, object_id, nil)
       end
 
       def add_aces(aces)
-        UpnxtStorageLibCmisRuby::Services.acl.apply_acl(repository_id, object_id, aces, nil, nil)
+        Services.acl.apply_acl(repository_id, object_id, aces, nil, nil)
       end
 
       def remove_aces(aces)
-        UpnxtStorageLibCmisRuby::Services.acl.apply_acl(repository_id, object_id, nil, aces, nil)
+        Services.acl.apply_acl(repository_id, object_id, nil, aces, nil)
       end
 
       protected

@@ -24,7 +24,7 @@ module UpnxtStorageLibCmisRuby
       end
 
       def children
-        UpnxtStorageLibCmisRuby::Services.navigation.get_children(repository_id, object_id, nil, nil, nil, nil, nil, nil, nil, nil).map do |o|
+        Services.navigation.get_children(repository_id, object_id, nil, nil, nil, nil, nil, nil, nil, nil).map do |o|
           ObjectFactory.create(repository_id, o)
         end
       end
@@ -35,15 +35,15 @@ module UpnxtStorageLibCmisRuby
       def create(object)
         properties = object.create_properties
         if object.is_a? Folder
-          o = UpnxtStorageLibCmisRuby::Services.object.create_folder(repository_id, properties, object_id, nil, nil, nil)
+          o = Services.object.create_folder(repository_id, properties, object_id, nil, nil, nil)
         elsif object.is_a? Document
           return object.create_in_folder(object_id)
         elsif object.is_a? Relationship
           raise 'relationship is not fileable'
         elsif object.is_a? Policy
-          o = UpnxtStorageLibCmisRuby::Services.object.create_policy(repository_id, properties, object_id, nil, nil, nil)
+          o = Services.object.create_policy(repository_id, properties, object_id, nil, nil, nil)
         elsif object.is_a? Item
-          o = UpnxtStorageLibCmisRuby::Services.object.create_item(repository_id, properties, object_id, nil, nil, nil)
+          o = Services.object.create_item(repository_id, properties, object_id, nil, nil, nil)
         else
           raise "Unexpected base_type_id: #{object.base_type_id}"
         end
@@ -51,15 +51,15 @@ module UpnxtStorageLibCmisRuby
       end
 
       def delete_tree
-        UpnxtStorageLibCmisRuby::Services.object.delete_tree(repository_id, object_id, true, false, false)
+        Services.object.delete_tree(repository_id, object_id, true, false, false)
       end
 
       def add(object)
-        UpnxtStorageLibCmisRuby::Services.multi_filing.add_object_to_folder(repository_id, object.object_id, object_id, nil)
+        Services.multi_filing.add_object_to_folder(repository_id, object.object_id, object_id, nil)
       end
 
       def remove(object)
-        UpnxtStorageLibCmisRuby::Services.multi_filing.remove_object_from_folder(repository_id, object.object_id, object_id)
+        Services.multi_filing.remove_object_from_folder(repository_id, object.object_id, object_id)
       end
     end
   end

@@ -11,11 +11,11 @@ module UpnxtStorageLibCmisRuby
       end
 
       def source
-        Object.create(UpnxtStorageLibCmisRuby::Services.object.get_object(repository_id, source_id, nil, false, false, nil, false, false))
+        Object.create(Services.object.get_object(repository_id, source_id, nil, false, false, nil, false, false))
       end
 
       def target
-        Object.create(UpnxtStorageLibCmisRuby::Services.object.get_object(repository_id, target_id, nil, false, false, nil, false, false))
+        Object.create(Services.object.get_object(repository_id, target_id, nil, false, false, nil, false, false))
       end
     end
   end
