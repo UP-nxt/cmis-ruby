@@ -4,6 +4,8 @@ require 'multi_json'
 
 module UpnxtStorageLibCmisRuby
   module Services
+    class CMISRequestError < RuntimeError; end
+
     module Internal
       class BrowserBindingService
         def initialize(service_url)
@@ -26,11 +28,14 @@ module UpnxtStorageLibCmisRuby
             Basement.get(url, query: params)
           end
 
+          result = response.body
           if response.content_type == 'application/json'
-            MultiJson.load(response.body, symbolize_keys: true)
-          else
-            response.body
+            result = MultiJson.load(result, symbolize_keys: true)
+            if result.is_a?(Hash) && result.has_key?(:exception)
+              raise CMISRequestError, "#{result[:exception]} -- #{result[:message]}"
+            end
           end
+          result
         end
 
         private
