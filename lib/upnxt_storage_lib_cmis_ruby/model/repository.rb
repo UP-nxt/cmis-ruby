@@ -62,11 +62,11 @@ module UpnxtStorageLibCmisRuby
       # object
 
       def root
-        ObjectFactory.create(id, Services.object.get_object(id, root_folder_id, nil, false, 'none', nil, false, false))
+        ObjectFactory.create(id, Services.object.get_object(id, root_folder_id, nil, false, nil, nil, false, false))
       end
 
       def object(object_id)
-        ObjectFactory.create(id, Services.object.get_object(id, object_id, nil, false, 'none', nil, false, false))
+        ObjectFactory.create(id, Services.object.get_object(id, object_id, nil, false, nil, nil, false, false))
       end
 
       # type

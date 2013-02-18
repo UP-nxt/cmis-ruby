@@ -18,6 +18,8 @@ module UpnxtStorageLibCmisRuby
           optional_params.reject! { |_, v| v.nil? }
           params = transform_hash(required_params.merge(optional_params))
 
+          check(params)
+
           response = if params.has_key?(:cmisaction)
             if params.has_key?(:content)
               Basement.multipart_post(url, params)
@@ -50,15 +52,16 @@ module UpnxtStorageLibCmisRuby
         end
 
         def check(hash)
-          # maxItems integer
-          # skipcount integer
-          # filter nil / cs list (array) / *
-          # includeRelationships none source target both
-          # includePolicyIds boolean
-          # renditionFilter TODO
-          # includeACL boolean
-          # includeAllowableActions boolean
-          # orderBy cs list (+ ASC/DESC)
+          check_in(hash, :includeRelationships, [:none, :source, :target, :both])
+        end
+
+        def check_in(hash, key, arr)
+          value = hash[key]
+          unless value.nil?
+            unless arr.include?(value)
+              raise ArgumentError, "#{key} must be one of #{arr}."
+            end
+          end
         end
 
         def transform_hash(hash)
