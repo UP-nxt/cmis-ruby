@@ -1,6 +1,6 @@
 require 'yaccl'
 
-repository = YACCL::Model::Service.repository('blueprint')
+repository = YACCL::Model::Server.repository('blueprint')
 
 type = YACCL::Model::Type.new
 type.id = 'apple'

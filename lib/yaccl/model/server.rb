@@ -1,10 +1,8 @@
 module YACCL
   module Model
-    class Service
+    class Server
       def self.repositories
-        Services.get_repositories.values.map do |repository|
-          Repository.create(repository)
-        end
+        Services.get_repositories.values.map { |r| Repository.create(r) }
       end
 
       def self.repository(repository_id)

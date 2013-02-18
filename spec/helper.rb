@@ -1,7 +1,7 @@
 require 'yaccl'
 
 def create_repository(id)
-  meta = YACCL::Model::Service.repository('meta')
+  meta = YACCL::Model::Server.repository('meta')
   f = meta.new_folder
   f.name = id
   f.object_type_id = 'repository'
@@ -9,10 +9,10 @@ def create_repository(id)
   f.properties['supportsPolicies'] = true
   f.properties['supportsItem'] = true
   meta.root.create(f)
-  YACCL::Model::Service.repository(id)
+  YACCL::Model::Server.repository(id)
 end
 
 def delete_repository(id)
-  meta = YACCL::Model::Service.repository('meta')
+  meta = YACCL::Model::Server.repository('meta')
   meta.object(id).delete
 end

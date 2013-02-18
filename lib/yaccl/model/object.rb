@@ -32,7 +32,7 @@ module YACCL
       end
 
       def repository
-        Service.repository(repository_id)
+        Server.repository(repository_id)
       end
 
       def object_type
@@ -49,9 +49,7 @@ module YACCL
 
       def relationships(direction = 'either')
         result = Services.get_object_relationships(repository_id, object_id, nil, direction, nil, nil, false, nil, nil)
-        result[:objects] = result[:objects].map do |r|
-          Relationship.create(repository_id, r)
-        end
+        result[:objects] = result[:objects].map { |r| Relationship.create(repository_id, r) }
         result
       end
 
@@ -65,7 +63,6 @@ module YACCL
       def unfile
         Services.remove_object_from_folder(repository_id, object_id, nil)
       end
-
 
       def acls
         Services.get_acl(repository_id, object_id, nil)
@@ -82,8 +79,7 @@ module YACCL
       protected
 
       def create_properties
-        props = {'cmis:name' => name, 'cmis:objectTypeId' => object_type_id}
-        props.merge(properties)
+        {'cmis:name' => name, 'cmis:objectTypeId' => object_type_id}.merge(properties)
       end
 
       def detached?

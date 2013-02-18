@@ -5,7 +5,7 @@ describe YACCL::Model::Repository do
   context 'generic' do
     before do
       @id = 'meta'
-      @repo = YACCL::Model::Service.repository(@id)
+      @repo = YACCL::Model::Server.repository(@id)
     end
 
     it 'id' do
@@ -110,20 +110,18 @@ describe YACCL::Model::Repository do
       type.content_stream_allowed = 'allowed'
       type.versionable = false
 
-      type.add_property_definition(
-        id: 'color',
-        localName: 'color',
-        queryName: 'color',
-        displayName: 'color',
-        description: 'color',
-        propertyType: 'string',
-        cardinality: 'single',
-        updatability: 'readwrite',
-        inherited: false,
-        required: false,
-        queryable: true,
-        orderable: true
-      )
+      type.add_property_definition(id: 'color',
+                                   localName: 'color',
+                                   queryName: 'color',
+                                   displayName: 'color',
+                                   description: 'color',
+                                   propertyType: 'string',
+                                   cardinality: 'single',
+                                   updatability: 'readwrite',
+                                   inherited: false,
+                                   required: false,
+                                   queryable: true,
+                                   orderable: true)
 
       @repo.create_type(type)
       @repo.type(type_id).tap do |t|
