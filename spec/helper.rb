@@ -1,5 +1,7 @@
 require 'yaccl'
 
+YACCL.init('http://localhost:8080/upncmis/browser')
+
 def create_repository(id)
   meta = YACCL::Model::Server.repository('meta')
   f = meta.new_folder
@@ -13,6 +15,5 @@ def create_repository(id)
 end
 
 def delete_repository(id)
-  meta = YACCL::Model::Server.repository('meta')
-  meta.object(id).delete
+  YACCL::Model::Server.repository('meta').object(id).delete
 end

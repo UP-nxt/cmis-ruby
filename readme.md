@@ -10,11 +10,11 @@ Running the tests requires a running CMIS server.
 
 ## TODO
 
-* caching!!!
+* caching
+* complete model( (update) properties)
 * (type) check service input
 * config object (basic auth, succint property…)
 * expand tests to services
-* complete model
 
 ## Contributing
 

@@ -47,7 +47,7 @@ module YACCL
         Services.get_allowable_actions(repository_id, object_id)
       end
 
-      def relationships(direction = 'either')
+      def relationships(direction='either')
         result = Services.get_object_relationships(repository_id, object_id, nil, direction, nil, nil, false, nil, nil)
         result[:objects] = result[:objects].map { |r| Relationship.create(repository_id, r) }
         result

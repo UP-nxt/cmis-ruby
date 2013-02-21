@@ -11,11 +11,10 @@ require 'yaccl/services/acl_services'
 
 module YACCL
   module Services
-    @service = Internal::BrowserBindingService.new('http://localhost:8080/upncmis/browser')
-
     class << self
       def perform_request(*params)
-        @service.perform_request(*params)
+        service = Internal::BrowserBindingService.new(YACCL::SERVICE_URL)
+        service.perform_request(*params)
       end
 
       include RepositoryServices

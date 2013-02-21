@@ -76,7 +76,6 @@ module YACCL
       end
 
       def type_tree
-
       end
 
       def create_type(type)
