@@ -13,7 +13,7 @@ module YACCL
       attr_reader :last_modified_by
       attr_reader :last_modification_date
       attr_reader :change_token
-      attr_reader :properties
+      attr_accessor :properties
 
       def initialize(repository_id, raw={})
         @repository_id = repository_id
@@ -41,6 +41,10 @@ module YACCL
 
       def delete
         Services.delete_object(repository_id, object_id, true)
+      end
+
+      def parents
+        Services.get_object_parents(repository_id, object_id, nil, nil, nil, nil, nil)
       end
 
       def allowable_actions

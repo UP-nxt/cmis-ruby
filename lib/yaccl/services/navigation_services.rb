@@ -45,7 +45,7 @@ module YACCL
       required = {cmisselector: 'parent',
                   repositoryId: repository_id,
                   objectId: folder_id}
-      optional = {filter:filter}
+      optional = {filter: filter}
       perform_request(required, optional)
     end
 
@@ -57,7 +57,7 @@ module YACCL
                   includeAllowableActions: include_allowable_actions,
                   includeRelationships: include_relationships,
                   renditionFilter: rendition_filter,
-                  includePathSegment: include_path_segment}
+                  includeRelativePathSegment: include_relative_path_segment}
       perform_request(required, optional)
     end
 

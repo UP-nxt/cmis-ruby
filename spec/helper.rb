@@ -1,4 +1,5 @@
 require 'yaccl'
+require 'json'
 
 YACCL.init('http://localhost:8080/upncmis/browser')
 
