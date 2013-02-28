@@ -1,6 +1,7 @@
 module YACCL
   module Model
     class Type
+      attr_reader :repository_id
       attr_accessor :id
       attr_accessor :local_name
       attr_accessor :local_namespace
@@ -24,11 +25,13 @@ module YACCL
       attr_accessor :allowed_source_types
       attr_accessor :allowed_target_types
 
-      def self.create(raw)
-        Type.new(raw)
+      def self.create(repository_id, raw)
+        Type.new(repository_id, raw)
       end
 
-      def initialize(hash={})
+      def initialize(repository_id, hash={})
+        @repository_id = repository_id
+
         @id = hash[:id]
         @local_name = hash[:localName]
         @local_namespace = hash[:localNamespace]
@@ -55,6 +58,25 @@ module YACCL
 
       def add_property_definition(property)
         @property_definitions[property[:id]] = property
+      end
+
+      def new_object
+        object = case base_id
+        when 'cmis:document'
+          Document.new(repository_id)
+        when 'cmis:folder'
+          Folder.new(repository_id)
+        when 'cmis:relationship'
+          Relationship.new(repository_id)
+        when 'cmis:policy'
+          Policy.new(repository_id)
+        when 'cmis:item'
+          Item.new(repository_id)
+        else
+          raise "Unsupported base type: #{base_id}"
+        end
+        object.object_type_id = id
+        object
       end
 
       def to_hash

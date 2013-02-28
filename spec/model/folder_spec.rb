@@ -55,13 +55,15 @@ describe YACCL::Model::Folder do
   end
 
   it 'create item' do
-    new_object = @repo.new_item
-    new_object.name = 'item1'
-    new_object.object_type_id = 'cmis:item'
-    object = @repo.root.create(new_object)
-    object.should be_a_kind_of YACCL::Model::Item
-    object.name.should eq 'item1'
-    object.delete
+    begin
+      new_object = @repo.new_item
+      new_object.name = 'item1'
+      new_object.object_type_id = 'cmis:item'
+      object = @repo.root.create(new_object)
+      object.should be_a_kind_of YACCL::Model::Item
+      object.name.should eq 'item1'
+      object.delete
+    end unless @repo.cmis_version_supported < '1.1'
   end
 
   it 'create object' do

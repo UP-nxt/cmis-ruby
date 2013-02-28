@@ -72,7 +72,7 @@ module YACCL
       # type
 
       def type(type_id)
-        Type.create(Services.get_type_definition(id, type_id))
+        Type.create(id, Services.get_type_definition(id, type_id))
       end
 
       def types
@@ -81,11 +81,11 @@ module YACCL
 
 
       def create_type(type)
-        Type.create(Services.create_type(id, type.to_hash))
+        Type.create(id, Services.create_type(id, type.to_hash))
       end
 
       def update_type(type)
-        Type.create(Services.update_type(id, type.to_hash))
+        Type.create(id, Services.update_type(id, type.to_hash))
       end
 
       def delete_type(type_id)
@@ -109,7 +109,7 @@ module YACCL
       def _types(arr)
         types = []
         arr.each do |t|
-          types << Type.create(t[:type])
+          types << Type.create(id, t[:type])
           types << _types(t[:children]) if t.has_key?(:children)
         end
         types.flatten

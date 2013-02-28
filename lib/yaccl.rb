@@ -1,5 +1,5 @@
 module YACCL
-  VERSION = '0.0.2'
+  VERSION = '0.0.3'
 
   def self.init(url)
     YACCL.const_set('SERVICE_URL', url)

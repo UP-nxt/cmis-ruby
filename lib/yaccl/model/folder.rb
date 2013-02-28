@@ -24,8 +24,11 @@ module YACCL
       end
 
       def children
-        Services.get_children(repository_id, object_id, nil, nil, nil, nil, nil, nil, nil, nil)[:objects].map do |o|
-          ObjectFactory.create(repository_id, o[:object])
+        children = Services.get_children(repository_id, object_id, nil, nil, nil, nil, nil, nil, nil, nil)
+        if children.has_key?(:objects)
+          children[:objects].map { |o| ObjectFactory.create(repository_id, o[:object]) }
+        else
+          []
         end
       end
 

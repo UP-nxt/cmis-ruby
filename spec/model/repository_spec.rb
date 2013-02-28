@@ -84,51 +84,55 @@ describe YACCL::Model::Repository do
     end
 
     it 'type - item' do
-      item = @repo.type('cmis:item')
-      item.should be_a_kind_of YACCL::Model::Type
-      item.id.should eq 'cmis:item'
+      begin
+        item = @repo.type('cmis:item')
+        item.should be_a_kind_of YACCL::Model::Type
+        item.id.should eq 'cmis:item'
+      end unless @repo.cmis_version_supported < '1.1'
     end
 
     it 'create, get, delete type - document' do
-      type_id = 'apple'
+      begin
+        type_id = 'apple'
 
-      type = YACCL::Model::Type.new
-      type.id = type_id
-      type.local_name = 'apple'
-      type.query_name = 'apple'
-      type.display_name = 'apple'
-      type.parent_id = 'cmis:document'
-      type.base_id = 'cmis:document'
-      type.description = 'appel'
-      type.creatable = true
-      type.fileable = true
-      type.queryable = true
-      type.controllable_policy = true
-      type.controllable_acl = true
-      type.fulltext_indexed = true
-      type.included_in_supertype_query = true
-      type.content_stream_allowed = 'allowed'
-      type.versionable = false
+        type = YACCL::Model::Type.new
+        type.id = type_id
+        type.local_name = 'apple'
+        type.query_name = 'apple'
+        type.display_name = 'apple'
+        type.parent_id = 'cmis:document'
+        type.base_id = 'cmis:document'
+        type.description = 'appel'
+        type.creatable = true
+        type.fileable = true
+        type.queryable = true
+        type.controllable_policy = true
+        type.controllable_acl = true
+        type.fulltext_indexed = true
+        type.included_in_supertype_query = true
+        type.content_stream_allowed = 'allowed'
+        type.versionable = false
 
-      type.add_property_definition(id: 'color',
-                                   localName: 'color',
-                                   queryName: 'color',
-                                   displayName: 'color',
-                                   description: 'color',
-                                   propertyType: 'string',
-                                   cardinality: 'single',
-                                   updatability: 'readwrite',
-                                   inherited: false,
-                                   required: false,
-                                   queryable: true,
-                                   orderable: true)
+        type.add_property_definition(id: 'color',
+                                     localName: 'color',
+                                     queryName: 'color',
+                                     displayName: 'color',
+                                     description: 'color',
+                                     propertyType: 'string',
+                                     cardinality: 'single',
+                                     updatability: 'readwrite',
+                                     inherited: false,
+                                     required: false,
+                                     queryable: true,
+                                     orderable: true)
 
-      @repo.create_type(type)
-      @repo.type(type_id).tap do |t|
-        t.should be_a_kind_of YACCL::Model::Type
-        t.id.should eq type_id
-      end
-      @repo.delete_type(type_id)
+        @repo.create_type(type)
+        @repo.type(type_id).tap do |t|
+          t.should be_a_kind_of YACCL::Model::Type
+          t.id.should eq type_id
+        end
+        @repo.delete_type(type_id)
+      end unless @repo.cmis_version_supported < '1.1'
     end
   end
 end

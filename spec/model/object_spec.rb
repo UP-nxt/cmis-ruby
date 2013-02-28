@@ -27,7 +27,7 @@ describe YACCL::Model::Object do
   it 'delete' do
     doc = create_document
     doc.delete
-    #TODO check
+    # TODO check
   end
 
   it 'allowable actions' do
