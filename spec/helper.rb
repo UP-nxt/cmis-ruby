@@ -23,7 +23,3 @@ end
 def delete_repository(id)
   YACCL::Model::Server.repository('meta').object(id).delete
 end
-
-repo = create_repository('lala')
-puts repo.capabilities
-delete_repository('lala')
