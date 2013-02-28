@@ -3,7 +3,7 @@ require_relative '../helper'
 describe YACCL::RepositoryServices do
 
   before :all do
-    create_repository('testrepo')
+    @repo = create_repository('testrepo')
   end
 
   after :all do
@@ -23,4 +23,13 @@ describe YACCL::RepositoryServices do
     repo = repos[:testrepo]
     repo[:repositoryId].should eq 'testrepo'
   end
+
+  it 'get meta repo type descendants' do
+    descendants = YACCL::Services.get_type_descendants('meta', nil, nil, nil)
+  end
+
+  it 'get type descendants' do
+    descendants = YACCL::Services.get_type_descendants('testrepo', nil, nil, nil)
+  end
+
 end

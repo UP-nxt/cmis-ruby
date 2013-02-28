@@ -24,8 +24,9 @@ module YACCL
     def create_document(repository_id, properties, folder_id, content, versioning_state, policies, add_aces, remove_aces, extension={})
       required = {cmisaction: 'createDocument',
                   repositoryId: repository_id,
-                  properties: properties}
-      optional = {objectId: folder_id,
+                  properties: properties,
+                  objectId: folder_id}
+      optional = {folderId: folder_id,
                   content: content,
                   versioningState: versioning_state,
                   policies: policies,

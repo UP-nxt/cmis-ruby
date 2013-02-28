@@ -3,11 +3,11 @@ require_relative '../helper'
 describe YACCL::Model::Document do
 
   before :all do
-    @repo = create_repository('test_document')
+    @repo = create_repository('test')
   end
 
   after :all do
-    delete_repository('test_document')
+    delete_repository('test')
   end
 
   it 'create_in_folder with content' do
@@ -29,6 +29,7 @@ describe YACCL::Model::Document do
     new_object.object_type_id = 'cmis:document'
     doc = new_object.create_in_folder(@repo.root_folder_id)
     doc.name.should eq 'doc2'
+    doc.content.should be nil
     doc.delete
   end
 

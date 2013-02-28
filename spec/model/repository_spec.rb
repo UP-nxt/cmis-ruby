@@ -64,11 +64,11 @@ describe YACCL::Model::Repository do
 
   context 'upn' do
     before :all do
-      @repo = create_repository('test_repository')
+      @repo = create_repository('testrepository')
     end
 
     after :all do
-      delete_repository('test_repository')
+      delete_repository('testrepository')
     end
 
     it 'type - relationship' do

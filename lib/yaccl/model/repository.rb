@@ -75,8 +75,10 @@ module YACCL
         Type.create(Services.get_type_definition(id, type_id))
       end
 
-      def type_tree
+      def types
+        _types(Services.get_type_descendants(id, nil, nil, nil))
       end
+
 
       def create_type(type)
         Type.create(Services.create_type(id, type.to_hash))
@@ -93,13 +95,24 @@ module YACCL
       # discovery
 
       def query(statement)
-        Services.query(id, statement, false, nil, nil, nil, nil, nil).map do |o|
+        Services.query(id, statement, false, nil, nil, nil, nil, nil)[:results].map do |o|
           ObjectFactory.create(id, o)
         end
       end
 
       def content_changes(change_log_token)
         Services.get_content_changes(id, change_log_token, nil, nil, nil, nil)
+      end
+
+      private
+
+      def _types(arr)
+        types = []
+        arr.each do |t|
+          types << Type.create(t[:type])
+          types << _types(t[:children]) if t.has_key?(:children)
+        end
+        types.flatten
       end
     end
   end

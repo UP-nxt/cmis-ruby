@@ -42,7 +42,11 @@ module YACCL
       end
 
       def content
-        Services.get_content_stream(repository_id, object_id, nil, nil, nil)
+        begin
+          Services.get_content_stream(repository_id, object_id, nil, nil, nil)
+        rescue Services::CMISRequestError
+          nil
+        end
       end
 
       def set_content(stream, mime_type, filename)

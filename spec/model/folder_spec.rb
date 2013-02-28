@@ -3,11 +3,11 @@ require_relative '../helper'
 describe YACCL::Model::Folder do
 
   before :all do
-    @repo = create_repository('test_folder')
+    @repo = create_repository('test')
   end
 
   after :all do
-    delete_repository('test_folder')
+    delete_repository('test')
   end
 
   it 'parent - root' do

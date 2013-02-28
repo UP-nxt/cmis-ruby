@@ -18,6 +18,10 @@ module YACCL
       def initialize(repository_id, raw={})
         @repository_id = repository_id
         @properties = get_properties_map(raw)
+
+        @properties[:'cmis:creationDate'] = Time.at(@properties[:'cmis:creationDate'] / 1000) unless @properties[:'cmis:creationDate'].nil?
+        @properties[:'cmis:lastModificationDate'] = Time.at(@properties[:'cmis:lastModificationDate'] / 1000) unless @properties[:'cmis:lastModificationDate'].nil?
+
         @object_id = @properties[:'cmis:objectId']
         @base_type_id = @properties[:'cmis:baseTypeId']
         @object_type_id = @properties[:'cmis:objectTypeId']
@@ -43,18 +47,23 @@ module YACCL
         Services.delete_object(repository_id, object_id, true)
       end
 
+      def update_properties(properties)
+        Services.update_properties(repository_id, object_id, nil, properties)
+      end
+
       def parents
-        Services.get_object_parents(repository_id, object_id, nil, nil, nil, nil, nil)
+        Services.get_object_parents(repository_id, object_id, nil, nil, nil, nil, nil).map do |o|
+          ObjectFactory.create(repository_id, o[:object])
+        end
       end
 
       def allowable_actions
         Services.get_allowable_actions(repository_id, object_id)
       end
 
-      def relationships(direction='either')
+      def relationships(direction=:either)
         result = Services.get_object_relationships(repository_id, object_id, nil, direction, nil, nil, false, nil, nil)
-        result[:objects] = result[:objects].map { |r| Relationship.create(repository_id, r) }
-        result
+        result[:objects].map { |r| Relationship.create(repository_id, r) }
       end
 
       def policies

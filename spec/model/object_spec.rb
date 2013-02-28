@@ -3,17 +3,17 @@ require_relative '../helper'
 describe YACCL::Model::Object do
 
   before :all do
-    @repo = create_repository('test_object')
+    @repo = create_repository('test')
   end
 
   after :all do
-    delete_repository('test_object')
+    delete_repository('test')
   end
 
   it 'repository' do
     doc = create_document
     doc.repository.should be_a_kind_of YACCL::Model::Repository
-    doc.repository.id.should eq 'test_object'
+    doc.repository.id.should eq 'test'
     doc.delete
   end
 
@@ -43,10 +43,7 @@ describe YACCL::Model::Object do
     doc = create_document
     rels = doc.relationships
     rels.should_not be_nil
-    rels.should have_key :objects
-    rels.should have_key :hasMoreItems
-    rels.should have_key :numItems
-    rels[:objects].each do |r|
+    rels.each do |r|
       r.should be_a_kind_of YACCL::Model::Relationship
     end
     doc.delete
