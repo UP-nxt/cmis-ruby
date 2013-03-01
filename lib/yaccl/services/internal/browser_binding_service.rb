@@ -1,6 +1,7 @@
 require 'httparty'
 require 'net/http/post/multipart'
 require 'multi_json'
+require 'lrucache'
 
 module YACCL
   module Services
@@ -10,6 +11,8 @@ module YACCL
       class BrowserBindingService
         def initialize(service_url)
           @service_url = service_url
+          @repository_urls = LRUCache.new(ttl: 1.hour)
+          @root_folder_urls = LRUCache.new(ttl: 1.hour)
         end
 
         def perform_request(required_params={}, optional_params={})
@@ -46,8 +49,19 @@ module YACCL
           if repository_id.nil?
             @service_url
           else
-            repository_info = Basement.get(@service_url)[repository_id]
-            repository_info[object_id.nil? ? 'repositoryUrl' : 'rootFolderUrl']
+            if object_id.nil?
+              if @repository_urls.fetch(repository_id).nil?
+                repository_url = Basement.get(@service_url)[repository_id]['repositoryUrl']
+                @repository_urls.store(repository_id, repository_url)
+              end
+              return @repository_urls.fetch(repository_id)
+            else
+              if @root_folder_urls.fetch(repository_id).nil?
+                root_folder_url = Basement.get(@service_url)[repository_id]['rootFolderUrl']
+                @root_folder_urls.store(repository_id, root_folder_url)
+              end
+              return @root_folder_urls.fetch(repository_id)
+            end
           end
         end
 
