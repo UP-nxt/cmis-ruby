@@ -11,8 +11,8 @@ module YACCL
       class BrowserBindingService
         def initialize(service_url)
           @service_url = service_url
-          @repository_urls = LRUCache.new(ttl: 1.hour)
-          @root_folder_urls = LRUCache.new(ttl: 1.hour)
+          @repository_urls = LRUCache.new(ttl: 3600)
+          @root_folder_urls = LRUCache.new(ttl: 3600)
         end
 
         def perform_request(required_params={}, optional_params={})
