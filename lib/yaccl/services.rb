@@ -13,7 +13,7 @@ module YACCL
   module Services
     class << self
       def perform_request(*params)
-        service = Internal::BrowserBindingService.new(YACCL::SERVICE_URL)
+        service = Internal::BrowserBindingService.new(YACCL::SERVICE_URL, YACCL::BASIC_AUTH_USERNAME, YACCL::BASIC_AUTH_PASSWORD)
         service.perform_request(*params)
       end
 

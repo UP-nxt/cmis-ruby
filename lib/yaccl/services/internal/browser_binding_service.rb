@@ -9,8 +9,11 @@ module YACCL
 
     module Internal
       class BrowserBindingService
-        def initialize(service_url)
+        def initialize(service_url, basic_auth_username=nil, basic_auth_password=nil)
           @service_url = service_url
+          @basic_auth_username = basic_auth_username
+          @basic_auth_password = basic_auth_password
+
           @repository_urls = LRUCache.new(ttl: 3600)
           @root_folder_urls = LRUCache.new(ttl: 3600)
         end
@@ -99,11 +102,14 @@ module YACCL
 
         class Basement
           include HTTParty
+          basic_auth @basic_auth_username, @basic_auth_password unless @basic_auth_username.nil?
 
           def self.multipart_post(url, options)
             url = URI.parse(url)
+            req = Net::HTTP::Post::Multipart.new(url.path, options)
+            req.basic_auth @basic_auth_username, @basic_auth_password unless @basic_auth_username.nil?
             Net::HTTP.start(url.host, url.port) do |http|
-              http.request(Net::HTTP::Post::Multipart.new(url.path, options))
+              http.request(req)
             end
           end
         end
