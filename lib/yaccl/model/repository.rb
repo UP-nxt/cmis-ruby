@@ -79,7 +79,6 @@ module YACCL
         _types(Services.get_type_descendants(id, nil, nil, nil))
       end
 
-
       def create_type(type)
         Type.create(id, Services.create_type(id, type.to_hash))
       end
@@ -90,6 +89,26 @@ module YACCL
 
       def delete_type(type_id)
         Services.delete_type(id, type_id)
+      end
+
+      # relationship
+
+      def create(object)
+        properties = object.create_properties
+        if object.is_a? Folder
+          raise 'create object in folder'
+        elsif object.is_a? Document
+          raise 'create document in folder'
+        elsif object.is_a? Relationship
+          o = Services.create_relationship(id, properties, nil, nil, nil)
+        elsif object.is_a? Policy
+          raise 'create policy in folder'
+        elsif object.is_a? Item
+          raise 'create item in folder'
+        else
+          raise "Unexpected base_type_id: #{object.base_type_id}"
+        end
+        ObjectFactory.create(id, o)
       end
 
       # discovery
