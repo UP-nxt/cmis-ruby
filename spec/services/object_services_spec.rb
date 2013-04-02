@@ -26,7 +26,7 @@ describe YACCL::NavigationServices do
     properties = {'cmis:objectTypeId' => 'cmis:document', 'cmis:name' => 'document'}
     content = { stream: StringIO.new('Apples are green.'), mime_type: 'text/plain', filename: 'apples.txt' }
     doc = YACCL::Services.create_document('testrepo', properties, root.object_id, content, nil, nil, nil, nil)
-    doc_id = doc[:properties][:'cmis:objectId'][:value]
+    doc_id = doc[:succinctProperties][:'cmis:objectId']
 
     YACCL::Services.get_content_stream('testrepo', doc_id, nil, nil, nil).should eq 'Apples are green.'
   end
@@ -36,7 +36,7 @@ describe YACCL::NavigationServices do
 
     properties = {'cmis:objectTypeId' => 'cmis:document', 'cmis:name' => 'document'}
     doc = YACCL::Services.create_document('testrepo', properties, root.object_id, nil, nil, nil, nil, nil)
-    doc_id = doc[:properties][:'cmis:objectId'][:value]
+    doc_id = doc[:succinctProperties][:'cmis:objectId']
 
     lambda { YACCL::Services.get_content_stream('testrepo', doc_id, nil, nil, nil) }.should raise_exception
   end

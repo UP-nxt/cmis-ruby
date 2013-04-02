@@ -2,8 +2,12 @@ module YACCL
   module Model
     class ObjectFactory
       def self.create(repository_id, raw)
-        properties = raw[:properties]
-        base_type_id = properties[:'cmis:baseTypeId'][:value]
+        base_type_id = if raw[:properties]
+          raw[:properties][:'cmis:baseTypeId'][:value]
+        else
+          raw[:succinctProperties][:'cmis:baseTypeId']
+        end
+        
         case base_type_id
         when 'cmis:folder' then Folder.new(repository_id, raw)
         when 'cmis:document' then Document.new(repository_id, raw)

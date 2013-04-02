@@ -9,10 +9,11 @@ module YACCL
 
     module Internal
       class BrowserBindingService
-        def initialize(service_url, basic_auth_username=nil, basic_auth_password=nil)
+        def initialize(service_url, basic_auth_username=nil, basic_auth_password=nil, succinct_properties=true)
           @service_url = service_url
           @basic_auth_username = basic_auth_username
           @basic_auth_password = basic_auth_password
+          @succinct_properties = succinct_properties
 
           @repository_urls = LRUCache.new(ttl: 3600)
           @root_folder_urls = LRUCache.new(ttl: 3600)
@@ -21,7 +22,9 @@ module YACCL
         def perform_request(required_params={}, optional_params={})
           url = get_url(required_params.delete(:repositoryId), required_params[:objectId])
 
+          required_params[:succinct] ||= @succinct_properties
           optional_params.reject! { |_, v| v.nil? }
+
           params = transform_hash(required_params.merge(optional_params))
 
           check(params)
@@ -108,9 +111,7 @@ module YACCL
             url = URI.parse(url)
             req = Net::HTTP::Post::Multipart.new(url.path, options)
             req.basic_auth @basic_auth_username, @basic_auth_password unless @basic_auth_username.nil?
-            Net::HTTP.start(url.host, url.port) do |http|
-              http.request(req)
-            end
+            Net::HTTP.start(url.host, url.port) { |http| http.request(req) }
           end
         end
       end

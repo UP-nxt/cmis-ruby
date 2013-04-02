@@ -102,9 +102,13 @@ module YACCL
       private
 
       def get_properties_map(raw)
-        raw_properties = raw[:properties]
-        return {} if raw_properties.nil?
-        raw_properties.reduce({}) { |h, (k, v)| h.merge(k => v[:value]) }
+        if raw[:succinctProperties]
+          raw[:succinctProperties]
+        elsif raw[:properties]
+          raw[:properties].reduce({}) { |h, (k, v)| h.merge(k => v[:value]) }
+        else
+          {}
+        end
       end
     end
   end
