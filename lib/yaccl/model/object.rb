@@ -89,8 +89,6 @@ module YACCL
         Services.apply_acl(repository_id, object_id, nil, aces, nil)
       end
 
-      protected
-
       def create_properties
         {'cmis:name' => name, 'cmis:objectTypeId' => object_type_id}.merge(properties)
       end
