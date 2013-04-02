@@ -1,7 +1,8 @@
 module YACCL
   module DiscoveryServices
-    def query(repository_id, statement, search_all_versions, include_relationships, rendition_filter, include_allowable_actions, max_items, skip_count, extension={})
-      required = {cmisselector: 'query',
+    def query(repository_id, statement, search_all_versions, include_relationships, rendition_filter, include_allowable_actions, max_items, skip_count, succinct=false)
+      required = {succinct: succinct,
+                  cmisselector: 'query',
                   repositoryId: repository_id,
                   q: statement}
       optional = {searchAllVersions: search_all_versions,
@@ -13,8 +14,9 @@ module YACCL
       perform_request(required, optional)
     end
 
-    def get_content_changes(repository_id, change_log_token, include_properties, include_policy_ids, include_acl, max_items, extension={})
-      required = {cmisselector: 'contentChanges',
+    def get_content_changes(repository_id, change_log_token, include_properties, include_policy_ids, include_acl, max_items, succinct=false)
+      required = {succinct: succinct,
+                  cmisselector: 'contentChanges',
                   repositoryId: repository_id}
       optional = {changeLogToken: change_log_token,
                   includeProperties: include_properties,
