@@ -6,16 +6,16 @@ module YACCL
 
       def initialize(repository_id, raw={})
         super
-        @source_id = @properties['cmis:sourceId']
-        @target_id = @properties['cmis:targetId']
+        @source_id = @properties[:'cmis:sourceId']
+        @target_id = @properties[:'cmis:targetId']
       end
 
       def source
-        Object.create(Services.get_object(repository_id, source_id, nil, false, nil, nil, false, false))
+        ObjectFactory.create(repository_id, Services.get_object(repository_id, source_id, nil, false, nil, nil, false, false))
       end
 
       def target
-        Object.create(Services.get_object(repository_id, target_id, nil, false, nil, nil, false, false))
+        ObjectFactory.create(repository_id, Services.get_object(repository_id, target_id, nil, false, nil, nil, false, false))
       end
     end
   end
