@@ -63,12 +63,12 @@ module YACCL
 
       def relationships(direction=:either)
         result = Services.get_object_relationships(repository_id, object_id, nil, direction, nil, nil, false, nil, nil)
-        result[:objects].map { |r| Relationship.create(repository_id, r) }
+        result[:objects].map { |r| Relationship.new(repository_id, r) }
       end
 
       def policies
         Services.get_applied_policies(repository_id, object_id, nil).map do |policy|
-          Policy.create(repository_id, policy)
+          Policy.new(repository_id, policy)
         end
       end
 
