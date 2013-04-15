@@ -37,4 +37,4 @@ type.add_property_definition(
 
 full_type = repository.create_type(type)
 puts full_type.to_hash
-repository.delete_type(type.id)
+full_type.delete

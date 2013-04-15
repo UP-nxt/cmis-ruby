@@ -131,7 +131,7 @@ describe YACCL::Model::Repository do
           t.should be_a_kind_of YACCL::Model::Type
           t.id.should eq type_id
         end
-        @repo.delete_type(type_id)
+        @repo.type(type_id).delete
       end unless @repo.cmis_version_supported < '1.1'
     end
   end

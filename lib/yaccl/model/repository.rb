@@ -83,14 +83,6 @@ module YACCL
         Type.create(id, Services.create_type(id, type.to_hash))
       end
 
-      def update_type(type)
-        Type.create(id, Services.update_type(id, type.to_hash))
-      end
-
-      def delete_type(type_id)
-        Services.delete_type(id, type_id)
-      end
-
       # relationship
 
       def create(object)

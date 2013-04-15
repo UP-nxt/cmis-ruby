@@ -60,6 +60,14 @@ module YACCL
         @property_definitions[property[:id]] = property
       end
 
+      def save
+        Type.create(repository_id, Services.update_type(repository_id, to_hash))
+      end
+
+      def delete
+        Services.delete_type(repository_id, id)
+      end
+
       def new_object
         object = case base_id
         when 'cmis:document'
