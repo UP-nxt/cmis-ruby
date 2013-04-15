@@ -97,6 +97,20 @@ module YACCL
         object_id.nil?
       end
 
+      # utility
+
+      def can_be_deleted?
+        allowable_actions[:canDeleteObject]
+      end
+
+      def can_get_parents?
+        allowable_actions[:canGetObjectParents]
+      end
+
+      def can_update_properties
+        allowable_actions[:canUpdateProperties]
+      end
+
       private
 
       def get_properties_map(raw)

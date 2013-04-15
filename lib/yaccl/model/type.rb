@@ -48,6 +48,7 @@ module YACCL
         @fulltext_indexed = hash[:fulltextIndexed]
         @included_in_supertype_query = hash[:includedInSupertypeQuery]
         @property_definitions = hash[:propertyDefinitions] || {}
+        @property_definitions.each { |k, v| @property_definitions[k] = PropertyDefinition.new(v) }
         # document type
         @versionable = hash[:versionable]
         @content_stream_allowed = hash[:contentStreamAllowed]
@@ -87,6 +88,26 @@ module YACCL
         object
       end
 
+      def document_type?
+        base_id == 'cmis:document'
+      end
+
+      def folder_type?
+        base_id == 'cmis:folder'
+      end
+
+      def relationship_type?
+        base_id == 'cmis:relationship'
+      end
+
+      def policy_type?
+        base_id == 'cmis:policy'
+      end
+
+      def item_type?
+        base_id == 'cmis:item'
+      end
+
       def to_hash
         hash = {}
         hash[:id] = id
@@ -104,7 +125,7 @@ module YACCL
         hash[:controllableACL]= controllable_acl
         hash[:fulltextIndexed]= fulltext_indexed
         hash[:includedInSupertypeQuery]= included_in_supertype_query
-        hash[:propertyDefinitions]= property_definitions
+        hash[:propertyDefinitions]= property_definitions.to_hash
         # document type
         hash[:versionable] = versionable unless versionable.nil?
         hash[:contentStreamAllowed] = content_stream_allowed unless content_stream_allowed.nil?
