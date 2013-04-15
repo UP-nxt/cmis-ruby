@@ -46,7 +46,7 @@ module YACCL
         @controllable_policy = hash[:controllablePolicy]
         @controllable_acl = hash[:controllableACL]
         @fulltext_indexed = hash[:fulltextIndexed]
-        @included_in_supertype_query = hash[:includedInSupertype_query]
+        @included_in_supertype_query = hash[:includedInSupertypeQuery]
         @property_definitions = hash[:propertyDefinitions] || {}
         # document type
         @versionable = hash[:versionable]
