@@ -77,6 +77,15 @@ module YACCL
         Services.remove_object_from_folder(repository_id, object_id, nil)
       end
 
+      def move(target_folder)
+        object_parents = parents
+        if object_parents.size == 1
+          Services.move_object(repository_id, object_id, target_folder.object_id, object_parents.first.object_id)
+        else
+          # raise?
+        end
+      end
+
       def acls
         Services.get_acl(repository_id, object_id, nil)
       end
@@ -109,6 +118,10 @@ module YACCL
 
       def can_update_properties
         allowable_actions[:canUpdateProperties]
+      end
+
+      def method_missing(method_sym, *arguments, &block)
+        @properties[method_sym] ? @properties[method_sym] : super
       end
 
       private
