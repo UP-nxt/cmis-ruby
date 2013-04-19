@@ -17,6 +17,12 @@ module YACCL
       def target
         ObjectFactory.create(repository_id, Services.get_object(repository_id, target_id, nil, false, nil, nil, false, false))
       end
+
+      def method_missing(method_sym, *arguments, &block)
+        return @properties[method_sym] if @properties[method_sym]
+        return @properties[method_sym.to_s] if @properties[method_sym.to_s]
+        super
+      end
     end
   end
 end
