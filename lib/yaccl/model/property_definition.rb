@@ -3,7 +3,7 @@ module YACCL
     class PropertyDefinition
 
       attr_accessor :id, :local_name, :query_name, :inherited,
-        :open_choise, :orderable, :property_type, :updatability,
+        :open_choice, :orderable, :property_type, :updatability,
         :display_name, :required, :cardinality, :queryable
 
       def initialize(hash={})
