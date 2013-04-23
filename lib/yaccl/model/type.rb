@@ -26,12 +26,11 @@ module YACCL
       attr_accessor :allowed_target_types
 
       def self.create(repository_id, raw)
-        Type.new(repository_id, raw)
+        @repository_id = repository_id
+        Type.new(raw)
       end
 
-      def initialize(repository_id, hash={})
-        @repository_id = repository_id
-
+      def initialize(hash={})
         @id = hash[:id]
         @local_name = hash[:localName]
         @local_namespace = hash[:localNamespace]
