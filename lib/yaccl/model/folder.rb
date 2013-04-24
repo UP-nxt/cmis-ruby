@@ -23,13 +23,14 @@ module YACCL
         end
       end
 
-      def children
-        children = Services.get_children(repository_id, object_id, nil, nil, nil, nil, nil, nil, nil, nil)
-        if children.has_key?(:objects)
-          children[:objects].map { |o| ObjectFactory.create(repository_id, o[:object]) }
-        else
-          []
-        end
+      def children(max_items=nil, skip_count=nil)
+        children = Services.get_children(repository_id, object_id, nil, nil, nil, nil, nil, nil, max_items, skip_count)
+        children[:objects].map! { |o| ObjectFactory.create(repository_id, o[:object]) }
+        children[:num_items] = children.delete(:numItems)
+        children[:has_more_items] = children.delete(:hasMoreItems)
+
+        yield(children) if block_given?
+        children[:objects]
       end
 
       def tree(depth)

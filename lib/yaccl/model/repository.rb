@@ -105,10 +105,14 @@ module YACCL
 
       # discovery
 
-      def query(statement)
-        Services.query(id, statement, false, nil, nil, nil, nil, nil)[:results].map do |o|
-          ObjectFactory.create(id, o)
-        end
+      def query(statement, max_items=nil, skip_count=nil, &block)
+        result = Services.query(id, statement, nil, nil, nil, nil, max_items, skip_count)
+        result[:results].map! { |o| ObjectFactory.create(id, o) }
+        result[:num_items] = result.delete(:numItems)
+        result[:has_more_items] = result.delete(:hasMoreItems)
+
+        yield(result) if block_given?
+        result[:results]
       end
 
       def content_changes(change_log_token)
