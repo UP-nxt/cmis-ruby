@@ -57,6 +57,7 @@ module YACCL
           else
             if object_id.nil?
               if @repository_urls.fetch(repository_id).nil?
+                raise "No configuration found for <#{repository_id}>. Does repository exist?" unless Basement.get(@service_url)[repository_id]
                 repository_url = Basement.get(@service_url)[repository_id]['repositoryUrl']
                 @repository_urls.store(repository_id, repository_url)
               end
