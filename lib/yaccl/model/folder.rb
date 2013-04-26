@@ -25,8 +25,12 @@ module YACCL
 
       def children(max_items=nil, skip_count=nil)
         children = Services.get_children(repository_id, object_id, nil, nil, nil, nil, nil, nil, max_items, skip_count)
-        children[:objects].map! { |o| ObjectFactory.create(repository_id, o[:object]) }
-        children[:num_items] = children.delete(:numItems)
+        if children[:objects]
+          children[:objects].map! { |o| ObjectFactory.create(repository_id, o[:object]) }
+        else
+          children[:objects] = []
+        end
+        children[:num_items] = children.delete(:numItems).to_i
         children[:has_more_items] = children.delete(:hasMoreItems)
 
         yield(children) if block_given?
