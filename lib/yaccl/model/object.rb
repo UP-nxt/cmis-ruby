@@ -19,9 +19,6 @@ module YACCL
         @repository_id = repository_id
         @properties = get_properties_map(raw)
 
-        @properties[:'cmis:creationDate'] = Time.at(@properties[:'cmis:creationDate'] / 1000) unless @properties[:'cmis:creationDate'].nil?
-        @properties[:'cmis:lastModificationDate'] = Time.at(@properties[:'cmis:lastModificationDate'] / 1000) unless @properties[:'cmis:lastModificationDate'].nil?
-
         @object_id = @properties[:'cmis:objectId']
         @base_type_id = @properties[:'cmis:baseTypeId']
         @object_type_id = @properties[:'cmis:objectTypeId']
@@ -128,12 +125,16 @@ module YACCL
 
       def get_properties_map(raw)
         if raw[:succinctProperties]
-          raw[:succinctProperties]
+          result = raw[:succinctProperties]
         elsif raw[:properties]
-          raw[:properties].reduce({}) { |h, (k, v)| h.merge(k => v[:value]) }
+          result = raw[:properties].reduce({}) { |h, (k, v)| h.merge(k => v[:value]) }
         else
-          {}
+          result = {}
         end
+        [:'cmis:creationDate', :'cmis:lastModificationDate'].each do |k|
+          result[k] = Time.at(result[k] / 1000) if result[k]
+        end
+        result
       end
     end
   end
