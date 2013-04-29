@@ -17,6 +17,16 @@ module YACCL
       attr_reader :changes_on_type
       attr_reader :root_folder_url
 
+      def ==(other)
+        return true if other.equal?(self)
+        return false unless other.kind_of?(self.class)
+        id == other.id
+      end
+
+      def to_s
+        name
+      end
+
       def self.create(raw_repository)
         Repository.new(raw_repository)
       end

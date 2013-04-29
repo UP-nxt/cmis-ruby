@@ -11,8 +11,8 @@ module YACCL
       class BrowserBindingService
         def initialize(service_url, basic_auth_username=nil, basic_auth_password=nil, succinct_properties=true)
           @service_url = service_url
-          @basic_auth_username = basic_auth_username
-          @basic_auth_password = basic_auth_password
+          @basement = Basement.new(basic_auth_username, basic_auth_password)
+
           @succinct_properties = succinct_properties
 
           @repository_urls = LRUCache.new(ttl: 3600)
@@ -31,12 +31,12 @@ module YACCL
 
           response = if params.has_key?(:cmisaction)
             if params.has_key?(:content)
-              Basement.multipart_post(url, params)
+              @basement.multipart_post(url, params)
             else
-              Basement.post(url, body: params)
+              @basement.post(url, body: params)
             end
           else
-            Basement.get(url, query: params)
+            @basement.get(url, query: params)
           end
 
           result = response.body
@@ -57,14 +57,14 @@ module YACCL
           else
             if object_id.nil?
               if @repository_urls.fetch(repository_id).nil?
-                raise "No configuration found for <#{repository_id}>. Does repository exist?" unless Basement.get(@service_url)[repository_id]
-                repository_url = Basement.get(@service_url)[repository_id]['repositoryUrl']
+                raise "No repository found with ID: #{repository_id}." unless @basement.get(@service_url)[repository_id]
+                repository_url = @basement.get(@service_url)[repository_id]['repositoryUrl']
                 @repository_urls.store(repository_id, repository_url)
               end
               return @repository_urls.fetch(repository_id)
             else
               if @root_folder_urls.fetch(repository_id).nil?
-                root_folder_url = Basement.get(@service_url)[repository_id]['rootFolderUrl']
+                root_folder_url = @basement.get(@service_url)[repository_id]['rootFolderUrl']
                 @root_folder_urls.store(repository_id, root_folder_url)
               end
               return @root_folder_urls.fetch(repository_id)
@@ -109,12 +109,25 @@ module YACCL
 
         class Basement
           include HTTParty
-          basic_auth @basic_auth_username, @basic_auth_password unless @basic_auth_username.nil?
 
-          def self.multipart_post(url, options)
+          def initialize(user, pass)
+            @username = user
+            @password = pass
+            self.class.basic_auth(user, pass)
+          end
+
+          def get(*params)
+            self.class.get(*params)
+          end
+
+          def post(*params)
+            self.class.post(*params)
+          end
+
+          def multipart_post(url, options)
             url = URI.parse(url)
             req = Net::HTTP::Post::Multipart.new(url.path, options)
-            req.basic_auth @basic_auth_username, @basic_auth_password unless @basic_auth_username.nil?
+            req.basic_auth @username, @password unless @username.nil?
             Net::HTTP.start(url.host, url.port) { |http| http.request(req) }
           end
         end
