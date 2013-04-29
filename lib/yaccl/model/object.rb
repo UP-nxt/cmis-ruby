@@ -127,12 +127,13 @@ module YACCL
         if raw[:succinctProperties]
           result = raw[:succinctProperties]
         elsif raw[:properties]
-          result = raw[:properties].reduce({}) { |h, (k, v)| h.merge(k => v[:value]) }
+          result = raw[:properties].reduce({}) do |h, (k, v)|
+            val = v[:value]
+            val = Time.at(val / 1000) if v[:type] == 'datetime'
+            h.merge(k => val)
+          end
         else
           result = {}
-        end
-        [:'cmis:creationDate', :'cmis:lastModificationDate'].each do |k|
-          result[k] = Time.at(result[k] / 1000) if result[k]
         end
         result
       end
