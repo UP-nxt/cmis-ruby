@@ -4,8 +4,10 @@ module YACCL
       def self.create(repository_id, raw)
         base_type_id = if raw[:properties]
           raw[:properties][:'cmis:baseTypeId'][:value]
-        else
+        elsif raw[:succinctProperties]
           raw[:succinctProperties][:'cmis:baseTypeId']
+        else
+          raise "Unexpected raw: #{raw}"
         end
         
         case base_type_id
