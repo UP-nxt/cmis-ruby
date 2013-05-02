@@ -134,7 +134,7 @@ module YACCL
             url = URI.parse(url)
             req = Net::HTTP::Post::Multipart.new(url.path, options)
             req.basic_auth @username, @password unless @username.nil?
-            opts = { use_ssl: url.scheme == 'https' }
+            opts = url.scheme == 'https' ? { use_ssl: true , verify_mode: OpenSSL::SSL::VERIFY_NONE } : {}
             Net::HTTP.start(url.host, url.port, opts) { |http| http.request(req) }
           end
         end
