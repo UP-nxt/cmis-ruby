@@ -1,7 +1,7 @@
 require 'httparty'
 require 'net/http/post/multipart'
 require 'multi_json'
-require 'lrucache'
+require 'volatile_hash'
 
 module YACCL
   module Services
@@ -15,8 +15,8 @@ module YACCL
 
           @succinct_properties = succinct_properties
 
-          @repository_urls = LRUCache.new(ttl: 3600)
-          @root_folder_urls = LRUCache.new(ttl: 3600)
+          @repository_urls = VolatileHash.new(strategy: 'lru')
+          @root_folder_urls = VolatileHash.new(strategy: 'lru')
         end
 
         def perform_request(required_params={}, optional_params={})
@@ -56,18 +56,19 @@ module YACCL
             @service_url
           else
             if object_id.nil?
-              if @repository_urls.fetch(repository_id).nil?
-                raise "No repository found with ID: #{repository_id}." unless @basement.get(@service_url)[repository_id]
-                repository_url = @basement.get(@service_url)[repository_id]['repositoryUrl']
-                @repository_urls.store(repository_id, repository_url)
+              if @repository_urls[repository_id].nil?
+                base = @basement.get(@service_url)
+                raise "No repository found with ID: #{repository_id}." unless base[repository_id]
+                repository_url = base[repository_id]['repositoryUrl']
+                @repository_urls[repository_id] = repository_url
               end
-              return @repository_urls.fetch(repository_id)
+              return @repository_urls[repository_id]
             else
-              if @root_folder_urls.fetch(repository_id).nil?
+              if @root_folder_urls[repository_id].nil?
                 root_folder_url = @basement.get(@service_url)[repository_id]['rootFolderUrl']
-                @root_folder_urls.store(repository_id, root_folder_url)
+                @root_folder_urls[repository_id] = root_folder_url
               end
-              return @root_folder_urls.fetch(repository_id)
+              return @root_folder_urls[repository_id]
             end
           end
         end
