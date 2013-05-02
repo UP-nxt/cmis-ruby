@@ -42,10 +42,15 @@ module YACCL
           result = response.body
           if response.content_type == 'application/json'
             result = MultiJson.load(result, symbolize_keys: true)
+          end
+          unless (200...300).include?(response.code.to_i)
             if result.is_a?(Hash) && result.has_key?(:exception)
               raise CMISRequestError, "#{result[:exception]} -- #{result[:message]}"
+            else
+              raise CMISRequestError, "#{result}"
             end
           end
+
           result
         end
 
