@@ -1,7 +1,7 @@
 require 'httparty'
 require 'net/http/post/multipart'
 require 'multi_json'
-require 'volatile_hash'
+require_relative 'simple_cache'
 
 module YACCL
   module Services
@@ -9,14 +9,13 @@ module YACCL
 
     module Internal
       class BrowserBindingService
+
+        @@url_cache = SimpleCache::MemoryCache.new
+
         def initialize(service_url, basic_auth_username=nil, basic_auth_password=nil, succinct_properties=true)
           @service_url = service_url
           @basement = Basement.new(basic_auth_username, basic_auth_password)
-
           @succinct_properties = succinct_properties
-
-          @repository_urls = VolatileHash.new(strategy: 'lru')
-          @root_folder_urls = VolatileHash.new(strategy: 'lru')
         end
 
         def perform_request(required_params={}, optional_params={})
@@ -60,22 +59,19 @@ module YACCL
           if repository_id.nil?
             @service_url
           else
-            if object_id.nil?
-              if @repository_urls[repository_id].nil?
-                base = @basement.get(@service_url)
-                raise "No repository found with ID: #{repository_id}." unless base[repository_id]
-                repository_url = base[repository_id]['repositoryUrl']
-                @repository_urls[repository_id] = repository_url
-              end
-              return @repository_urls[repository_id]
-            else
-              if @root_folder_urls[repository_id].nil?
-                root_folder_url = @basement.get(@service_url)[repository_id]['rootFolderUrl']
-                @root_folder_urls[repository_id] = root_folder_url
-              end
-              return @root_folder_urls[repository_id]
-            end
+            repository_urls(repository_id)[object_id ? :root_folder_url : :repository_url]
           end
+        end
+
+        def repository_urls(repository_id)
+          if @@url_cache[repository_id].nil?
+            repository_infos = @basement.get(@service_url)
+            raise "No repository found with ID #{repository_id}." unless repository_infos.has_key?(repository_id)
+            repository_info = repository_infos[repository_id]
+            @@url_cache[repository_id] = { repository_url: repository_info['repositoryUrl'],
+                                           root_folder_url: repository_info['rootFolderUrl'] }
+          end
+          @@url_cache[repository_id]
         end
 
         def check(hash)
