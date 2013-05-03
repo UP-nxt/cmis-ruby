@@ -98,9 +98,8 @@ module YACCL
             props = hash.delete(:properties)
             if props.is_a?(Hash)
               props.each_with_index do |(id, value), index|
-                if value.is_a?(Time) || value.is_a?(DateTime)
-                  value = (value.to_f * 1000).to_i
-                end
+                value = value.to_time if value.is_a?(Date) or value.is_a?(DateTime)
+                value = (value.to_f * 1000).to_i if value.is_a?(Time)
                 hash.merge!("propertyId[#{index}]" => id,
                             "propertyValue[#{index}]" => value)
               end
