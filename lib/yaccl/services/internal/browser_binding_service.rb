@@ -45,9 +45,9 @@ module YACCL
           end
           unless (200...300).include?(response.code.to_i)
             if result.is_a?(Hash) && result.has_key?(:exception)
-              raise CMISRequestError, "#{result[:exception]} -- #{result[:message]}"
+              raise CMISRequestError, "#{response.code} -- #{result[:exception]} -- #{result[:message]}"
             else
-              raise CMISRequestError, "#{result}"
+              raise CMISRequestError, "#{response.code} -- #{result}"
             end
           end
 
