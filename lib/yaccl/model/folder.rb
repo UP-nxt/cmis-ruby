@@ -59,7 +59,7 @@ module YACCL
       end
 
       def delete_tree
-        Services.delete_tree(repository_id, object_id, true, false, false)
+        Services.delete_tree(repository_id, object_id, nil, nil, nil)
       end
 
       def add(object)
