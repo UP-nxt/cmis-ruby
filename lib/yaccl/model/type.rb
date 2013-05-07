@@ -1,7 +1,7 @@
 module YACCL
   module Model
     class Type
-      attr_reader :repository_id
+      attr_accessor :repository_id
       attr_accessor :id
       attr_accessor :local_name
       attr_accessor :local_namespace
@@ -26,8 +26,9 @@ module YACCL
       attr_accessor :allowed_target_types
 
       def self.create(repository_id, raw)
-        @repository_id = repository_id
-        Type.new(raw)
+        type = Type.new(raw)
+        type.repository_id = repository_id
+        type
       end
 
       def initialize(hash={})
