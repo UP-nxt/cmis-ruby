@@ -35,8 +35,8 @@ module YACCL
       end
 
       def method_missing(m, *args, &block)
-        if @hash.has_key?(m)
-          @hash[m]
+        if @other.has_key?(m)
+          @other[m]
         else
           super
         end
