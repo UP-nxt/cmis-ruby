@@ -7,18 +7,19 @@ module YACCL
         :display_name, :required, :cardinality, :queryable
 
       def initialize(hash={})
-        @id = hash[:id]
-        @local_name = hash[:localName]
-        @query_name = hash[:queryName]
-        @inherited = hash[:inherited]
-        @open_choice = hash[:openChoice]
-        @orderable = hash[:orderable]
-        @property_type = hash[:propertyType]
-        @updatability = hash[:updatability]
-        @display_name = hash[:displayName]
-        @required = hash[:required]
-        @cardinality = hash[:cardinality]
-        @queryable = hash[:queryable]
+        @id = hash.delete(:id)
+        @local_name = hash.delete(:localName)
+        @query_name = hash.delete(:queryName)
+        @inherited = hash.delete(:inherited)
+        @open_choice = hash.delete(:openChoice)
+        @orderable = hash.delete(:orderable)
+        @property_type = hash.delete(:propertyType)
+        @updatability = hash.delete(:updatability)
+        @display_name = hash.delete(:displayName)
+        @required = hash.delete(:required)
+        @cardinality = hash.delete(:cardinality)
+        @queryable = hash.delete(:queryable)
+        @other = hash
       end
 
       def readonly?
@@ -31,6 +32,14 @@ module YACCL
 
       def readwrite?
         updatability == 'readwrite'
+      end
+
+      def method_missing(m, *args, &block)
+        if @hash.has_key?(m)
+          @hash[m]
+        else
+          super
+        end
       end
 
       def to_hash
