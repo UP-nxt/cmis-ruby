@@ -86,7 +86,7 @@ module YACCL
       end
 
       def types
-        _types(Services.get_type_descendants(id, nil, nil, nil))
+        _types(Services.get_type_descendants(id, nil, nil, true))
       end
 
       def create_type(type)
