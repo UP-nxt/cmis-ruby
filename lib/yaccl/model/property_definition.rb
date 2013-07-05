@@ -5,7 +5,7 @@ module YACCL
       attr_accessor :id, :local_name, :query_name,
         :description, :inherited, :open_choice,
         :orderable, :property_type, :updatability,
-        :display_name, :required, :cardinality, :queryable
+        :display_name, :required, :cardinality, :queryable, :other
 
       def initialize(hash={})
         @id = hash.delete(:id)

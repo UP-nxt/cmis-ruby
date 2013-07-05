@@ -129,7 +129,7 @@ module YACCL
         elsif raw[:properties]
           result = raw[:properties].reduce({}) do |h, (k, v)|
             val = v[:value]
-            val = Time.at(val / 1000) if v[:type] == 'datetime'
+            val = Time.at(val / 1000) if val and v[:type] == 'datetime'
             h.merge(k => val)
           end
         else
