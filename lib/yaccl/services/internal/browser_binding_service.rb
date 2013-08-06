@@ -19,6 +19,8 @@ module YACCL
         end
 
         def perform_request(required_params={}, optional_params={})
+          headers = required_params[:properties].delete(:headers) if required_params[:properties]
+          headers ||= {}
           url = get_url(required_params.delete(:repositoryId), required_params[:objectId])
 
           required_params[:succinct] ||= @succinct_properties
@@ -30,12 +32,12 @@ module YACCL
 
           response = if params.has_key?(:cmisaction)
             if params.has_key?(:content)
-              @basement.multipart_post(url, params)
+              @basement.multipart_post(url, params, headers)
             else
-              @basement.post(url, body: params)
+              @basement.post(url, body: params, headers: headers)
             end
           else
-            @basement.get(url, query: params)
+            @basement.get(url, query: params, headers: headers)
           end
 
           result = response.body
@@ -125,9 +127,10 @@ module YACCL
             self.class.post(*params)
           end
 
-          def multipart_post(url, options)
+          def multipart_post(url, options, headers)
             url = URI.parse(url)
             req = Net::HTTP::Post::Multipart.new(url.path, options)
+            headers.each {|key, value| req[key] = value }
             req.basic_auth @username, @password unless @username.nil?
             opts = url.scheme == 'https' ? { use_ssl: true , verify_mode: OpenSSL::SSL::VERIFY_NONE } : {}
             Net::HTTP.start(url.host, url.port, opts) { |http| http.request(req) }
