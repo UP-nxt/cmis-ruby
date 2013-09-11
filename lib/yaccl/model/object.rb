@@ -45,7 +45,7 @@ module YACCL
       end
 
       def update_properties(properties)
-        Services.update_properties(repository_id, object_id, nil, properties)
+        Services.update_properties(repository_id, object_id, change_token, properties)
       end
 
       def parents

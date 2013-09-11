@@ -54,7 +54,7 @@ module YACCL
         if detached?
           @local_content = content
         else
-          Services.set_content_stream(repository_id, object_id, nil, nil, content)
+          Services.set_content_stream(repository_id, object_id, nil, change_token, content)
         end
       end
 
