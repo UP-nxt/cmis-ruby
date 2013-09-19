@@ -102,8 +102,15 @@ module YACCL
               props.each_with_index do |(id, value), index|
                 value = value.to_time if value.is_a?(Date) or value.is_a?(DateTime)
                 value = (value.to_f * 1000).to_i if value.is_a?(Time)
-                hash.merge!("propertyId[#{index}]" => id,
-                            "propertyValue[#{index}]" => value)
+                if value.is_a?(Array)
+                  hash.merge!("propertyId[#{index}]" => id)
+                  value.each_with_index { |v, idx|
+                    hash.merge!("propertyValue[#{index}][#{idx}]" => value[idx])
+                  }
+                else
+                  hash.merge!("propertyId[#{index}]" => id,
+                              "propertyValue[#{index}]" => value)
+                end
               end
             end
           end
