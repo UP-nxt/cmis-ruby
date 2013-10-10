@@ -22,7 +22,7 @@ module YACCL
         @object_id = @properties[:'cmis:objectId']
         @base_type_id = @properties[:'cmis:baseTypeId']
         @object_type_id = @properties[:'cmis:objectTypeId']
-        @secondary_object_type_ids = @properties[:'cmis:secondaryObjectTypeId']
+        @secondary_object_type_ids = @properties[:'cmis:secondaryObjectTypeIds']
         @name = @properties[:'cmis:name']
         @description = @properties[:'cmis:description']
         @created_by = @properties[:'cmis:createdBy']
