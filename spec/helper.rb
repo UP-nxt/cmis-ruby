@@ -1,7 +1,7 @@
 require 'yaccl'
 require 'json'
 
-YACCL.init('http://localhost:8080/browser')
+YACCL.init('http://33.33.33.100:8080/browser', 'metaadmin', 'metaadmin')
 
 def create_repository(id)
   meta = YACCL::Model::Server.repository('meta')
@@ -11,6 +11,7 @@ def create_repository(id)
 
   f = meta.new_folder
   f.name = id
+  f.properties[:id] = id
   f.object_type_id = repo_type.id
   f.properties[:supportsRelationships] = true if property_definitions.include?(:supportsRelationships)
   f.properties[:supportsPolicies] = true if property_definitions.include?(:supportsPolicies)
