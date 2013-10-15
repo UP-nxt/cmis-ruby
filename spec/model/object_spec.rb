@@ -77,19 +77,19 @@ describe YACCL::Model::Object do
     doc.delete
   end
 
-  it 'add aces' do
-    doc = create_document
-    doc.add_aces({})
-    #TODO check
-    doc.delete
-  end
+  # it 'add aces' do
+  #   doc = create_document
+  #   doc.add_aces({})
+  #   #TODO check
+  #   doc.delete
+  # end
 
-  it 'remove aces' do
-    doc = create_document
-    doc.remove_aces({})
-    #TODO check
-    doc.delete
-  end
+  # it 'remove aces' do
+  #   doc = create_document
+  #   doc.remove_aces({})
+  #   #TODO check
+  #   doc.delete
+  # end
 
   def create_document
     new_object = @repo.new_document
