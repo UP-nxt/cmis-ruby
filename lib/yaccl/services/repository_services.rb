@@ -48,7 +48,7 @@ module YACCL
       perform_request(required)
     end
 
-    def update_type(type, succinct=false)
+    def update_type(repository_id, type, succinct=false)
       required = {succinct: succinct,
                   cmisaction: 'updateType',
                   repositoryId: repository_id,

@@ -45,7 +45,21 @@ module YACCL
       end
 
       def to_hash
-        # TODO (Needed for updating type?)
+        hash = {}
+        hash[:id] = id
+        hash[:localName] = local_name
+        hash[:queryName] = query_name
+        hash[:description] = description
+        hash[:inherited] = inherited
+        hash[:openChoice] = open_choice
+        hash[:orderable] = orderable
+        hash[:propertyType] = property_type
+        hash[:updatability] = updatability
+        hash[:displayName] = display_name
+        hash[:required] = required
+        hash[:cardinality] = cardinality
+        hash[:queryable] = queryable
+        hash.merge(other)
       end
     end
   end

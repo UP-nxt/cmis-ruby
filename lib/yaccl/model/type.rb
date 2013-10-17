@@ -61,8 +61,15 @@ module YACCL
         @property_definitions[property[:id]] = property
       end
 
-      def save
-        Type.create(repository_id, Services.update_type(repository_id, to_hash))
+      def update(changed_property_defs)
+        hash = to_hash
+        new_defs = changed_property_defs.map(&:to_hash).inject({}) do |result, element|
+          result[element[:id]] = element
+          result
+        end
+        hash[:propertyDefinitions] = new_defs
+
+        Type.create(repository_id, Services.update_type(repository_id, hash))
       end
 
       def delete
