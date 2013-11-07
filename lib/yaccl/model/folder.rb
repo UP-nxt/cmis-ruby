@@ -23,8 +23,8 @@ module YACCL
         end
       end
 
-      def children(max_items=nil, skip_count=nil)
-        children = Services.get_children(repository_id, object_id, nil, nil, nil, nil, nil, nil, max_items, skip_count)
+      def children(options={})
+        children = Services.get_children(repository_id, object_id, options[:filter], options[:order_by], options[:include_allowable_actions], options[:include_relations], options[:rendition_filter], options[:include_path_segment], options[:max_items], options[:skip_count])
         if children[:objects]
           children[:objects].map! { |o| ObjectFactory.create(repository_id, o[:object]) }
         else
