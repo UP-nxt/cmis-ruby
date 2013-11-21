@@ -1,34 +1,8 @@
-require 'yaccl/services/internal/browser_binding_service'
-require 'yaccl/services/repository_services'
-require 'yaccl/services/navigation_services'
-require 'yaccl/services/object_services'
-require 'yaccl/services/multi_filing_services'
-require 'yaccl/services/discovery_services'
-require 'yaccl/services/versioning_services'
-require 'yaccl/services/relationship_services'
-require 'yaccl/services/policy_services'
-require 'yaccl/services/acl_services'
-
-module YACCL
-  module Services
-    class << self
-      def perform_request(*params)
-        service = Internal::BrowserBindingService.new(YACCL::SERVICE_URL,
-                                                      YACCL::BASIC_AUTH_USERNAME,
-                                                      YACCL::BASIC_AUTH_PASSWORD,
-                                                      YACCL::SUCCINCT_PROPERTIES)
-        service.perform_request(*params)
-      end
-
-      include RepositoryServices
-      include NavigationServices
-      include ObjectServices
-      include MultiFilingServices
-      include DiscoveryServices
-      include VersioningServices
-      include RelationshipServices
-      include PolicyServices
-      include ACLServices
-    end
-  end
-end
+require 'yaccl/object/object_service'
+require 'yaccl/folder/folder_service'
+require 'yaccl/document/document_service'
+require 'yaccl/item/item_service'
+require 'yaccl/repository/repository_service'
+require 'yaccl/type/type_service'
+require 'yaccl/policy/policy_service'
+require 'yaccl/relationship/relationship_service'

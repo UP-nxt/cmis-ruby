@@ -1,27 +1,17 @@
 require 'yaccl'
 require 'json'
 
-YACCL.init('http://33.33.33.100:8080/browser', 'metaadmin', 'metaadmin')
+def create_repository()
+  repo = Repository.new()
+  repo[:id]='test_repo'
 
-def create_repository(id)
-  meta = YACCL::Model::Server.repository('meta')
-
-  repo_type = meta.type('repository')
-  property_definitions = repo_type.property_definitions.keys
-
-  f = meta.new_folder
-  f.name = id
-  f.properties[:id] = id
-  f.object_type_id = repo_type.id
-  f.properties[:supportsRelationships] = true if property_definitions.include?(:supportsRelationships)
-  f.properties[:supportsPolicies] = true if property_definitions.include?(:supportsPolicies)
-  f.properties[:supportsItems] = true if property_definitions.include?(:supportsItems)
-  f.properties[:realtime] = true if property_definitions.include?(:realtime)
-  meta.root.create(f)
-
-  YACCL::Model::Server.repository(id)
+  repository_service.create(repo)
 end
 
-def delete_repository(id)
-  YACCL::Model::Server.repository('meta').object(id).delete
+def destroy_repository()
+  repository_service.delete('test_repo')
 end
+
+$SERVER = 'http://localhost:8080/browser'
+$USER = 'metaadmin'
+$PASSWORD = 'metaadmin'
