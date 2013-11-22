@@ -12,7 +12,7 @@ module YACCL
       attr_reader :creation_date
       attr_reader :last_modified_by
       attr_reader :last_modification_date
-      attr_reader :change_token
+      attr_accessor :change_token
       attr_accessor :properties
 
       def initialize(repository_id, raw={})
@@ -46,7 +46,7 @@ module YACCL
 
       def update_properties(properties)
         r = Services.update_properties(repository_id, object_id, change_token, properties)
-        change_token = r[:properties][:'cmis:changeToken'][:value]
+        update_change_token(r)
       end
 
       def parents
@@ -120,6 +120,16 @@ module YACCL
 
       def method_missing(method_sym, *arguments, &block)
         @properties[method_sym] ? @properties[method_sym] : super
+      end
+
+      def update_change_token(r)
+        @change_token = if r[:properties]
+          r[:properties][:'cmis:changeToken'][:value]
+        elsif r[:succinctProperties]
+          r[:succinctProperties][:'cmis:changeToken']
+        else
+          raise "Unexpected response: #{r}"
+        end
       end
 
       private
