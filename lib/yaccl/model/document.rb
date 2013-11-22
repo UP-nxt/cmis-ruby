@@ -54,7 +54,8 @@ module YACCL
         if detached?
           @local_content = content
         else
-          Services.set_content_stream(repository_id, object_id, nil, change_token, content)
+          r = Services.set_content_stream(repository_id, object_id, nil, change_token, content)
+          change_token = r[:properties][:'cmis:changeToken'][:value]
         end
       end
 

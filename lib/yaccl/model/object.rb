@@ -45,7 +45,8 @@ module YACCL
       end
 
       def update_properties(properties)
-        Services.update_properties(repository_id, object_id, change_token, properties)
+        r = Services.update_properties(repository_id, object_id, change_token, properties)
+        change_token = r[:properties][:'cmis:changeToken'][:value]
       end
 
       def parents
