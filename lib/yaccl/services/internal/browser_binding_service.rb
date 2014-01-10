@@ -1,4 +1,4 @@
-require 'httparty'
+require 'typhoeus'
 require 'net/http/post/multipart'
 require 'multi_json'
 require_relative 'simple_cache'
@@ -34,14 +34,15 @@ module YACCL
             if params.has_key?(:content)
               @basement.multipart_post(url, params, headers)
             else
-              @basement.post(url, body: params, headers: headers)
+              @basement.post(url: url, body: params, headers: headers)
             end
           else
-            @basement.get(url, query: params, headers: headers)
+            @basement.get(url: url, query: params, headers: headers)
           end
 
+
           result = response.body
-          if response.content_type == 'application/json'
+          if response.headers['Content-Type'] =~ /application\/json/
             result = MultiJson.load(result, symbolize_keys: true)
           end
           unless (200...300).include?(response.code.to_i)
@@ -67,7 +68,7 @@ module YACCL
 
         def repository_urls(repository_id)
           if @@url_cache[repository_id].nil?
-            repository_infos = @basement.get(@service_url)
+            repository_infos = MultiJson.load( @basement.get(url: @service_url).body , symbolize_keys: false)            
             raise "No repository found with ID #{repository_id}." unless repository_infos.has_key?(repository_id)
             repository_info = repository_infos[repository_id]
             @@url_cache[repository_id] = { repository_url: repository_info['repositoryUrl'],
@@ -118,20 +119,39 @@ module YACCL
         end
 
         class Basement
-          include HTTParty
 
           def initialize(user, pass)
             @username = user
             @password = pass
-            self.class.basic_auth(user, pass)
           end
 
-          def get(*params)
-            self.class.get(*params)
+          def get(params)
+            # puts "##{params.class}#"
+            # old
+            # @basement.get(url, query: params, headers: headers) @ useage
+            request = Typhoeus::Request.new(
+              params[:url],
+              userpwd: "#{@username}:#{@password}",
+              method: :get,
+              body: params[:body],
+              params: params[:query],
+              headers: params[:headers],
+            )
+            request.run
           end
 
-          def post(*params)
-            self.class.post(*params)
+          def post(params)
+            # puts "*#{params.class}*"
+            # @basement.post(url, body: params, headers: headers)
+            request = Typhoeus::Request.new(
+              params[:url],
+              userpwd: "#{@username}:#{@password}",
+              method: :post,
+              body: params[:body],
+              params: params[:query],
+              headers: params[:headers],
+            )
+            request.run
           end
 
           def multipart_post(url, options, headers)

@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.summary = 'CMIS browser binding client lib.'
   s.description = 'A Ruby CMIS browser binding client library implementation.'
 
-  s.add_dependency 'httparty', '~> 0.10'
+  s.add_dependency 'typhoeus', '~> 0.6'
   s.add_dependency 'multipart-post', '~> 1.1'
   s.add_dependency 'multi_json', '~> 1.5'
 
