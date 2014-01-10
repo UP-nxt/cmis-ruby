@@ -120,29 +120,38 @@ module YACCL
 
         class Basement
 
+          @@get_cache = SimpleCache::MemoryCache.new
+
           def initialize(user, pass)
             @username = user
             @password = pass
           end
 
           def get(params)
-            # puts "##{params.class}#"
-            # old
-            # @basement.get(url, query: params, headers: headers) @ useage
-            request = Typhoeus::Request.new(
-              params[:url],
-              userpwd: "#{@username}:#{@password}",
-              method: :get,
-              body: params[:body],
-              params: params[:query],
-              headers: params[:headers],
-            )
-            request.run
+
+            if @@get_cache[params.to_s].nil?
+
+              request = Typhoeus::Request.new(
+                params[:url],
+                userpwd: "#{@username}:#{@password}",
+                method: :get,
+                body: params[:body],
+                params: params[:query],
+                headers: params[:headers],
+              )
+              request.run
+              @@get_cache[params.to_s] = request.run
+
+            end
+
+            @@get_cache[params.to_s]
           end
 
           def post(params)
-            # puts "*#{params.class}*"
-            # @basement.post(url, body: params, headers: headers)
+            
+            # reset on any update
+            @@get_cache.clear
+            
             request = Typhoeus::Request.new(
               params[:url],
               userpwd: "#{@username}:#{@password}",

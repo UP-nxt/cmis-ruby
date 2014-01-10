@@ -64,7 +64,7 @@ module SimpleCache
       @cache_size -= old_entry.size if old_entry
       @key_access[key] = Time.now.to_f
       @cache[key] = value
-      @cache_size += value.size
+      @cache_size += value.to_s.size
       prune if @cache_size > @max_size
     end
 
@@ -91,6 +91,12 @@ module SimpleCache
 
     def stale?(key)
       (Time.now.to_f - @key_access[key]) > @timeout.to_f
+    end
+
+    def clear
+      @cache = {}
+      @cache_size = 0
+      @key_access = {}
     end
 
   end
