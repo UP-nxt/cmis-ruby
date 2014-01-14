@@ -68,7 +68,7 @@ module YACCL
 
         def repository_urls(repository_id)
           if @@url_cache[repository_id].nil?
-            repository_infos = MultiJson.load( @basement.get(url: @service_url).body , symbolize_keys: false)            
+            repository_infos = MultiJson.load(@basement.get(url: @service_url).body , symbolize_keys: false)            
             raise "No repository found with ID #{repository_id}." unless repository_infos.has_key?(repository_id)
             repository_info = repository_infos[repository_id]
             @@url_cache[repository_id] = { repository_url: repository_info['repositoryUrl'],
@@ -130,7 +130,6 @@ module YACCL
           def get(params)
 
             if @@get_cache[params.to_s].nil?
-
               request = Typhoeus::Request.new(
                 params[:url],
                 userpwd: "#{@username}:#{@password}",
@@ -141,14 +140,12 @@ module YACCL
               )
               request.run
               @@get_cache[params.to_s] = request.run
-
             end
 
             @@get_cache[params.to_s]
           end
 
-          def post(params)
-            
+          def post(params)            
             # reset on any update
             @@get_cache.clear
             
