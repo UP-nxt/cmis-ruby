@@ -37,13 +37,13 @@ module YACCL
       end
 
       def copy_in_folder(folder)
-        new_object_id = Services.create_document_from_source(repository_id, object_id, nil, folder.object_id, nil, nil, nil, nil)
-        repository.object(new_object_id)
+        new_cmis_object_id = Services.create_document_from_source(repository_id, cmis_object_id, nil, folder.cmis_object_id, nil, nil, nil, nil)
+        repository.object(new_cmis_object_id)
       end
 
       def content
         begin
-          Services.get_content_stream(repository_id, object_id, nil, nil, nil)
+          Services.get_content_stream(repository_id, cmis_object_id, nil, nil, nil)
         rescue Services::CMISRequestError
           nil
         end
@@ -54,7 +54,7 @@ module YACCL
         if detached?
           @local_content = content
         else
-          r = Services.set_content_stream(repository_id, object_id, nil, change_token, content)
+          r = Services.set_content_stream(repository_id, cmis_object_id, nil, change_token, content)
           update_change_token(r)
         end
       end

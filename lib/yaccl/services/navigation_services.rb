@@ -53,11 +53,11 @@ module YACCL
       perform_request(required, optional)
     end
 
-    def get_object_parents(repository_id, object_id, filter, include_allowable_actions, include_relationships, rendition_filter, include_relative_path_segment, succinct=false)
+    def get_object_parents(repository_id, cmis_object_id, filter, include_allowable_actions, include_relationships, rendition_filter, include_relative_path_segment, succinct=false)
       required = {succinct: succinct,
                   cmisselector: 'parents',
                   repositoryId: repository_id,
-                  objectId: object_id}
+                  objectId: cmis_object_id}
       optional = {filter: filter,
                   includeAllowableActions: include_allowable_actions,
                   includeRelationships: include_relationships,

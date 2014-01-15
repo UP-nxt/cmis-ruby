@@ -19,7 +19,7 @@ describe YACCL::Model::Folder do
     new_object.name = 'folder1'
     new_object.object_type_id = 'cmis:folder'
     folder = @repo.root.create(new_object)
-    folder.parent.object_id.should eq @repo.root_folder_id
+    folder.parent.cmis_object_id.should eq @repo.root_folder_id
     folder.delete
   end
 

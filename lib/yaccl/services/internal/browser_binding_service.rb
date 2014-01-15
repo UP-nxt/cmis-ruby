@@ -58,11 +58,11 @@ module YACCL
 
         private
 
-        def get_url(repository_id, object_id)
+        def get_url(repository_id, cmis_object_id)
           if repository_id.nil?
             @service_url
           else
-            repository_urls(repository_id)[object_id ? :root_folder_url : :repository_url]
+            repository_urls(repository_id)[cmis_object_id ? :root_folder_url : :repository_url]
           end
         end
 

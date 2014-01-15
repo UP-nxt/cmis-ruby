@@ -1,26 +1,26 @@
 module YACCL
   module VersioningServices  # TODO Check 'version_series_id' confusion.
-    def check_out(repository_id, object_id, succinct=false)
+    def check_out(repository_id, cmis_object_id, succinct=false)
       required = {succinct: succinct,
                   cmisaction: 'checkOut',
                   repositoryId: repository_id,
-                  objectId: object_id}
+                  objectId: cmis_object_id}
       perform_request(required)
     end
 
-    def cancel_check_out(repository_id, object_id, succinct=false)
+    def cancel_check_out(repository_id, cmis_object_id, succinct=false)
       required = {succinct: succinct,
                   cmisaction: 'cancelCheckOut',
                   repositoryId: repository_id,
-                  objectId: object_id}
+                  objectId: cmis_object_id}
       perform_request(required)
     end
 
-    def check_in(repository_id, object_id, major, properties, content, checkin_comment, policies, add_aces, remove_aces, succinct=false)
+    def check_in(repository_id, cmis_object_id, major, properties, content, checkin_comment, policies, add_aces, remove_aces, succinct=false)
       required = {succinct: succinct,
                   cmisaction: 'checkIn',
                   repositoryId: repository_id,
-                  objectId: object_id}
+                  objectId: cmis_object_id}
       optional = {major: major,
                   properties: properties,
                   content: content,

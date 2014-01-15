@@ -24,7 +24,7 @@ module YACCL
       end
 
       def children(options={})
-        children = Services.get_children(repository_id, object_id, options[:filter], options[:order_by], options[:include_allowable_actions], options[:include_relations], options[:rendition_filter], options[:include_path_segment], options[:max_items], options[:skip_count])
+        children = Services.get_children(repository_id, cmis_object_id, options[:filter], options[:order_by], options[:include_allowable_actions], options[:include_relations], options[:rendition_filter], options[:include_path_segment], options[:max_items], options[:skip_count])
         if children[:objects]
           children[:objects].map! { |o| ObjectFactory.create(repository_id, o[:object]) }
         else
@@ -43,15 +43,15 @@ module YACCL
       def create(object)
         properties = object.create_properties
         if object.is_a? Folder
-          o = Services.create_folder(repository_id, properties, object_id, nil, nil, nil)
+          o = Services.create_folder(repository_id, properties, cmis_object_id, nil, nil, nil)
         elsif object.is_a? Document
-          return object.create_in_folder(object_id)
+          return object.create_in_folder(cmis_object_id)
         elsif object.is_a? Relationship
           raise 'relationship is not fileable'
         elsif object.is_a? Policy
-          o = Services.create_policy(repository_id, properties, object_id, nil, nil, nil)
+          o = Services.create_policy(repository_id, properties, cmis_object_id, nil, nil, nil)
         elsif object.is_a? Item
-          o = Services.create_item(repository_id, properties, object_id, nil, nil, nil)
+          o = Services.create_item(repository_id, properties, cmis_object_id, nil, nil, nil)
         else
           raise "Unexpected base_type_id: #{object.base_type_id}"
         end
@@ -59,15 +59,15 @@ module YACCL
       end
 
       def delete_tree
-        Services.delete_tree(repository_id, object_id, nil, nil, nil)
+        Services.delete_tree(repository_id, cmis_object_id, nil, nil, nil)
       end
 
       def add(object)
-        Services.add_object_to_folder(repository_id, object.object_id, object_id, nil)
+        Services.add_object_to_folder(repository_id, object.cmis_object_id, cmis_object_id, nil)
       end
 
       def remove(object)
-        Services.remove_object_from_folder(repository_id, object.object_id, object_id)
+        Services.remove_object_from_folder(repository_id, object.cmis_object_id, cmis_object_id)
       end
     end
   end

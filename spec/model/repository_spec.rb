@@ -39,14 +39,14 @@ describe YACCL::Model::Repository do
     it 'root' do
       root = @repo.root
       root.should be_a_kind_of YACCL::Model::Folder
-      root.object_id.should eq @repo.root_folder_id
+      root.cmis_object_id.should eq @repo.root_folder_id
     end
 
     it 'object' do
       id = @repo.root_folder_id
       object = @repo.object(id)
       object.should be_a_kind_of YACCL::Model::Folder
-      object.object_id.should eq id
+      object.cmis_object_id.should eq id
     end
 
     it 'type - document' do

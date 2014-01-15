@@ -2,7 +2,7 @@ module YACCL
   module Model
     class Object
       attr_reader :repository_id
-      attr_reader :object_id
+      attr_reader :cmis_object_id
       attr_reader :base_type_id
       attr_accessor :object_type_id
       attr_reader :secondary_object_type_ids
@@ -15,11 +15,16 @@ module YACCL
       attr_accessor :change_token
       attr_accessor :properties
 
+      def object_id
+        warn "[DEPRECATION] using `object_id` for CMIS objects is deprecated.  Please use `cmis_object_id` instead."
+        cmis_object_id
+      end
+
       def initialize(repository_id, raw={})
         @repository_id = repository_id
         @properties = get_properties_map(raw)
 
-        @object_id = @properties[:'cmis:objectId']
+        @cmis_object_id = @properties[:'cmis:objectId']
         @base_type_id = @properties[:'cmis:baseTypeId']
         @object_type_id = @properties[:'cmis:objectTypeId']
         @secondary_object_type_ids = @properties[:'cmis:secondaryObjectTypeIds']
@@ -41,59 +46,59 @@ module YACCL
       end
 
       def delete
-        Services.delete_object(repository_id, object_id, true)
+        Services.delete_object(repository_id, cmis_object_id, true)
       end
 
       def update_properties(properties)
-        r = Services.update_properties(repository_id, object_id, change_token, properties)
+        r = Services.update_properties(repository_id, cmis_object_id, change_token, properties)
         update_change_token(r)
       end
 
       def parents
-        Services.get_object_parents(repository_id, object_id, nil, nil, nil, nil, nil).map do |o|
+        Services.get_object_parents(repository_id, cmis_object_id, nil, nil, nil, nil, nil).map do |o|
           ObjectFactory.create(repository_id, o[:object])
         end
       end
 
       def allowable_actions
-        Services.get_allowable_actions(repository_id, object_id)
+        Services.get_allowable_actions(repository_id, cmis_object_id)
       end
 
       def relationships(direction=:either)
-        result = Services.get_object_relationships(repository_id, object_id, nil, direction, nil, nil, false, nil, nil)
+        result = Services.get_object_relationships(repository_id, cmis_object_id, nil, direction, nil, nil, false, nil, nil)
         result[:objects].map { |r| Relationship.new(repository_id, r) }
       end
 
       def policies
-        Services.get_applied_policies(repository_id, object_id, nil).map do |policy|
+        Services.get_applied_policies(repository_id, cmis_object_id, nil).map do |policy|
           Policy.new(repository_id, policy)
         end
       end
 
       # remove from all folders
       def unfile
-        Services.remove_object_from_folder(repository_id, object_id, nil)
+        Services.remove_object_from_folder(repository_id, cmis_object_id, nil)
       end
 
       def move(target_folder)
         object_parents = parents
         if object_parents.size == 1
-          Services.move_object(repository_id, object_id, target_folder.object_id, object_parents.first.object_id)
+          Services.move_object(repository_id, cmis_object_id, target_folder.cmis_object_id, object_parents.first.cmis_object_id)
         else
           # raise?
         end
       end
 
       def acls
-        Services.get_acl(repository_id, object_id, nil)
+        Services.get_acl(repository_id, cmis_object_id, nil)
       end
 
       def add_aces(aces)
-        Services.apply_acl(repository_id, object_id, aces, nil, nil)
+        Services.apply_acl(repository_id, cmis_object_id, aces, nil, nil)
       end
 
       def remove_aces(aces)
-        Services.apply_acl(repository_id, object_id, nil, aces, nil)
+        Services.apply_acl(repository_id, cmis_object_id, nil, aces, nil)
       end
 
       def create_properties
@@ -101,7 +106,7 @@ module YACCL
       end
 
       def detached?
-        object_id.nil?
+        cmis_object_id.nil?
       end
 
       # utility

@@ -75,8 +75,8 @@ module YACCL
         ObjectFactory.create(id, Services.get_object(id, root_folder_id, nil, false, nil, nil, false, false))
       end
 
-      def object(object_id)
-        ObjectFactory.create(id, Services.get_object(id, object_id, nil, false, nil, nil, false, false))
+      def object(cmis_object_id)
+        ObjectFactory.create(id, Services.get_object(id, cmis_object_id, nil, false, nil, nil, false, false))
       end
 
       # type
