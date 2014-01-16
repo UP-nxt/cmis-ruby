@@ -42,9 +42,15 @@ module YACCL
 
 
           result = response.body
-          if response.headers['Content-Type'] =~ /application\/json/
-            result = MultiJson.load(result, symbolize_keys: true)
+
+          content_type = if response.respond_to?(:content_type)
+            response.content_type
+          else
+            response.headers['Content-Type']
           end
+
+          result = MultiJson.load(result, symbolize_keys: true) if content_type =~ /application\/json/
+
           unless (200...300).include?(response.code.to_i)
             if result.is_a?(Hash) && result.has_key?(:exception)
               raise CMISRequestError, "#{response.code} -- #{result[:exception]} -- #{result[:message]}"
@@ -128,7 +134,6 @@ module YACCL
           end
 
           def get(params)
-
             if @@get_cache[params.to_s].nil?
               request = Typhoeus::Request.new(
                 params[:url],
@@ -137,6 +142,7 @@ module YACCL
                 body: params[:body],
                 params: params[:query],
                 headers: params[:headers],
+                followlocation: true
               )
               request.run
               @@get_cache[params.to_s] = request.run
@@ -155,12 +161,14 @@ module YACCL
               method: :post,
               body: params[:body],
               params: params[:query],
-              headers: params[:headers],
+              headers: params[:headers]
             )
             request.run
           end
 
           def multipart_post(url, options, headers)
+            @@get_cache.clear
+            
             url = URI.parse(url)
             req = Net::HTTP::Post::Multipart.new(url.path, options)
             headers.each {|key, value| req[key] = value }
