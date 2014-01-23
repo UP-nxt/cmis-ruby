@@ -127,49 +127,35 @@ module YACCL
 
         class Basement
 
-          @@get_cache = SimpleCache::MemoryCache.new
-
           def initialize(user, pass)
             @username = user
             @password = pass
           end
 
           def get(params)
-            if @@get_cache[params.to_s].nil?
-              request = Typhoeus::Request.new(
-                params[:url],
-                userpwd: "#{@username}:#{@password}",
-                method: :get,
-                body: params[:body],
-                params: params[:query],
-                headers: params[:headers],
-                followlocation: true
-              )
-              request.run
-              @@get_cache[params.to_s] = request.run
-            end
-
-            @@get_cache[params.to_s]
+            Typhoeus::Request.new(
+              params[:url],
+              userpwd: "#{@username}:#{@password}",
+              method: :get,
+              body: params[:body],
+              params: params[:query],
+              headers: params[:headers],
+              followlocation: true
+            ).run
           end
 
           def post(params)            
-            # reset on any update
-            @@get_cache.clear
-            
-            request = Typhoeus::Request.new(
+            Typhoeus::Request.new(
               params[:url],
               userpwd: "#{@username}:#{@password}",
               method: :post,
               body: params[:body],
               params: params[:query],
               headers: params[:headers]
-            )
-            request.run
+            ).run
           end
 
           def multipart_post(url, options, headers)
-            @@get_cache.clear
-            
             url = URI.parse(url)
             req = Net::HTTP::Post::Multipart.new(url.path, options)
             headers.each {|key, value| req[key] = value }
