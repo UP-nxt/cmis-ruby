@@ -125,6 +125,17 @@ module YACCL
         result[:results]
       end
 
+      def query_for_each_chunk(statement, chunk_size, &block)
+        skip_count = 0
+        has_more_items = true
+        while has_more_items
+          result = Services.query(id, statement, nil, nil, nil, nil, chunk_size, skip_count)
+          yield(result[:results].map! { |o| ObjectFactory.create(id, o) })
+          has_more_items = result[:hasMoreItems]
+          skip_count += chunk_size
+        end
+      end
+
       def content_changes(change_log_token)
         Services.get_content_changes(id, change_log_token, nil, nil, nil, nil)
       end

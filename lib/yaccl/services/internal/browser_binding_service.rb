@@ -1,3 +1,4 @@
+require 'date'
 require 'typhoeus'
 require 'net/http/post/multipart'
 require 'multi_json'
