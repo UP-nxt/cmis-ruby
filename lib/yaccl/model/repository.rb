@@ -130,9 +130,9 @@ module YACCL
         has_more_items = true
         while has_more_items
           result = Services.query(id, statement, nil, nil, nil, nil, chunk_size, skip_count)
-          yield(result[:results].map! { |o| ObjectFactory.create(id, o) })
+          yield(result[:results].map! { |o| ObjectFactory.create(id, o) }) unless result[:results].empty?
           has_more_items = result[:hasMoreItems]
-          skip_count += chunk_size
+          skip_count += result[:results].size
         end
       end
 
