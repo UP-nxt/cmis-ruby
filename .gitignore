@@ -1,4 +1,4 @@
 Gemfile.lock
-
+*.gem
 .idea
 *.iml

@@ -5,6 +5,7 @@ require 'multi_json'
 require_relative 'simple_cache'
 
 module YACCL
+  class ObjectNotFoundError < StandardError; end
   module Services
     class CMISRequestError < RuntimeError; end
 
@@ -54,7 +55,11 @@ module YACCL
 
           unless (200...300).include?(response.code.to_i)
             if result.is_a?(Hash) && result.has_key?(:exception)
-              raise CMISRequestError, "#{response.code} -- #{result[:exception]} -- #{result[:message]}"
+              if response.code.to_i == 404 && result[:exception] == "objectNotFound"
+                raise ObjectNotFoundError
+              else
+                raise CMISRequestError, "#{response.code} -- #{result[:exception]} -- #{result[:message]}"
+              end
             else
               raise CMISRequestError, "#{response.code} -- #{result}"
             end
@@ -76,7 +81,7 @@ module YACCL
         def repository_urls(repository_id)
           if @@url_cache[repository_id].nil?
             repository_infos = MultiJson.load(@basement.get(url: @service_url).body , symbolize_keys: false)            
-            raise "No repository found with ID #{repository_id}." unless repository_infos.has_key?(repository_id)
+            raise ObjectNotFoundError, "No repository found with ID #{repository_id}." unless repository_infos.has_key?(repository_id)
             repository_info = repository_infos[repository_id]
             @@url_cache[repository_id] = { repository_url: repository_info['repositoryUrl'],
                                            root_folder_url: repository_info['rootFolderUrl'] }

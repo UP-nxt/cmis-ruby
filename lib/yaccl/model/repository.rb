@@ -27,6 +27,16 @@ module YACCL
         name
       end
 
+      def self.exist?(repository_id)
+        found = true
+        begin
+          Services.get_repository_info(repository_id, true)
+        rescue ObjectNotFoundError
+          found = false
+        end
+        found
+      end
+
       def self.create(raw_repository)
         Repository.new(raw_repository)
       end

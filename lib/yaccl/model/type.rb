@@ -25,6 +25,16 @@ module YACCL
       attr_accessor :allowed_source_types
       attr_accessor :allowed_target_types
 
+      def self.exist?(repository_id, type_id)
+        type_found = true
+        begin
+          Services.get_type_definition(repository_id, type_id, true)
+        rescue ObjectNotFoundError
+          type_found = false
+        end
+        type_found
+      end
+
       def self.create(repository_id, raw)
         type = Type.new(raw)
         type.repository_id = repository_id
