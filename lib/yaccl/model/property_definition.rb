@@ -3,7 +3,7 @@ module YACCL
     class PropertyDefinition
 
       attr_accessor :id, :local_name, :query_name,
-        :description, :inherited, :open_choice,
+        :description, :inherited,
         :orderable, :property_type, :updatability,
         :display_name, :required, :cardinality, :queryable, :other
 
@@ -13,7 +13,6 @@ module YACCL
         @query_name = hash.delete(:queryName)
         @description = hash.delete(:description)
         @inherited = hash.delete(:inherited)
-        @open_choice = hash.delete(:openChoice)
         @orderable = hash.delete(:orderable)
         @property_type = hash.delete(:propertyType)
         @updatability = hash.delete(:updatability)
@@ -51,7 +50,6 @@ module YACCL
         hash[:queryName] = query_name
         hash[:description] = description
         hash[:inherited] = inherited
-        hash[:openChoice] = open_choice
         hash[:orderable] = orderable
         hash[:propertyType] = property_type
         hash[:updatability] = updatability
