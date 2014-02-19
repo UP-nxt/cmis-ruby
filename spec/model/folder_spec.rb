@@ -1,6 +1,6 @@
 require_relative '../helper'
 
-describe YACCL::Model::Folder do
+describe YACCL::Folder do
 
   before :all do
     @repo = create_repository('test')
@@ -29,7 +29,7 @@ describe YACCL::Model::Folder do
     new_object.object_type_id = 'cmis:document'
     new_object.set_content(StringIO.new('apple is a fruit'), 'text/plain', 'apple.txt')
     object = @repo.root.create(new_object)
-    object.should be_a_kind_of YACCL::Model::Document
+    object.should be_a_kind_of YACCL::Document
     object.name.should eq 'doc1'
     object.content_stream_mime_type.should eq 'text/plain'
     object.content_stream_file_name.should eq 'apple.txt'
@@ -42,7 +42,7 @@ describe YACCL::Model::Folder do
     new_object.name = 'folder1'
     new_object.object_type_id = 'cmis:folder'
     object = @repo.root.create(new_object)
-    object.should be_a_kind_of YACCL::Model::Folder
+    object.should be_a_kind_of YACCL::Folder
     object.name.should eq 'folder1'
     object.delete
   end
@@ -60,14 +60,14 @@ describe YACCL::Model::Folder do
       new_object.name = 'item1'
       new_object.object_type_id = 'cmis:item'
       object = @repo.root.create(new_object)
-      object.should be_a_kind_of YACCL::Model::Item
+      object.should be_a_kind_of YACCL::Item
       object.name.should eq 'item1'
       object.delete
     end unless @repo.cmis_version_supported < '1.1'
   end
 
   it 'create object' do
-    new_object = YACCL::Model::Object.new @repo.id
+    new_object = YACCL::Object.new({}, @repo)
     new_object.name = 'object1'
     new_object.object_type_id = 'cmis:folder'
     lambda { @repo.root.create(new_object) }.should raise_exception

@@ -1,6 +1,6 @@
 require_relative '../helper'
 
-describe YACCL::Model::Type do
+describe YACCL::Type do
 
   before :all do
     @repo = create_repository('test')
@@ -11,7 +11,7 @@ describe YACCL::Model::Type do
   end
 
   it 'shoud update types' do
-    type = YACCL::Model::Type.new
+    type = YACCL::Type.new
     type.id = 'apple'
     type.local_name = 'apple'
     type.query_name = 'apple'
@@ -46,7 +46,7 @@ describe YACCL::Model::Type do
 
     full_type = @repo.create_type(type)
 
-    new_prop = YACCL::Model::PropertyDefinition.new(
+    new_prop = YACCL::PropertyDefinition.new(
       id: 'taste',
       localName: 'taste',
       queryName: 'taste',
@@ -62,6 +62,8 @@ describe YACCL::Model::Type do
     )
 
     full_type.update([new_prop])
+
+    full_type.delete
   end
 
 end

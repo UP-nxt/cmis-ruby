@@ -1,15 +1,19 @@
 require_relative '../helper'
 
-describe YACCL::Model::Relationship do
+describe YACCL::Relationship do
+
+  before :all do
+    @dummy = YACCL::Server.new.repository('meta')
+  end
 
   it 'should make properties accessible through method' do
-    new_object = YACCL::Model::Relationship.new('repoId', {succinctProperties: {myProp: 'myValue'}})
-    new_object.myProp.should eq 'myValue'
+    new_object = YACCL::Relationship.new({ succinctProperties: { myProp: 'myValue' } }, @dummy)
+    new_object.properties['myProp'].should eq 'myValue'
   end
 
   it 'should raise methodmissing for unknown property' do
-    new_object = YACCL::Model::Relationship.new('repoId', {succinctProperties: {'myProp' => 'myValue'}})
-    expect {new_object.myOtherProp}.to raise_error(NoMethodError, /undefined method `myOtherProp'/)
+    new_object = YACCL::Relationship.new({ succinctProperties: { 'myProp' => 'myValue' } }, @dummy)
+    expect { new_object.myOtherProp }.to raise_error(NoMethodError, /undefined method `myOtherProp'/)
   end
 
 end

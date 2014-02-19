@@ -1,16 +1,22 @@
 require_relative '../helper'
 
-describe YACCL::Model::Server do
+describe YACCL::Server do
+
+  before :all do
+    @server = YACCL::Server.new
+  end
+
   it 'repositories' do
-    YACCL::Model::Server.repositories.each do |repo|
-      repo.should be_a_kind_of YACCL::Model::Repository
+    @server.repositories.each do |repo|
+      repo.should be_a_kind_of YACCL::Repository
     end
   end
 
   it 'repository' do
     id = 'meta'
-    repo = YACCL::Model::Server.repository(id)
-    repo.should be_a_kind_of YACCL::Model::Repository
+    repo = @server.repository(id)
+    repo.should be_a_kind_of YACCL::Repository
     repo.id.should eq id
   end
+
 end
