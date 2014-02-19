@@ -3,13 +3,13 @@ module YACCL
 
     attr_reader :connection
 
-    def initialize(raw, server)
+    def initialize(raw, connection)
       raw.each do |key, value|
         class_eval "def #{key.underscore};'#{value}';end"
         class_eval "def #{key.gsub('repository', '').underscore};'#{value}';end"
       end
 
-      @connection = server.connection
+      @connection = connection
     end
 
     def new_document

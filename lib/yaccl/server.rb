@@ -22,7 +22,7 @@ module YACCL
       result = connection.execute!
 
       result.values.map do |r|
-        Repository.new(r, self)
+        Repository.new(r, connection)
       end
     end
 
@@ -30,7 +30,7 @@ module YACCL
       result = connection.execute!({ cmisselector: 'repositoryInfo',
                                      repositoryId: repository_id })
 
-      Repository.new(result[repository_id], self)
+      Repository.new(result[repository_id], connection)
     end
 
   end
