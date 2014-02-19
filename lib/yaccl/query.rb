@@ -1,18 +1,4 @@
 module YACCL
-  def QueryResult
-
-    attr_reader :results
-    attr_reader :num_items
-    attr_reader :has_more_items
-
-    def initialize(results, num_items, has_more_items)
-      @results = results
-      @num_items = num_items
-      @has_more_items = has_more_items
-    end
-
-  end
-
   class Query
 
     def initialize(repository, statement, options)
@@ -22,7 +8,7 @@ module YACCL
       @connection = repository.connection
 
       @statement = statement
-      @max_items = options['max_items' || 10
+      @max_items = options['max_items'] || 10
       @skip_count = options['skip_count'] || 0
 
       @has_next = true
@@ -50,11 +36,11 @@ module YACCL
     private
 
     def do_query
-      result = connection.execute!({ cmisselector: 'query',
-                                     repositoryId: @repository.id,
-                                     q: @statement,
-                                     maxItems: @max_items,
-                                     skipCount: @skip_count })
+      result = @connection.execute!({ cmisselector: 'query',
+                                      repositoryId: @repository.id,
+                                      q: @statement,
+                                      maxItems: @max_items,
+                                      skipCount: @skip_count })
 
       results = result['results'].map do |r|
         ObjectFactory.create(r, @repository)

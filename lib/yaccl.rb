@@ -3,6 +3,8 @@ require 'yaccl/connection'
 require 'yaccl/server'
 
 require 'yaccl/helpers'
+require 'yaccl/query_result'
+require 'yaccl/query'
 
 require 'yaccl/repository'
 

@@ -98,8 +98,8 @@ module YACCL
     def construct_types(a)
       types = []
       a.each do |t|
-        types << Type.create(t[:type], repository)
-        types << construct_types(t[:children]) if t.has_key?(:children)
+        types << Type.new(t['type'], self)
+        types << construct_types(t['children']) if t.has_key?('children')
       end
       types.flatten
     end
