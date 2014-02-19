@@ -42,7 +42,7 @@ module YACCL
                                      repositoryId: repository.id,
                                      objectId: cmis_object_id })
 
-      result.map { |o| ObjectFactory.create(o[:object], repository) }
+      result.map { |o| ObjectFactory.create(o['object'], repository) }
     end
 
     def allowable_actions
@@ -51,13 +51,13 @@ module YACCL
                             objectId: cmis_object_id })
     end
 
-    def relationships
+    def relationships(direction = :either)
       result = connection.execute!({ cmisselector: 'relationships',
                                      repositoryId: repository.id,
                                      objectId: cmis_object_id,
-                                     relationshipDirection: 'either' })
+                                     relationshipDirection: direction })
 
-      result[:objects].map { |r| Relationship.new(r, repository) }
+      result['objects'].map { |r| Relationship.new(r, repository) }
     end
 
     def policies
