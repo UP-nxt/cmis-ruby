@@ -17,7 +17,7 @@ module YACCL
     end
 
     def children(options = {})
-      # TODO Implement like Repository#query
+      Children.new(self, options)
     end
 
     def create(object)

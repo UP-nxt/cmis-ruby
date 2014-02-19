@@ -5,6 +5,7 @@ require 'yaccl/server'
 require 'yaccl/helpers'
 require 'yaccl/query_result'
 require 'yaccl/query'
+require 'yaccl/children'
 
 require 'yaccl/repository'
 
