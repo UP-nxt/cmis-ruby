@@ -33,5 +33,11 @@ module YACCL
       Repository.new(result[repository_id], connection)
     end
 
+    def has_repository?(repository_id)
+      result = connection.execute!
+
+      result.keys.include?(repository_id)
+    end
+
   end
 end

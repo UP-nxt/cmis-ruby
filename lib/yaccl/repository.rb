@@ -65,6 +65,10 @@ module YACCL
       Type.new(result, self)
     end
 
+    def has_type?(type_id)
+      types.map(&:id).include?(type_id)
+    end
+
     def create_type(type)
       result = connection.execute!({ cmisaction: 'createType',
                                      repositoryId: id,
