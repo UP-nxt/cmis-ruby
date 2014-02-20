@@ -4,9 +4,10 @@ module YACCL
     attr_reader :connection
 
     def initialize(raw, connection)
-      raw.each do |key, value|
-        class_eval "def #{key.underscore};'#{value}';end"
-        class_eval "def #{key.gsub('repository', '').underscore};'#{value}';end"
+      @hash = raw
+      @hash.each_key do |key|
+        class_eval "def #{key.underscore};@hash['#{key}'];end"
+        class_eval "def #{key.gsub('repository', '').underscore};@hash['#{key}'];end" if key =~ /^repository/
       end
 
       @connection = connection

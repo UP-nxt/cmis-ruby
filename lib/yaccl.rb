@@ -1,4 +1,3 @@
-
 require 'yaccl/connection'
 require 'yaccl/server'
 
