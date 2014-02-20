@@ -65,8 +65,6 @@ module YACCL
                                      repositoryId: repository.id,
                                      objectId: cmis_object_id })
 
-
-
       result.map { |r| Policy.new(r, repository) }
     end
 

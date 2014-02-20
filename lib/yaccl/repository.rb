@@ -97,7 +97,6 @@ module YACCL
       Query.new(self, statement, options)
     end
 
-
     private
 
     def construct_types(a)

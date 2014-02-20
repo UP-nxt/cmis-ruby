@@ -62,7 +62,7 @@ describe YACCL::Object do
   it 'unfile' do
     doc = create_document
     doc.unfile
-    #TODO check
+    # TODO check
     doc.delete
   end
 

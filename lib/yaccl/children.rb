@@ -33,7 +33,6 @@ module YACCL
       @total ||= do_get_children.num_items
     end
 
-
     private
 
     def do_get_children

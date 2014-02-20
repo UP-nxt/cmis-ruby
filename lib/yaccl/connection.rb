@@ -106,9 +106,9 @@ module YACCL
             value = (value.to_f * 1000).to_i if value.is_a?(Time)
             if value.is_a?(Array)
               hash.merge!("propertyId[#{index}]" => id)
-              value.each_with_index { |v, idx|
+              value.each_with_index do |v, idx|
                 hash.merge!("propertyValue[#{index}][#{idx}]" => value[idx])
-              }
+              end
             else
               hash.merge!("propertyId[#{index}]" => id,
                           "propertyValue[#{index}]" => value)
@@ -137,7 +137,7 @@ module YACCL
     def multipart_post(options)
       url = URI.parse(options[:url])
       req = Net::HTTP::Post::Multipart.new(url.path, options[:body])
-      options[:headers].each {|key, value| req[key] = value }
+      options[:headers].each { |key, value| req[key] = value }
       req.basic_auth @username, @password if @username
       opts = url.scheme == 'https' ? { use_ssl: true , verify_mode: OpenSSL::SSL::VERIFY_NONE } : {}
       Net::HTTP.start(url.host, url.port, opts) { |http| http.request(req) }

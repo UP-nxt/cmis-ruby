@@ -54,7 +54,7 @@ module YACCL
                                                   repositoryId: repository.id,
                                                   objectId: cmis_object_id,
                                                   content: content,
-                                                  changeToken:change_token })
+                                                  changeToken: change_token })
       end
     end
 

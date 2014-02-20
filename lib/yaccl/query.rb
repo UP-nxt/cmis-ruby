@@ -32,7 +32,6 @@ module YACCL
       @total ||= do_query.num_items
     end
 
-
     private
 
     def do_query

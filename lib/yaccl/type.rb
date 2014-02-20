@@ -38,7 +38,7 @@ module YACCL
     end
 
     def update(changed_property_defs)
-      new_defs = changed_property_defs.map(&:to_hash).inject({}) do |result, element|
+      new_defs = changed_property_defs.map(&:to_hash).reduce({}) do |result, element|
         result[element[:id]] = element
         result
       end

@@ -25,7 +25,6 @@ module YACCL
       end
     end
 
-
     private
 
     def method_name(property_name)
@@ -42,7 +41,7 @@ module YACCL
       if raw['succinctProperties']
         result = raw['succinctProperties']
       elsif raw['properties']
-        result = raw['properties'].inject({}) do |h, (k, v)|
+        result = raw['properties'].reduce({}) do |h, (k, v)|
           val = v['value']
           val = v['value'].first if v['value'].is_a?(Array) and v['cardinality'] == 'single'
           val = Time.at(val / 1000) if val and v['type'] == 'datetime'
