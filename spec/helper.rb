@@ -1,27 +1,27 @@
 require 'yaccl'
 require 'json'
 
-YACCL.init('http://33.33.33.100:8080/browser', 'metaadmin', 'metaadmin')
+META = YACCL::Server.new.repository('meta')
 
 def create_repository(id)
-  meta = YACCL::Model::Server.repository('meta')
+  delete_repository(id)
 
-  repo_type = meta.type('repository')
+  repo_type = META.type('repository')
   property_definitions = repo_type.property_definitions.keys
 
-  f = meta.new_folder
+  f = repo_type.new_object
   f.name = id
   f.properties[:id] = id
-  f.object_type_id = repo_type.id
-  f.properties[:supportsRelationships] = true if property_definitions.include?(:supportsRelationships)
-  f.properties[:supportsPolicies] = true if property_definitions.include?(:supportsPolicies)
-  f.properties[:supportsItems] = true if property_definitions.include?(:supportsItems)
-  f.properties[:realtime] = true if property_definitions.include?(:realtime)
-  meta.root.create(f)
+  f.properties[:supportsRelationships] = true if property_definitions.include?('supportsRelationships')
+  f.properties[:supportsPolicies] = true if property_definitions.include?('supportsPolicies')
+  f.properties[:supportsItems] = true if property_definitions.include?('supportsItems')
+  f.properties[:realtime] = true if property_definitions.include?('realtime')
+  META.root.create(f)
 
-  YACCL::Model::Server.repository(id)
+  YACCL::Server.new.repository(id)
 end
 
 def delete_repository(id)
-  YACCL::Model::Server.repository('meta').object(id).delete
+  META.object(id).delete
+rescue YACCL::CMISRequestError => ex
 end

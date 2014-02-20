@@ -1,6 +1,6 @@
-require_relative '../helper'
+require_relative './helper'
 
-describe YACCL::Model::Document do
+describe YACCL::Document do
 
   before :all do
     @repo = create_repository('test')
@@ -15,7 +15,7 @@ describe YACCL::Model::Document do
     new_object.name = 'doc1'
     new_object.object_type_id = 'cmis:document'
     new_object.set_content(StringIO.new('content1'), 'text/plain', 'doc1.txt') # set content on detached doc
-    doc = new_object.create_in_folder(@repo.root_folder_id)
+    doc = new_object.create_in_folder(@repo.root)
     doc.name.should eq 'doc1'
     doc.content_stream_mime_type.should eq 'text/plain'
     doc.content_stream_file_name.should eq 'doc1.txt'
@@ -27,7 +27,7 @@ describe YACCL::Model::Document do
     new_object = @repo.new_document
     new_object.name = 'doc2'
     new_object.object_type_id = 'cmis:document'
-    doc = new_object.create_in_folder(@repo.root_folder_id)
+    doc = new_object.create_in_folder(@repo.root)
     doc.name.should eq 'doc2'
     doc.content.should be nil
     doc.delete
