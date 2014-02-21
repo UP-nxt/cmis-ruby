@@ -1,15 +1,30 @@
 module YACCL
   class Query
 
-    def initialize(repository, statement, options)
+    # Options: from, fetch_size
+    def initialize(repository, statement, options = {})
       @repository = repository
       @statement = statement
+      @options = options.stringify_keys
 
-      options.stringify_keys!
-      @max_items = options['max_items'] || 10
-      @skip_count = options['skip_count'] || 0
+      init_options
+    end
 
-      @has_next = true
+    # Options: limit
+    def each_result(options = {}, &block)
+      return enum_for(:each_result, options) unless block_given?
+
+      init_options
+      limit = parse_limit(options)
+      counter = 0
+
+      while has_next?
+        next_results.each do |object|
+          break unless counter < limit
+          yield object
+          counter = counter.next
+        end
+      end
     end
 
     def next_results
@@ -31,6 +46,20 @@ module YACCL
     end
 
     private
+
+    def init_options
+      @max_items = @options['fetch_size'] || 10
+      @skip_count = @options['from'] || 0
+      @has_next = true
+    end
+
+    def parse_limit(options)
+      options.stringify_keys!
+      limit = options['limit'] || 10
+      limit = BigDecimal::INFINITY if limit == :all
+      raise 'Not a valid limit' unless limit.is_a? Numeric
+      limit
+    end
 
     def do_query
       result = @repository.connection.execute!({ cmisselector: 'query',
