@@ -1,7 +1,7 @@
 module YACCL
   class Query
 
-    # Options: from, fetch_size
+    # Options: from, page_size
     def initialize(repository, statement, options = {})
       @repository = repository
       @statement = statement
@@ -19,7 +19,7 @@ module YACCL
       counter = 0
 
       while has_next?
-        next_results.each do |object|
+        results.each do |object|
           break unless counter < limit
           yield object
           counter = counter.next
@@ -27,7 +27,7 @@ module YACCL
       end
     end
 
-    def next_results
+    def results
       result = do_query
 
       @skip_count += result.results.size
@@ -48,7 +48,8 @@ module YACCL
     private
 
     def init_options
-      @max_items = @options['fetch_size'] || 10
+      @method = (@options['method'] || 'get').to_s.downcase
+      @max_items = @options['page_size'] || 10
       @skip_count = @options['from'] || 0
       @has_next = true
     end
@@ -62,11 +63,16 @@ module YACCL
     end
 
     def do_query
-      result = @repository.connection.execute!({ cmisselector: 'query',
-                                                 repositoryId: @repository.id,
-                                                 q: @statement,
-                                                 maxItems: @max_items,
-                                                 skipCount: @skip_count })
+      params = { repositoryId: @repository.id,
+                 maxItems: @max_items,
+                 skipCount: @skip_count }
+      if @method == 'post'
+        params.merge!(cmisselector: 'query', q: @statement)
+      else
+        params.merge!(cmisaction: 'query', statement: @statement)
+      end
+
+      result = @repository.connection.execute!(params)
 
       results = result['results'].map do |r|
         ObjectFactory.create(r, @repository)
