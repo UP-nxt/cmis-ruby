@@ -1,4 +1,4 @@
-module YACCL
+module CMIS
   class Folder < Object
 
     def initialize(raw, repository)

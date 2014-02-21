@@ -1,6 +1,6 @@
 require 'active_support/core_ext'
 
-module YACCL
+module CMIS
   module Helpers
 
     def initialize_properties(raw)

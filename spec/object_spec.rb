@@ -1,6 +1,6 @@
 require_relative './helper'
 
-describe YACCL::Object do
+describe CMIS::Object do
 
   before :all do
     @repo = create_repository('test')
@@ -12,14 +12,14 @@ describe YACCL::Object do
 
   it 'repository' do
     doc = create_document
-    doc.repository.should be_a_kind_of YACCL::Repository
+    doc.repository.should be_a_kind_of CMIS::Repository
     doc.repository.id.should eq 'test'
     doc.delete
   end
 
   it 'object_type' do
     doc = create_document
-    doc.object_type.should be_a_kind_of YACCL::Type
+    doc.object_type.should be_a_kind_of CMIS::Type
     doc.object_type.id.should eq 'cmis:document'
     doc.delete
   end
@@ -44,7 +44,7 @@ describe YACCL::Object do
     rels = doc.relationships
     rels.should_not be_nil
     rels.each do |r|
-      r.should be_a_kind_of YACCL::Relationship
+      r.should be_a_kind_of CMIS::Relationship
     end
     doc.delete
   end
@@ -54,7 +54,7 @@ describe YACCL::Object do
     pols = doc.policies
     pols.should_not be_nil
     pols.each do |p|
-      p.should be_a_kind_of YACCL::Policy
+      p.should be_a_kind_of CMIS::Policy
     end
     doc.delete
   end

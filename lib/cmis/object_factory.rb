@@ -1,4 +1,4 @@
-module YACCL
+module CMIS
   class ObjectFactory
 
     def self.create(raw, repository)

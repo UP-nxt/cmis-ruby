@@ -1,4 +1,4 @@
-module YACCL
+module CMIS
   class Children
 
     def initialize(folder, options)

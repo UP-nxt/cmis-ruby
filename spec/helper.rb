@@ -1,7 +1,7 @@
-require 'yaccl'
+require 'cmis'
 require 'json'
 
-META = YACCL::Server.new.repository('meta')
+META = CMIS::Server.new.repository('meta')
 
 def create_repository(id)
   delete_repository(id)
@@ -18,10 +18,10 @@ def create_repository(id)
   f.properties[:realtime] = true if property_definitions.include?('realtime')
   META.root.create(f)
 
-  YACCL::Server.new.repository(id)
+  CMIS::Server.new.repository(id)
 end
 
 def delete_repository(id)
   META.object(id).delete
-rescue YACCL::CMISRequestError => ex
+rescue CMIS::CMISRequestError => ex
 end

@@ -1,4 +1,4 @@
-module YACCL
+module CMIS
   class Repository
 
     attr_reader :connection

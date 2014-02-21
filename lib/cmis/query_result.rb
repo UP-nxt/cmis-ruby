@@ -1,4 +1,4 @@
-module YACCL
+module CMIS
   class QueryResult
 
     attr_reader :results

@@ -4,7 +4,7 @@ require 'typhoeus'
 require 'net/http/post/multipart'
 require 'multi_json'
 
-module YACCL
+module CMIS
 
   class CMISRequestError < Exception; end
 

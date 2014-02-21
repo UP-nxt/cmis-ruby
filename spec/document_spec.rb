@@ -1,6 +1,6 @@
 require_relative './helper'
 
-describe YACCL::Document do
+describe CMIS::Document do
 
   before :all do
     @repo = create_repository('test')

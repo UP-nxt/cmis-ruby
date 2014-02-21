@@ -1,6 +1,6 @@
 require 'active_support/core_ext'
 
-module YACCL
+module CMIS
   class PropertyDefinition
 
     def initialize(hash = {})

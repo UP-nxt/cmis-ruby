@@ -1,12 +1,12 @@
 require_relative './helper'
 
-describe YACCL::Repository do
+describe CMIS::Repository do
 
   context 'generic' do
 
     before do
       @id = 'meta'
-      @repo = YACCL::Server.new.repository(@id)
+      @repo = CMIS::Server.new.repository(@id)
     end
 
     it 'id' do
@@ -30,44 +30,44 @@ describe YACCL::Repository do
     end
 
     it 'new object' do
-      @repo.new_folder.should be_a_kind_of YACCL::Folder
-      @repo.new_document.should be_a_kind_of YACCL::Document
-      @repo.new_relationship.should be_a_kind_of YACCL::Relationship
-      @repo.new_policy.should be_a_kind_of YACCL::Policy
-      @repo.new_item.should be_a_kind_of YACCL::Item
+      @repo.new_folder.should be_a_kind_of CMIS::Folder
+      @repo.new_document.should be_a_kind_of CMIS::Document
+      @repo.new_relationship.should be_a_kind_of CMIS::Relationship
+      @repo.new_policy.should be_a_kind_of CMIS::Policy
+      @repo.new_item.should be_a_kind_of CMIS::Item
     end
 
     it 'repositories' do
-      YACCL::Server.new.repositories
+      CMIS::Server.new.repositories
     end
 
     it 'repository' do
-      r = YACCL::Server.new.repository('generali')
+      r = CMIS::Server.new.repository('generali')
       r.name.should eq 'generali'
     end
 
     it 'root' do
       root = @repo.root
-      root.should be_a_kind_of YACCL::Folder
+      root.should be_a_kind_of CMIS::Folder
       root.cmis_object_id.should eq @repo.root_folder_id
     end
 
     it 'object' do
       id = @repo.root_folder_id
       object = @repo.object(id)
-      object.should be_a_kind_of YACCL::Folder
+      object.should be_a_kind_of CMIS::Folder
       object.cmis_object_id.should eq id
     end
 
     it 'type - document' do
       document = @repo.type('cmis:document')
-      document.should be_a_kind_of YACCL::Type
+      document.should be_a_kind_of CMIS::Type
       document.id.should eq 'cmis:document'
     end
 
     it 'type - folder' do
       folder = @repo.type('cmis:folder')
-      folder.should be_a_kind_of YACCL::Type
+      folder.should be_a_kind_of CMIS::Type
       folder.id.should eq 'cmis:folder'
     end
   end
@@ -84,20 +84,20 @@ describe YACCL::Repository do
 
     it 'type - relationship' do
       relationship = @repo.type('cmis:relationship')
-      relationship.should be_a_kind_of YACCL::Type
+      relationship.should be_a_kind_of CMIS::Type
       relationship.id.should eq 'cmis:relationship'
     end
 
     it 'type - policy' do
       policy = @repo.type('cmis:policy')
-      policy.should be_a_kind_of YACCL::Type
+      policy.should be_a_kind_of CMIS::Type
       policy.id.should eq 'cmis:policy'
     end
 
     it 'type - item' do
       begin
         item = @repo.type('cmis:item')
-        item.should be_a_kind_of YACCL::Type
+        item.should be_a_kind_of CMIS::Type
         item.id.should eq 'cmis:item'
       end unless @repo.cmis_version_supported < '1.1'
     end
@@ -105,7 +105,7 @@ describe YACCL::Repository do
     it 'create, get, delete type - document' do
       type_id = 'apple'
 
-      type = YACCL::Type.new
+      type = CMIS::Type.new
       type.id = type_id
       type.local_name = 'apple'
       type.query_name = 'apple'
@@ -139,7 +139,7 @@ describe YACCL::Repository do
       @repo.create_type(type)
 
       @repo.type(type_id).tap do |t|
-        t.should be_a_kind_of YACCL::Type
+        t.should be_a_kind_of CMIS::Type
         t.id.should eq type_id
       end
 

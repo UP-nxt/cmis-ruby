@@ -1,4 +1,4 @@
-module YACCL
+module CMIS
   class Document < Object
 
     def initialize(raw, repository)
@@ -38,7 +38,7 @@ module YACCL
                             repositoryId: repository.id,
                             objectId: cmis_object_id })
 
-    rescue YACCL::CMISRequestError
+    rescue CMIS::CMISRequestError
       nil
     end
 

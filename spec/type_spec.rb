@@ -1,6 +1,6 @@
 require_relative './helper'
 
-describe YACCL::Type do
+describe CMIS::Type do
 
   before :all do
     @repo = create_repository('test')
@@ -11,7 +11,7 @@ describe YACCL::Type do
   end
 
   it 'shoud update types' do
-    type = YACCL::Type.new
+    type = CMIS::Type.new
     type.id = 'apple'
     type.local_name = 'apple'
     type.query_name = 'apple'
@@ -46,7 +46,7 @@ describe YACCL::Type do
 
     full_type = @repo.create_type(type)
 
-    new_prop = YACCL::PropertyDefinition.new(
+    new_prop = CMIS::PropertyDefinition.new(
       id: 'taste',
       localName: 'taste',
       queryName: 'taste',

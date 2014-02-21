@@ -1,4 +1,4 @@
-module YACCL
+module CMIS
   class Relationship < Object
 
     def initialize(raw, repository)

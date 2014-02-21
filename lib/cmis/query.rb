@@ -1,4 +1,4 @@
-module YACCL
+module CMIS
   class Query
 
     # Options: from, page_size
