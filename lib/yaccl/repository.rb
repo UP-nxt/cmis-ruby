@@ -104,14 +104,8 @@ module YACCL
       query_opts['skip_count'] = options['from']
       query_opts['max_items']  = options['fetch_size']
 
-      limit = case options[:limit]
-              when :all
-                BigDecimal::INFINITY
-              when Fixnum
-                options[:limit]
-              else
-                10
-              end
+      limit = options['limit'] || 10
+      limit = BigDecimal::INFINITY if limit == :all
 
       query = query(statement, query_opts)
       counter = 0
