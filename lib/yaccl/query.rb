@@ -27,6 +27,21 @@ module YACCL
       end
     end
 
+    # Options: limit
+    def each_page(options = {}, &block)
+      return enum_for(:each_result, options) unless block_given?
+
+      init_options
+      limit = parse_limit(options)
+      counter = 0
+
+      while has_next?
+        break unless counter < limit
+        yield results
+        counter += results.size
+      end
+    end
+
     def results
       result = do_query
 
