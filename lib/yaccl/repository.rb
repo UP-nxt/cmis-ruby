@@ -97,6 +97,33 @@ module YACCL
       Query.new(self, statement, options)
     end
 
+    def each_query_result(statement, options = {})
+      options.stringify_keys!
+
+      query_opts = {}
+      query_opts['skip_count'] = options['from']
+      query_opts['max_items']  = options['fetch_size']
+
+      limit = case options[:limit]
+              when :all
+                BigDecimal::INFINITY
+              when Fixnum
+                options[:limit]
+              else
+                10
+              end
+
+      query = query(statement, query_opts)
+      counter = 0
+      while query.has_next? && counter < limit
+        query.next_results.each do |object|
+          break unless counter < limit
+          yield object
+          counter = counter.next
+        end
+      end
+    end
+
     private
 
     def construct_types(a)
