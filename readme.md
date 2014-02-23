@@ -1,6 +1,6 @@
 # cmis-ruby
 
-**cmis-ruby** is a [CMIS](http://chemistry.apache.org/project/cmis.html) client library on top of the CMIS browser binding ([CMIS 1.1](http://docs.oasis-open.org/cmis/CMIS/v1.1/CMIS-v1.1.html)), written in Ruby.
+**cmis-ruby** is a [CMIS](http://chemistry.apache.org/project/cmis.html) client library, using the the CMIS browser binding ([CMIS 1.1](http://docs.oasis-open.org/cmis/CMIS/v1.1/CMIS-v1.1.html)) for Ruby.
 
 ## Running Test
 
@@ -10,16 +10,14 @@ Running the tests requires a running CMIS server.
 
 ## TODO
 
-* limit * (query / children)
-* string keys property refs
-* copy tussen servers -> flow
-* errors / exists for repo/type
-* headers/params
-* Michael abcd revisiten
-* document copy flow makkelijk maken
+* query properties, not *
+* string / symbol consistency
+* better exceptions and handling
+* headers / params in low level (options)
+* facilitate copy between servers (make a flow)
+* improve exists for repo / type
 * caching
-* (type) check service input
 
 ## Contributing
 
-Write some code. Run the tests. Open a pull request.
+Write some code. Run tests. Open a pull request.
