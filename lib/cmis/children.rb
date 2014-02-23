@@ -1,21 +1,47 @@
 module CMIS
   class Children
 
-    def initialize(folder, options)
-      options.stringify_keys!
-
+    # Options: from, page_size
+    def initialize(folder, options = {})
       @folder = folder
-      @repository = folder.repository
-      @connection = folder.repository.connection
+      @options = options.stringify_keys!
 
-      @max_items = options['max_items'] || 10
-      @skip_count = options['skip_count'] || 0
-      @order_by = options['order_by']
-
-      @has_next = true
+      init_options
     end
 
-    def next_results
+    # Options: limit
+    def each_result(options = {}, &block)
+      return enum_for(:each_result, options) unless block_given?
+
+      init_options
+      limit = parse_limit(options)
+      counter = 0
+
+      while has_next?
+        results.each do |object|
+          break unless counter < limit
+          yield object
+          counter = counter.next
+        end
+      end
+    end
+
+    # Options: limit
+    def each_page(options = {}, &block)
+      return enum_for(:each_page, options) unless block_given?
+
+      init_options
+      limit = parse_limit(options)
+      counter = 0
+
+      while has_next?
+        break unless counter < limit
+        yield r = results
+        counter += r.size
+      end
+    end
+
+    def results
       result = do_get_children
 
       @skip_count += result.results.size
@@ -35,16 +61,31 @@ module CMIS
 
     private
 
+    def init_options
+      @max_items = @options['page_size'] || 10
+      @skip_count = @options['from'] || 0
+      @order_by = @options['order_by']
+      @has_next = true
+    end
+
+    def parse_limit(options)
+      options.stringify_keys!
+      limit = options['limit'] || 10
+      limit = BigDecimal::INFINITY if limit == :all
+      raise 'Not a valid limit' unless limit.is_a? Numeric
+      limit
+    end
+
     def do_get_children
-      result = @connection.execute!({ cmisselector: 'children',
-                                      repositoryId: @repository.id,
-                                      objectId: @folder.cmis_object_id,
-                                      maxItems: @max_items,
-                                      skipCount: @skip_count,
-                                      orderBy: @order_by })
+      result = @folder.connection.execute!({ cmisselector: 'children',
+                                             repositoryId: @folder.repository.id,
+                                             objectId: @folder.cmis_object_id,
+                                             maxItems: @max_items,
+                                             skipCount: @skip_count,
+                                             orderBy: @order_by })
 
       results = result['objects'].map do |r|
-        ObjectFactory.create(r['object'], @repository)
+        ObjectFactory.create(r['object'], @folder.repository)
       end
 
       QueryResult.new(results, result['numItems'], result['hasMoreItems'])
