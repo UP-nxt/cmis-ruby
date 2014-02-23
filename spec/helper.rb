@@ -1,4 +1,4 @@
-require 'cmis'
+require 'cmis-ruby'
 require 'json'
 
 META = CMIS::Server.new.repository('meta')
