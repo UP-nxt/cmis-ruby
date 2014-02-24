@@ -82,7 +82,7 @@ module CMIS
       object_parents = parents
 
       unless object_parents.size == 1
-        raise 'Cannot move object because it is not in excatly one folder'
+        raise 'Cannot move object because it is not in exactly one folder'
       end
 
       connection.execute!({ cmisaction: 'move',
