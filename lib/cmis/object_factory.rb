@@ -20,7 +20,7 @@ module CMIS
       elsif raw['succinctProperties']
         raw['succinctProperties']['cmis:baseTypeId']
       else
-        raise "Unexpected json: #{raw}"
+        raise "Need cmis:baseTypeId to construct object."
       end
     end
   end
