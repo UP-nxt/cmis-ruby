@@ -10,6 +10,7 @@ Running the tests requires a running CMIS server.
 
 ## TODO
 
+* find method(s)
 * query properties, not *
 * string / symbol consistency
 * better exceptions and handling
