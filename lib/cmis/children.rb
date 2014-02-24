@@ -10,8 +10,8 @@ module CMIS
     end
 
     # Options: limit
-    def each_result(options = {}, &block)
-      return enum_for(:each_result, options) unless block_given?
+    def each_child(options = {}, &block)
+      return enum_for(:each_child, options) unless block_given?
 
       init_options
       limit = parse_limit(options)
