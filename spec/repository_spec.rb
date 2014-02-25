@@ -105,7 +105,7 @@ describe CMIS::Repository do
     it 'create, get, delete type - document' do
       type_id = 'apple'
 
-      type = CMIS::Type.new
+      type = @repo.new_type
       type.id = type_id
       type.local_name = 'apple'
       type.query_name = 'apple'
@@ -136,7 +136,7 @@ describe CMIS::Repository do
                                    queryable: true,
                                    orderable: true)
 
-      @repo.create_type(type)
+      type.create
 
       @repo.type(type_id).tap do |t|
         t.should be_a_kind_of CMIS::Type

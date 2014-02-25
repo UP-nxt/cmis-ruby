@@ -5,7 +5,7 @@ module CMIS
     attr_accessor :connection
     attr_accessor :repository
 
-    def initialize(hash = {}, repository = nil)
+    def initialize(hash, repository)
       @repository = repository
       @connection = repository.connection if repository
 

@@ -11,7 +11,7 @@ describe CMIS::Type do
   end
 
   it 'shoud update types' do
-    type = CMIS::Type.new
+    type = @repo.new_type
     type.id = 'apple'
     type.local_name = 'apple'
     type.query_name = 'apple'
@@ -44,7 +44,7 @@ describe CMIS::Type do
       orderable: true
     )
 
-    full_type = @repo.create_type(type)
+    full_type = type.create
 
     new_prop = CMIS::PropertyDefinition.new(
       id: 'taste',

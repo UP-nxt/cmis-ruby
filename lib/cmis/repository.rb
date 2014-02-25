@@ -32,6 +32,10 @@ module CMIS
       Policy.new({}, self)
     end
 
+    def new_type
+      Type.new({}, self)
+    end
+
     def root(opts = {})
       result = connection.execute!({ cmisselector: 'object',
                                      repositoryId: id,
