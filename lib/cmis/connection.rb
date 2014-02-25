@@ -5,12 +5,11 @@ require 'net/http/post/multipart'
 require 'multi_json'
 
 module CMIS
-
   class CMISRequestError < Exception; end
 
   class Connection
 
-    def initialize(service_url, username, password, headers = {})
+    def initialize(service_url, username, password, headers)
       @service_url = service_url
       @username = username
       @password = password
@@ -19,7 +18,10 @@ module CMIS
       @url_cache = {}
     end
 
-    def execute!(params = {}, query = {}, headers = {})
+    def execute!(params = {}, options = {})
+      options.stringify_keys!
+      query = options['query'] || {}
+      headers = @headers.merge(options['headers'] || {})
 
       url = get_url(params.delete(:repositoryId), params[:objectId])
 
@@ -142,6 +144,5 @@ module CMIS
       opts = url.scheme == 'https' ? { use_ssl: true , verify_mode: OpenSSL::SSL::VERIFY_NONE } : {}
       Net::HTTP.start(url.host, url.port, opts) { |http| http.request(req) }
     end
-
   end
 end

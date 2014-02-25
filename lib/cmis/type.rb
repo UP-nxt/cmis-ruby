@@ -1,8 +1,7 @@
-require 'active_support/core_ext'
+require 'active_support/core_ext/string/inflections'
 
 module CMIS
   class Type
-
     attr_accessor :connection
     attr_accessor :repository
 
@@ -37,7 +36,7 @@ module CMIS
       repository.create_type(self)
     end
 
-    def update(changed_property_defs)
+    def update(changed_property_defs, opts = {})
       new_defs = changed_property_defs.map(&:to_hash).reduce({}) do |result, element|
         result[element[:id]] = element
         result
@@ -46,17 +45,17 @@ module CMIS
       hash = to_hash
       hash['propertyDefinitions'] = new_defs
 
-      result = connection.execute! ({ cmisaction: 'updateType',
-                                      repositoryId: repository.id,
-                                      type: MultiJson.dump(hash) })
+      result = connection.execute!({ cmisaction: 'updateType',
+                                     repositoryId: repository.id,
+                                     type: MultiJson.dump(hash) }, opts)
 
       Type.new(result, repository)
     end
 
-    def delete
+    def delete(opts = {})
       connection.execute!({ cmisaction: 'deleteType',
                             repositoryId: repository.id,
-                            typeId: id })
+                            typeId: id }, opts)
     end
 
     def document_type?
@@ -101,6 +100,5 @@ module CMIS
     def to_hash
       @hash
     end
-
   end
 end

@@ -1,18 +1,16 @@
 module CMIS
   class Relationship < Object
-
     def initialize(raw, repository)
       super
       cmis_properties %w( cmis:sourceId cmis:targetId )
     end
 
-    def source
-      repository.object(source_id)
+    def source(opts = {})
+      repository.object(source_id, opts)
     end
 
-    def target
-      repository.object(target_id)
+    def target(opts = {})
+      repository.object(target_id, opts)
     end
-
   end
 end

@@ -1,6 +1,5 @@
 module CMIS
   class ObjectFactory
-
     def self.create(raw, repository)
       case base_type_id(raw)
       when 'cmis:object' then Object.new(raw, repository)

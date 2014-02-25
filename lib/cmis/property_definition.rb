@@ -1,8 +1,7 @@
-require 'active_support/core_ext'
+require 'active_support/core_ext/string/inflections'
 
 module CMIS
   class PropertyDefinition
-
     def initialize(hash = {})
       @hash = hash.with_indifferent_access
 
@@ -27,6 +26,5 @@ module CMIS
     def to_hash
       @hash
     end
-
   end
 end

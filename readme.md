@@ -10,7 +10,6 @@ Running the tests requires a running CMIS server.
 
 ## TODO
 
-* headers / params in low level (options)
 * find method(s)
 * better exceptions and handling
 * improve exists for repo / type

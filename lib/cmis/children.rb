@@ -1,6 +1,7 @@
+require 'active_support/core_ext/hash/slice'
+
 module CMIS
   class Children
-
     # Options: from, page_size
     def initialize(folder, options = {})
       @folder = folder
@@ -66,6 +67,8 @@ module CMIS
       @skip_count = @options['from'] || 0
       @order_by = @options['order_by']
       @has_next = true
+
+      @opts = @options.slice('query', 'headers')
     end
 
     def parse_limit(options)
@@ -82,7 +85,7 @@ module CMIS
                                              objectId: @folder.cmis_object_id,
                                              maxItems: @max_items,
                                              skipCount: @skip_count,
-                                             orderBy: @order_by })
+                                             orderBy: @order_by }, @opts)
 
       results = result['objects'].map do |r|
         ObjectFactory.create(r['object'], @folder.repository)
@@ -90,6 +93,5 @@ module CMIS
 
       QueryResult.new(results, result['numItems'], result['hasMoreItems'])
     end
-
   end
 end

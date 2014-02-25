@@ -1,14 +1,13 @@
 module CMIS
   class Folder < Object
-
     def initialize(raw, repository)
       super
       cmis_properties %w( cmis:parentId cmis:path
                           cmis:allowedChildObjectTypeIds )
     end
 
-    def parent
-      repository.object(parent_id) if parent_id
+    def parent(opts = {})
+      repository.object(parent_id, opts) if parent_id
     end
 
     def allowed_child_object_types
@@ -16,34 +15,34 @@ module CMIS
       allowed_child_object_type_ids.map { |type_id| repository.type(type_id) }
     end
 
-    def children(options = {})
-      Children.new(self, options)
+    def children(opts = {})
+      Children.new(self, opts)
     end
 
-    def create(object)
+    def create(object, opts = {})
       case object
       when Relationship
         raise "'cmis:relationship' is not fileable. Use Repository#create_relationship"
 
       when Document
-        return object.create_in_folder(self)
+        return object.create_in_folder(self, opts)
 
       when Folder
         o = connection.execute!({ cmisaction: 'createFolder',
                                   repositoryId: repository.id,
                                   properties: object.properties,
-                                  objectId: cmis_object_id })
+                                  objectId: cmis_object_id }, opts)
 
       when Policy
         o = connection.execute!({ cmisaction: 'createPolicy',
                                   repositoryId: repository.id,
                                   properties: object.properties,
-                                  objectId: cmis_object_id })
+                                  objectId: cmis_object_id }, opts)
       when Item
         o = connection.execute!({ cmisaction: 'createItem',
                                   repositoryId: repository.id,
                                   properties: object.properties,
-                                  objectId: cmis_object_id })
+                                  objectId: cmis_object_id }, opts)
 
       else
         raise "Unexpected base_type_id: #{object.base_type_id}"
@@ -52,25 +51,24 @@ module CMIS
       ObjectFactory.create(o, repository)
     end
 
-    def delete_tree
+    def delete_tree(opts = {})
       connection.execute!({ cmisaction: 'deleteTree',
                             repositoryId: repository.id,
-                            objectId: cmis_object_id })
+                            objectId: cmis_object_id }, opts)
     end
 
-    def add(object)
+    def add(object, opts = {})
       connection.execute!({ cmisaction: 'addObjectToFolder',
                             repositoryId: repository.id,
                             objectId: object.cmis_object_id,
-                            folderId: cmis_object_id })
+                            folderId: cmis_object_id }, opts)
     end
 
-    def remove(object)
+    def remove(object, opts = {})
       connection.execute!({ cmisaction: 'removeObjectFromFolder',
                             repositoryId: repository.id,
                             objectId: object.cmis_object_id,
-                            folderId: cmis_object_id })
+                            folderId: cmis_object_id }, opts)
     end
-
   end
 end

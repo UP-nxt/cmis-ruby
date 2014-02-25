@@ -1,6 +1,5 @@
 module CMIS
   class Document < Object
-
     def initialize(raw, repository)
       super
       cmis_properties %w( cmis:isImmutable cmis:isLatestVersion
@@ -13,39 +12,40 @@ module CMIS
                           cmis:contentStreamFileName cmis:contentStreamId )
     end
 
-    def create_in_folder(folder)
+    def create_in_folder(folder, opts = {})
       r = connection.execute!({ cmisaction: 'createDocument',
                                 repositoryId: repository.id,
                                 properties: properties,
                                 objectId: folder.cmis_object_id,
                                 folderId: folder.cmis_object_id,
-                                content: @local_content })
+                                content: @local_content }, opts)
 
       ObjectFactory.create(r, repository)
     end
 
-    def copy_in_folder(folder)
+    def copy_in_folder(folder, opts = {})
       id = connection.execute!({ cmisaction: 'createDocument',
                                  repositoryId: repository.id,
                                  sourceId: cmis_object_id,
-                                 objectId: folder.cmis_object_id })
+                                 objectId: folder.cmis_object_id }, opts)
 
       repository.object(id)
     end
 
-    def content
+    def content(opts = {})
       connection.execute!({ cmisselector: 'content',
                             repositoryId: repository.id,
-                            objectId: cmis_object_id })
+                            objectId: cmis_object_id }, opts)
 
     rescue CMIS::CMISRequestError
       nil
     end
 
-    def set_content(stream, mime_type, filename)
-      content = { stream: stream,
-                  mime_type: mime_type,
-                  filename: filename }
+    def set_content(opts = {})
+      opts.stringify_keys!
+      content = { stream: opts.delete('stream'),
+                  mime_type: opts.delete('mime_type'),
+                  filename: opts.delete('filename') }
 
       if detached?
         @local_content = content
@@ -54,9 +54,8 @@ module CMIS
                                                   repositoryId: repository.id,
                                                   objectId: cmis_object_id,
                                                   content: content,
-                                                  changeToken: change_token })
+                                                  changeToken: change_token }, opts)
       end
     end
-
   end
 end

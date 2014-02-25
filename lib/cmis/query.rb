@@ -1,6 +1,7 @@
+require 'active_support/core_ext/hash/slice'
+
 module CMIS
   class Query
-
     # Options: from, page_size
     def initialize(repository, statement, options = {})
       @repository = repository
@@ -67,6 +68,8 @@ module CMIS
       @max_items = @options['page_size'] || 10
       @skip_count = @options['from'] || 0
       @has_next = true
+
+      @opts = @options.slice('query', 'headers')
     end
 
     def parse_limit(options)
@@ -87,7 +90,7 @@ module CMIS
         params.merge!(cmisaction: 'query', statement: @statement)
       end
 
-      result = @repository.connection.execute!(params)
+      result = @repository.connection.execute!(params, @opts)
 
       results = result['results'].map do |r|
         ObjectFactory.create(r, @repository)
@@ -95,6 +98,5 @@ module CMIS
 
       QueryResult.new(results, result['numItems'], result['hasMoreItems'])
     end
-
   end
 end

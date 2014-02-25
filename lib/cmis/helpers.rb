@@ -2,7 +2,6 @@ require 'active_support/core_ext'
 
 module CMIS
   module Helpers
-
     def initialize_properties(raw)
       @properties = get_properties_map(raw)
     end
@@ -21,7 +20,7 @@ module CMIS
       elsif r['succinctProperties']
         @change_token = r['succinctProperties']['cmis:changeToken']
       else
-        raise "Unexpected hash: #{r}"
+        raise "Unexpected input: #{r}"
       end
     end
 
@@ -53,6 +52,5 @@ module CMIS
 
       result.with_indifferent_access
     end
-
   end
 end
