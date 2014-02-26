@@ -23,5 +23,5 @@ end
 
 def delete_repository(id)
   META.object(id).delete
-rescue CMIS::CMISRequestError => ex
+rescue CMIS::Exceptions::ObjectNotFound => ex
 end

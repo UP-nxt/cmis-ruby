@@ -1,12 +1,11 @@
 require 'active_support/core_ext/hash/indifferent_access'
+require 'active_support/core_ext/string/inflections'
 require 'date'
 require 'typhoeus'
 require 'net/http/post/multipart'
 require 'multi_json'
 
 module CMIS
-  class CMISRequestError < Exception; end
-
   class Connection
 
     def initialize(service_url, username, password, headers)
@@ -36,11 +35,8 @@ module CMIS
         query.merge!(params)
       end
 
-      response = perform_request(method: method,
-                                 url: url,
-                                 query: query,
-                                 body: body,
-                                 headers: headers)
+      response = perform_request(method: method, url: url,
+                                 query: query, body: body, headers: headers)
 
       result = response.body
 
@@ -53,18 +49,21 @@ module CMIS
       result = MultiJson.load(result) if content_type =~ /application\/json/
       result = result.with_indifferent_access if result.is_a? Hash
 
-      unless (200...300).include?(response.code.to_i)
-        if result.is_a?(Hash) && result.has_key?(:exception)
-          raise CMISRequestError, "#{response.code} -- #{result[:exception]} -- #{result[:message]}"
-        else
-          raise CMISRequestError, "#{response.code} -- #{result}"
-        end
-      end
+      check_for_exception!(response.code.to_i, result)
 
       result
     end
 
     private
+
+    def check_for_exception!(code, result)
+      unless (200...300).include?(code)
+        if result.is_a?(Hash) && result['exception']
+          exception_class = "CMIS::Exceptions::#{result['exception'].camelize}"
+          raise exception_class.constantize, "#{result['message']}"
+        end
+      end
+    end
 
     def get_url(repository_id, cmis_object_id)
       if repository_id.nil?

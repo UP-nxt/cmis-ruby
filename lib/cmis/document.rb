@@ -37,7 +37,8 @@ module CMIS
                             repositoryId: repository.id,
                             objectId: cmis_object_id }, opts)
 
-    rescue CMIS::CMISRequestError
+    rescue Exceptions::Constraint
+      # Check for specific constraint?
       nil
     end
 

@@ -1,4 +1,5 @@
 require 'cmis/connection'
+require 'cmis/exceptions'
 require 'cmis/server'
 require 'cmis/helpers'
 require 'cmis/object_factory'
