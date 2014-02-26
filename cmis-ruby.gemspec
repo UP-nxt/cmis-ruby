@@ -18,7 +18,6 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'typhoeus', '~> 0.6'
   s.add_dependency 'multipart-post', '~> 1.1'
-  s.add_dependency 'multi_json', '~> 1.5'
   s.add_dependency 'activesupport', '>= 3.2'
 
   s.description = <<-DESC.gsub(/^    /, '')

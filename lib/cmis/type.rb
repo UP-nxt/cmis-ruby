@@ -47,7 +47,7 @@ module CMIS
 
       result = connection.execute!({ cmisaction: 'updateType',
                                      repositoryId: repository.id,
-                                     type: MultiJson.dump(hash) }, opts)
+                                     type: JSON.generate(hash) }, opts)
 
       Type.new(result, repository)
     end

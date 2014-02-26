@@ -1,9 +1,6 @@
-require 'active_support/core_ext/hash/indifferent_access'
-require 'active_support/core_ext/string/inflections'
-require 'date'
+require 'active_support'
 require 'typhoeus'
 require 'net/http/post/multipart'
-require 'multi_json'
 
 module CMIS
   class Connection
@@ -26,8 +23,8 @@ module CMIS
 
       params = transform_hash(params)
 
-      if params.has_key?(:cmisaction)
-        method = params.has_key?(:content) ? 'multipart_post' : 'post'
+      if params[:cmisaction]
+        method = params[:content] ? 'multipart_post' : 'post'
         body = params
       else
         method = 'get'
@@ -36,9 +33,7 @@ module CMIS
       end
 
       response = perform_request(method: method, url: url,
-                                 query: query, body: body, headers: headers)
-
-      result = response.body
+                                 body: body, query: query, headers: headers)
 
       content_type = if response.respond_to?(:content_type)
         response.content_type
@@ -46,7 +41,8 @@ module CMIS
         response.headers['Content-Type']
       end
 
-      result = MultiJson.load(result) if content_type =~ /application\/json/
+      result = response.body
+      result = JSON.parse(result) if content_type =~ /application\/json/
       result = result.with_indifferent_access if result.is_a? Hash
 
       check_for_exception!(response.code.to_i, result)
@@ -80,7 +76,7 @@ module CMIS
 
     def repository_urls(repository_id)
       if @url_cache[repository_id].nil?
-        repository_infos = MultiJson.load(perform_request(url: @service_url).body)
+        repository_infos = JSON.parse(perform_request(url: @service_url).body)
         raise Exceptions::RepositoryNotFound, repository_id unless repository_infos.has_key?(repository_id)
         repository_info = repository_infos[repository_id]
         @url_cache[repository_id] = { repository_url:  repository_info['repositoryUrl'],
@@ -92,28 +88,22 @@ module CMIS
     def transform_hash(hash)
       hash.reject! { |_, v| v.nil? }
 
-      if hash.has_key?(:content)
-        content = hash.delete(:content)
-        hash[:content] = UploadIO.new(content[:stream],
-                                      content[:mime_type],
-                                      content[:filename])
-      end # Move to multipart_post?
+      if content_hash = hash[:content]
+        hash[:content] = UploadIO.new(content_hash[:stream], content_hash[:mime_type], content_hash[:filename])
+      end
 
-      if hash.has_key?(:properties)
-        props = hash.delete(:properties)
-        if props.is_a?(Hash)
-          props.each_with_index do |(id, value), index|
-            value = value.to_time if value.is_a?(Date) or value.is_a?(DateTime)
-            value = (value.to_f * 1000).to_i if value.is_a?(Time)
-            if value.is_a?(Array)
-              hash.merge!("propertyId[#{index}]" => id)
-              value.each_with_index do |v, idx|
-                hash.merge!("propertyValue[#{index}][#{idx}]" => value[idx])
-              end
-            else
-              hash.merge!("propertyId[#{index}]" => id,
-                          "propertyValue[#{index}]" => value)
+      if props = hash.delete(:properties)
+        props.each_with_index do |(id, value), index|
+          value = value.to_time if value.is_a?(Date) or value.is_a?(DateTime)
+          value = (value.to_f * 1000).to_i if value.is_a?(Time)
+          if value.is_a?(Array)
+            hash.merge!("propertyId[#{index}]" => id)
+            value.each_with_index do |v, idx|
+              hash.merge!("propertyValue[#{index}][#{idx}]" => value[idx])
             end
+          else
+            hash.merge!("propertyId[#{index}]" => id,
+                        "propertyValue[#{index}]" => value)
           end
         end
       end

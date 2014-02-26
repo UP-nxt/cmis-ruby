@@ -48,6 +48,10 @@ module CMIS
                   mime_type: opts.delete('mime_type'),
                   filename: opts.delete('filename') }
 
+      if content[:stream].is_a? String
+        content[:stream] = StringIO.new(content[:stream])
+      end
+
       if detached?
         @local_content = content
       else

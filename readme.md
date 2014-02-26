@@ -10,8 +10,7 @@ Running the tests requires a running CMIS server.
 
 ## TODO
 
-* find method(s)
-* string / symbol consistency
+* cleanup Connection class
 * facilitate copy between servers (make a flow)
 * caching
 
