@@ -11,7 +11,6 @@ Running the tests requires a running CMIS server.
 ## TODO
 
 * find method(s)
-* improve exists for repo / type
 * string / symbol consistency
 * facilitate copy between servers (make a flow)
 * caching

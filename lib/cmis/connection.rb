@@ -80,8 +80,8 @@ module CMIS
 
     def repository_urls(repository_id)
       if @url_cache[repository_id].nil?
-        repository_infos = MultiJson.load(perform_request(url: @service_url).body , symbolize_keys: false)
-        raise "No repository found with ID #{repository_id}." unless repository_infos.has_key?(repository_id)
+        repository_infos = MultiJson.load(perform_request(url: @service_url).body)
+        raise Exceptions::RepositoryNotFound, repository_id unless repository_infos.has_key?(repository_id)
         repository_info = repository_infos[repository_id]
         @url_cache[repository_id] = { repository_url:  repository_info['repositoryUrl'],
                                       root_folder_url: repository_info['rootFolderUrl'] }

@@ -69,7 +69,10 @@ module CMIS
     end
 
     def has_type?(type_id)
-      types.map(&:id).include?(type_id)
+      type(type_id)
+      true
+    rescue Exceptions::ObjectNotFound
+      false
     end
 
     def create_type(type, opts = {})

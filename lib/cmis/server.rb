@@ -33,9 +33,10 @@ module CMIS
     end
 
     def has_repository?(repository_id)
-      result = connection.execute!
-
-      result.keys.include?(repository_id)
+      repository(repository_id)
+      true
+    rescue Exceptions::RepositoryNotFound
+      false
     end
   end
 end
