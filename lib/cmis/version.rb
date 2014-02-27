@@ -1,3 +1,3 @@
 module CMIS
-  VERSION = '0.3-dev'
+  VERSION = '0.3'
 end
