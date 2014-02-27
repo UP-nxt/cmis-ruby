@@ -50,13 +50,8 @@ module CMIS
                             objectId: cmis_object_id }, opts)
     end
 
-    def relationships(direction = :either, opts = {})
-      result = connection.execute!({ cmisselector: 'relationships',
-                                     repositoryId: repository.id,
-                                     objectId: cmis_object_id,
-                                     relationshipDirection: direction }, opts)
-
-      result['objects'].map { |r| Relationship.new(r, repository) }
+    def relationships(opts = {})
+      Relationships.new(self, opts)
     end
 
     def policies(opts = {})

@@ -12,5 +12,9 @@ module CMIS
     def target(opts = {})
       repository.object(target_id, opts)
     end
+
+    def create(opts = {})
+      repository.create_relationship(self, opts)
+    end
   end
 end
