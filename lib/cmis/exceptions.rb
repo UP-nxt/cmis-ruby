@@ -1,8 +1,5 @@
 module CMIS
   module Exceptions
-    class RepositoryNotFound      < Exception; end
-
-    # CMIS server exceptions
     class InvalidArgument         < Exception; end
     class NotSupported            < Exception; end
     class ObjectNotFound          < Exception; end

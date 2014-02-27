@@ -35,7 +35,7 @@ module CMIS
     def has_repository?(repository_id)
       repository(repository_id)
       true
-    rescue Exceptions::RepositoryNotFound
+    rescue Exceptions::ObjectNotFound
       false
     end
   end
