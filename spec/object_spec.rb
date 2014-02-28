@@ -43,7 +43,7 @@ describe CMIS::Object do
     doc = create_document
     rels = doc.relationships
     rels.should_not be_nil
-    rels.each do |r|
+    rels.each_relationship do |r|
       r.should be_a_kind_of CMIS::Relationship
     end
     doc.delete
