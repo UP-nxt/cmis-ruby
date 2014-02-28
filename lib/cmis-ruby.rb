@@ -1,3 +1,6 @@
+require 'cmis/core_ext/array'
+require 'cmis/core_ext/hash'
+
 require 'cmis/connection'
 require 'cmis/exceptions'
 require 'cmis/server'
