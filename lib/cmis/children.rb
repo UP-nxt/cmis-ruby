@@ -81,13 +81,14 @@ module CMIS
     end
 
     def do_get_children
-      result = @folder.connection.execute!({ cmisselector: 'children',
-                                             repositoryId: @folder.repository.id,
-                                             objectId: @folder.cmis_object_id,
-                                             maxItems: @max_items,
-                                             skipCount: @skip_count,
-                                             orderBy: @order_by,
-                                             filter: @filter }, @opts)
+      connection = @folder.repository.connection
+      result = connection.execute!({ cmisselector: 'children',
+                                     repositoryId: @folder.repository.id,
+                                     objectId: @folder.cmis_object_id,
+                                     maxItems: @max_items,
+                                     skipCount: @skip_count,
+                                     orderBy: @order_by,
+                                     filter: @filter }, @opts)
 
       results = result['objects'].map do |r|
         ObjectFactory.create(r['object'], @folder.repository)

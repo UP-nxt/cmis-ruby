@@ -2,13 +2,10 @@ require 'active_support/core_ext/string/inflections'
 
 module CMIS
   class Type
-    attr_accessor :connection
     attr_accessor :repository
 
     def initialize(hash, repository)
       @repository = repository
-      @connection = repository.connection if repository
-
       @hash = hash.with_indifferent_access
 
       properties = %w( id localName localNamespace queryName displayName baseId
@@ -99,6 +96,12 @@ module CMIS
 
     def to_hash
       @hash
+    end
+
+    private
+
+    def connection
+      repository.connection if repository
     end
   end
 end

@@ -2,7 +2,6 @@ module CMIS
   class Object
     include Helpers
 
-    attr_reader :connection
     attr_reader :repository
     attr_accessor :properties
 
@@ -14,7 +13,6 @@ module CMIS
                           cmis:lastModificationDate cmis:changeToken )
 
       @repository = repository
-      @connection = repository.connection
     end
 
     def object_type(opts = {})
@@ -108,6 +106,12 @@ module CMIS
 
     def detached?
       cmis_object_id.nil?
+    end
+
+    private
+
+    def connection
+      repository.connection if repository
     end
   end
 end
