@@ -1,5 +1,3 @@
-require 'active_support'
-
 module CMIS
   class Repository
     attr_reader :connection
@@ -118,14 +116,7 @@ module CMIS
     QUOTE = "\'"
 
     def normalize(value)
-      case value
-      when DateTime
-        value = value.strftime('%Y-%m-%dT%H:%M:%S.%L')
-        "TIMESTAMP '#{value}'"
-      when Time
-        value = value.strftime('%Y-%m-%dT%H:%M:%S.%L')
-        "TIMESTAMP '#{value}'"
-      when Date
+      if value.respond_to?(:strftime)
         value = value.strftime('%Y-%m-%dT%H:%M:%S.%L')
         "TIMESTAMP '#{value}'"
       else

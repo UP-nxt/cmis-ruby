@@ -41,16 +41,29 @@ module CMIS
         result = raw['succinctProperties']
       elsif raw['properties']
         result = raw['properties'].reduce({}) do |h, (k, v)|
-          val = v['value']
-          val = v['value'].first if v['value'].is_a?(Array) and v['cardinality'] == 'single'
-          val = Time.at(val / 1000) if val and v['type'] == 'datetime'
-          h.merge(k => val)
+          h.merge(k => sanitize(v))
         end
       else
         result = {}
       end
 
       result.with_indifferent_access
+    end
+
+    def sanitize(prop)
+      value = prop['value']
+
+      # Sometimes (when?) single values come in an array
+      if value.is_a?(Array) && prop['cardinality'] == 'single'
+        value = value.first
+      end
+
+      if !!value && prop['type'] == 'datetime'
+        # CMIS sends millis since epoch
+        value = Time.at(value / 1000.0)
+      end
+
+      value
     end
   end
 end

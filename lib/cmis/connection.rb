@@ -1,4 +1,5 @@
 require 'active_support'
+require 'json'
 require 'typhoeus'
 require 'net/http/post/multipart'
 
@@ -126,6 +127,7 @@ module CMIS
         end
       end
 
+      # TODO: Extract functionality
       def massage(hash)
         hash.compact
 
