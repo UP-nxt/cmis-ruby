@@ -10,7 +10,6 @@ Running the tests requires a running CMIS server.
 
 ## TODO
 
-* children: include_relationships
 * facilitate copy between servers (make a flow)
 * caching
 
