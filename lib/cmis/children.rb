@@ -104,7 +104,7 @@ module CMIS
         metaclass = class << object; self; end
         metaclass.send(:define_method, :relationships) do
           # ...and make the Array respond to `each_relationship`
-          def relationships.each_relationship(&blck)
+          def relationships.each_relationship(args, &blck)
             each(&blck)
           end
           relationships
