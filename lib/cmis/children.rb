@@ -66,6 +66,7 @@ module CMIS
       @max_items = @options['page_size'] || 10
       @skip_count = @options['from'] || 0
       @order_by = @options['order_by']
+      @filter = @options['filter']
       @has_next = true
 
       @opts = @options.slice('query', 'headers')
@@ -85,7 +86,8 @@ module CMIS
                                              objectId: @folder.cmis_object_id,
                                              maxItems: @max_items,
                                              skipCount: @skip_count,
-                                             orderBy: @order_by }, @opts)
+                                             orderBy: @order_by,
+                                             filter: @filter }, @opts)
 
       results = result['objects'].map do |r|
         ObjectFactory.create(r['object'], @folder.repository)

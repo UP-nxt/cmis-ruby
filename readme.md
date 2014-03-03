@@ -10,7 +10,7 @@ Running the tests requires a running CMIS server.
 
 ## TODO
 
-* cleanup Connection class
+* children: include_relationships
 * facilitate copy between servers (make a flow)
 * caching
 
