@@ -1,5 +1,3 @@
-require 'active_support/core_ext'
-
 module CMIS
   module Helpers
     def initialize_properties(raw)

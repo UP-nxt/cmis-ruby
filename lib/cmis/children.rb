@@ -1,5 +1,3 @@
-require 'active_support/core_ext/hash/slice'
-
 module CMIS
   class Children
     # Options: from, page_size

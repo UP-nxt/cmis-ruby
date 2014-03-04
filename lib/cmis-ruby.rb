@@ -1,6 +1,16 @@
-require 'cmis/core_ext/array'
-require 'cmis/core_ext/hash'
+# ruby
+require 'bigdecimal'
+require 'json'
 
+# core extensions
+require 'active_support/core_ext'
+require 'core_ext'
+
+# HTTP
+require 'typhoeus'
+require 'net/http/post/multipart'
+
+# cmis-ruby
 require 'cmis/connection'
 require 'cmis/exceptions'
 require 'cmis/server'

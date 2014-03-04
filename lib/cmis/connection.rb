@@ -1,8 +1,3 @@
-require 'active_support'
-require 'json'
-require 'typhoeus'
-require 'net/http/post/multipart'
-
 module CMIS
   class Connection
     def initialize(service_url, username, password, headers)
