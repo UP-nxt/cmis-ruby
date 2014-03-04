@@ -22,6 +22,22 @@ module CMIS
       end
     end
 
+    def self.respond_to?(name, include_private = false)
+      if @properties.has_key?(name.to_s)
+        true
+      else
+        super
+      end
+    end
+
+    def method_missing(name, *args, &block)
+      if @properties.has_key?(name.to_s)
+        @properties[name.to_s]
+      else
+        super
+      end
+    end
+
     private
 
     def method_name(property_name)
