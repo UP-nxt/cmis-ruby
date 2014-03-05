@@ -1,16 +1,11 @@
-# ruby
 require 'bigdecimal'
 require 'json'
 
-# core extensions
 require 'active_support/core_ext'
 require 'core_ext'
 
-# HTTP
-require 'typhoeus'
-require 'net/http/post/multipart'
+require 'faraday'
 
-# cmis-ruby
 require 'cmis/connection'
 require 'cmis/exceptions'
 require 'cmis/server'
@@ -29,3 +24,4 @@ require 'cmis/policy'
 require 'cmis/relationship'
 require 'cmis/property_definition'
 require 'cmis/type'
+require 'cmis/version'

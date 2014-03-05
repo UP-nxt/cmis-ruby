@@ -16,9 +16,8 @@ Gem::Specification.new do |s|
   s.test_files    = s.files.grep(%r{^(test|spec|features)/})
   s.require_paths = ['lib']
 
-  s.add_dependency 'typhoeus', '~> 0.6'
-  s.add_dependency 'multipart-post', '~> 1.1'
-  s.add_dependency 'activesupport', '>= 3.2'
+  s.add_dependency 'faraday', '~> 0.9.0'
+  s.add_dependency 'activesupport', '>= 3.2', '< 5.0'
 
   s.description = <<-DESC.gsub(/^    /, '')
     CMIS browser binding client library in ruby.

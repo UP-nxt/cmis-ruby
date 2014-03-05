@@ -3,16 +3,7 @@ module CMIS
     attr_reader :connection
 
     def initialize(options = {})
-      options.stringify_keys!
-
-      service_url = options['service_url'] || ENV['CMIS_BROWSER_URL']
-      username    = options['username']    || ENV['CMIS_USER']
-      password    = options['password']    || ENV['CMIS_PASSWORD']
-      headers     = options['headers']     || {}
-
-      raise "`service_url` must be set" unless service_url
-
-      @connection = Connection.new(service_url, username, password, headers)
+      @connection = Connection.new(options)
     end
 
     def repositories(opts = {})

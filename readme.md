@@ -10,7 +10,6 @@ Running the tests requires a running CMIS server.
 
 ## TODO
 
-* use Faraday for HTTP
 * facilitate copy between servers (make a flow)
 * caching
 
