@@ -4,8 +4,8 @@ module CMIS
       options.symbolize_keys!
 
       service_url = options[:service_url] || ENV['CMIS_BROWSER_URL']
-      @service_url = service_url or raise "\
-      option `:service_url` or ENV['CMIS_BROWSER_URL'] must be set"
+      @service_url = service_url or raise \
+        "option `:service_url` or ENV['CMIS_BROWSER_URL'] must be set"
 
       adapter = (options[:adapter] || :net_http).to_sym
 
