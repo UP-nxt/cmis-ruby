@@ -69,8 +69,8 @@ module CMIS
 
         repository_info = repository_infos[repository_id]
         @url_cache[repository_id] = {
-          repository_url:  repository_info['repositoryUrl'],
-          root_folder_url: repository_info['rootFolderUrl']
+          repository_url:  repository_info[:repositoryUrl],
+          root_folder_url: repository_info[:rootFolderUrl]
         }
       end
       @url_cache[repository_id]

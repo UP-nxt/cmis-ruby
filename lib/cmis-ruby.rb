@@ -1,10 +1,10 @@
 require 'bigdecimal'
 require 'json'
 
+require 'faraday'
+
 require 'active_support/core_ext'
 require 'core_ext'
-
-require 'faraday'
 
 require 'cmis/connection'
 require 'cmis/exceptions'
