@@ -3,8 +3,7 @@ module CMIS
     def initialize(options)
       options.symbolize_keys!
 
-      service_url = options[:service_url] || ENV['CMIS_BROWSER_URL']
-      @service_url = service_url or raise \
+      @service_url = options[:service_url] || ENV['CMIS_BROWSER_URL'] or raise \
         "option `:service_url` or ENV['CMIS_BROWSER_URL'] must be set"
 
       adapter = (options[:adapter] || :net_http).to_sym
@@ -137,7 +136,8 @@ module CMIS
           env[:body] = JSON.parse(env[:body]).with_indifferent_access
           if env[:body].is_a?(Hash) && ex = env[:body][:exception]
             ruby_exception = "CMIS::Exceptions::#{ex.camelize}".constantize
-            raise ruby_exception, env[:body]['message']
+            message = "#{ex.underscore.humanize}: #{env[:body][:message]}"
+            raise ruby_exception, message
           end
         end
       end
