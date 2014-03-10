@@ -1,24 +1,23 @@
 module CMIS
-  class Server
-    attr_reader :connection
+  class Server < Connection
 
     def initialize(options = {})
-      @connection = Connection.new(options)
+      super
     end
 
     def repositories(opts = {})
-      result = connection.execute!({}, opts)
+      result = execute!({}, opts)
 
       result.values.map do |r|
-        Repository.new(r, connection)
+        Repository.new(r, self)
       end
     end
 
     def repository(repository_id, opts = {})
-      result = connection.execute!({ cmisselector: 'repositoryInfo',
-                                     repositoryId: repository_id }, opts)
+      result = execute!({ cmisselector: 'repositoryInfo',
+                          repositoryId: repository_id }, opts)
 
-      Repository.new(result[repository_id], connection)
+      Repository.new(result[repository_id], self)
     end
 
     def has_repository?(repository_id)

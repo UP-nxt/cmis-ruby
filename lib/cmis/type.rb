@@ -40,17 +40,17 @@ module CMIS
       hash = to_hash
       hash['propertyDefinitions'] = new_defs
 
-      result = connection.execute!({ cmisaction: 'updateType',
-                                     repositoryId: repository.id,
-                                     type: JSON.generate(hash) }, opts)
+      result = server.execute!({ cmisaction: 'updateType',
+                                 repositoryId: repository.id,
+                                 type: JSON.generate(hash) }, opts)
 
       Type.new(result, repository)
     end
 
     def delete(opts = {})
-      connection.execute!({ cmisaction: 'deleteType',
-                            repositoryId: repository.id,
-                            typeId: id }, opts)
+      server.execute!({ cmisaction: 'deleteType',
+                        repositoryId: repository.id,
+                        typeId: id }, opts)
     end
 
     def document_type?
@@ -98,8 +98,8 @@ module CMIS
 
     private
 
-    def connection
-      repository.connection if repository
+    def server
+      repository.server if repository
     end
   end
 end

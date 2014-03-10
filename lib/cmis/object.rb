@@ -20,32 +20,32 @@ module CMIS
     end
 
     def delete(opts = {})
-      connection.execute!({ cmisaction: 'delete',
-                            repositoryId: repository.id,
-                            objectId: cmis_object_id,
-                            allVersions: true }, opts)
+      server.execute!({ cmisaction: 'delete',
+                        repositoryId: repository.id,
+                        objectId: cmis_object_id,
+                        allVersions: true }, opts)
     end
 
     def update_properties(properties, opts = {})
-      update_change_token connection.execute!({ cmisaction: 'update',
-                                                repositoryId: repository.id,
-                                                objectId: cmis_object_id,
-                                                properties: properties,
-                                                changeToken: change_token }, opts)
+      update_change_token server.execute!({ cmisaction: 'update',
+                                            repositoryId: repository.id,
+                                            objectId: cmis_object_id,
+                                            properties: properties,
+                                            changeToken: change_token }, opts)
     end
 
     def parents(opts = {})
-      result = connection.execute!({ cmisselector: 'parents',
-                                     repositoryId: repository.id,
-                                     objectId: cmis_object_id }, opts)
+      result = server.execute!({ cmisselector: 'parents',
+                                 repositoryId: repository.id,
+                                 objectId: cmis_object_id }, opts)
 
       result.map { |o| ObjectFactory.create(o['object'], repository) }
     end
 
     def allowable_actions(opts = {})
-      connection.execute!({ cmisselector: 'allowableActions',
-                            repositoryId: repository.id,
-                            objectId: cmis_object_id }, opts)
+      server.execute!({ cmisselector: 'allowableActions',
+                        repositoryId: repository.id,
+                        objectId: cmis_object_id }, opts)
     end
 
     def relationships(opts = {})
@@ -53,9 +53,9 @@ module CMIS
     end
 
     def policies(opts = {})
-      result = connection.execute!({ cmisselector: 'policies',
-                                     repositoryId: repository.id,
-                                     objectId: cmis_object_id }, opts)
+      result = server.execute!({ cmisselector: 'policies',
+                                 repositoryId: repository.id,
+                                 objectId: cmis_object_id }, opts)
 
       result.map { |r| Policy.new(r, repository) }
     end
@@ -67,7 +67,7 @@ module CMIS
                  objectId: cmis_object_id }
       params.update!(folderId: folder.cmis_object_id) if folder
 
-      connection.execute!(params, opts)
+      server.execute!(params, opts)
     end
 
     def move(target_folder, opts = {})
@@ -77,31 +77,31 @@ module CMIS
         raise 'Cannot move object because it is not in exactly one folder'
       end
 
-      connection.execute!({ cmisaction: 'move',
-                            repositoryId: repository.id,
-                            objectId: cmis_object_id,
-                            targetFolderId: target_folder.cmis_object_id,
-                            sourceFolderId: object_parents.first.cmis_object_id }, opts)
+      server.execute!({ cmisaction: 'move',
+                        repositoryId: repository.id,
+                        objectId: cmis_object_id,
+                        targetFolderId: target_folder.cmis_object_id,
+                        sourceFolderId: object_parents.first.cmis_object_id }, opts)
     end
 
     def acls(opts = {})
-      connection.execute!({ cmisselector: 'acl',
-                            repositoryId: repository.id,
-                            objectId: cmis_object_id }, opts)
+      server.execute!({ cmisselector: 'acl',
+                        repositoryId: repository.id,
+                        objectId: cmis_object_id }, opts)
     end
 
     def add_aces(aces, opts = {})
-      connection.execute!({ cmisaction: 'applyACL',
-                            repositoryId: repository.id,
-                            objectId: cmis_object_id,
-                            addACEs: aces }, opts)
+      server.execute!({ cmisaction: 'applyACL',
+                        repositoryId: repository.id,
+                        objectId: cmis_object_id,
+                        addACEs: aces }, opts)
     end
 
     def remove_aces(aces, opts = {})
-      connection.execute!({ cmisaction: 'applyACL',
-                            repositoryId: repository.id,
-                            objectId: cmis_object_id,
-                            removeACEs: aces }, opts)
+      server.execute!({ cmisaction: 'applyACL',
+                        repositoryId: repository.id,
+                        objectId: cmis_object_id,
+                        removeACEs: aces }, opts)
     end
 
     def detached?
@@ -110,8 +110,8 @@ module CMIS
 
     private
 
-    def connection
-      repository.connection if repository
+    def server
+      repository.server if repository
     end
   end
 end

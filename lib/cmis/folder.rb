@@ -28,21 +28,21 @@ module CMIS
         return object.create_in_folder(self, opts)
 
       when Folder
-        o = connection.execute!({ cmisaction: 'createFolder',
-                                  repositoryId: repository.id,
-                                  properties: object.properties,
-                                  objectId: cmis_object_id }, opts)
+        o = server.execute!({ cmisaction: 'createFolder',
+                              repositoryId: repository.id,
+                              properties: object.properties,
+                              objectId: cmis_object_id }, opts)
 
       when Policy
-        o = connection.execute!({ cmisaction: 'createPolicy',
-                                  repositoryId: repository.id,
-                                  properties: object.properties,
-                                  objectId: cmis_object_id }, opts)
+        o = server.execute!({ cmisaction: 'createPolicy',
+                              repositoryId: repository.id,
+                              properties: object.properties,
+                              objectId: cmis_object_id }, opts)
       when Item
-        o = connection.execute!({ cmisaction: 'createItem',
-                                  repositoryId: repository.id,
-                                  properties: object.properties,
-                                  objectId: cmis_object_id }, opts)
+        o = server.execute!({ cmisaction: 'createItem',
+                              repositoryId: repository.id,
+                              properties: object.properties,
+                              objectId: cmis_object_id }, opts)
 
       else
         raise "Unexpected base_type_id: #{object.base_type_id}"
@@ -52,23 +52,23 @@ module CMIS
     end
 
     def delete_tree(opts = {})
-      connection.execute!({ cmisaction: 'deleteTree',
-                            repositoryId: repository.id,
-                            objectId: cmis_object_id }, opts)
+      server.execute!({ cmisaction: 'deleteTree',
+                        repositoryId: repository.id,
+                        objectId: cmis_object_id }, opts)
     end
 
     def add(object, opts = {})
-      connection.execute!({ cmisaction: 'addObjectToFolder',
-                            repositoryId: repository.id,
-                            objectId: object.cmis_object_id,
-                            folderId: cmis_object_id }, opts)
+      server.execute!({ cmisaction: 'addObjectToFolder',
+                        repositoryId: repository.id,
+                        objectId: object.cmis_object_id,
+                        folderId: cmis_object_id }, opts)
     end
 
     def remove(object, opts = {})
-      connection.execute!({ cmisaction: 'removeObjectFromFolder',
-                            repositoryId: repository.id,
-                            objectId: object.cmis_object_id,
-                            folderId: cmis_object_id }, opts)
+      server.execute!({ cmisaction: 'removeObjectFromFolder',
+                        repositoryId: repository.id,
+                        objectId: object.cmis_object_id,
+                        folderId: cmis_object_id }, opts)
     end
   end
 end

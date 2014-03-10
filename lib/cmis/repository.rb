@@ -1,15 +1,15 @@
 module CMIS
   class Repository
-    attr_reader :connection
+    attr_reader :server
 
-    def initialize(raw, connection)
+    def initialize(raw, server)
       @hash = raw
       @hash.each_key do |key|
         class_eval "def #{key.underscore};@hash['#{key}'];end"
         class_eval "def #{key.gsub('repository', '').underscore};@hash['#{key}'];end" if key =~ /^repository/
       end
 
-      @connection = connection
+      @server = server
     end
 
     def new_document
@@ -37,33 +37,33 @@ module CMIS
     end
 
     def root(opts = {})
-      result = connection.execute!({ cmisselector: 'object',
-                                     repositoryId: id,
-                                     objectId: root_folder_id }, opts)
+      result = server.execute!({ cmisselector: 'object',
+                                 repositoryId: id,
+                                 objectId: root_folder_id }, opts)
 
       ObjectFactory.create(result, self)
     end
 
     def object(cmis_object_id, opts = {})
-      result = connection.execute!({ cmisselector: 'object',
-                                     repositoryId: id,
-                                     objectId: cmis_object_id }, opts)
+      result = server.execute!({ cmisselector: 'object',
+                                 repositoryId: id,
+                                 objectId: cmis_object_id }, opts)
 
       ObjectFactory.create(result, self)
     end
 
     def types(opts = {})
-      result = connection.execute!({ cmisselector: 'typeDescendants',
-                                     repositoryId: id,
-                                     includePropertyDefinitions: true }, opts)
+      result = server.execute!({ cmisselector: 'typeDescendants',
+                                 repositoryId: id,
+                                 includePropertyDefinitions: true }, opts)
 
       construct_types(result)
     end
 
     def type(type_id, opts = {})
-      result = connection.execute!({ cmisselector: 'typeDefinition',
-                                     repositoryId: id,
-                                     typeId: type_id }, opts)
+      result = server.execute!({ cmisselector: 'typeDefinition',
+                                 repositoryId: id,
+                                 typeId: type_id }, opts)
 
       Type.new(result, self)
     end
@@ -76,9 +76,9 @@ module CMIS
     end
 
     def create_type(type, opts = {})
-      result = connection.execute!({ cmisaction: 'createType',
-                                     repositoryId: id,
-                                     type: JSON.generate(type.to_hash) }, opts)
+      result = server.execute!({ cmisaction: 'createType',
+                                 repositoryId: id,
+                                 type: JSON.generate(type.to_hash) }, opts)
 
       Type.new(result, self)
     end
@@ -86,17 +86,17 @@ module CMIS
     def create_relationship(object, opts = {})
       raise 'Object is not a Relationship' unless object.is_a?(Relationship)
 
-      result = connection.execute!({ cmisaction: 'createRelationship',
-                                     repositoryId: id,
-                                     properties: object.properties }, opts)
+      result = server.execute!({ cmisaction: 'createRelationship',
+                                 repositoryId: id,
+                                 properties: object.properties }, opts)
 
       ObjectFactory.create(result, self)
     end
 
     def content_changes(change_log_token, opts = {})
-      connection.execute!({ cmisselector: 'contentChanges',
-                            repositoryId: id,
-                            changeLogToken: change_log_token }, opts)
+      server.execute!({ cmisselector: 'contentChanges',
+                        repositoryId: id,
+                        changeLogToken: change_log_token }, opts)
     end
 
     def query(statement, opts = {})

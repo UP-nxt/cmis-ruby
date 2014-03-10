@@ -13,29 +13,29 @@ module CMIS
     end
 
     def create_in_folder(folder, opts = {})
-      r = connection.execute!({ cmisaction: 'createDocument',
-                                repositoryId: repository.id,
-                                properties: properties,
-                                objectId: folder.cmis_object_id,
-                                folderId: folder.cmis_object_id,
-                                content: @local_content }, opts)
+      r = server.execute!({ cmisaction: 'createDocument',
+                            repositoryId: repository.id,
+                            properties: properties,
+                            objectId: folder.cmis_object_id,
+                            folderId: folder.cmis_object_id,
+                            content: @local_content }, opts)
 
       ObjectFactory.create(r, repository)
     end
 
     def copy_in_folder(folder, opts = {})
-      id = connection.execute!({ cmisaction: 'createDocument',
-                                 repositoryId: repository.id,
-                                 sourceId: cmis_object_id,
-                                 objectId: folder.cmis_object_id }, opts)
+      id = server.execute!({ cmisaction: 'createDocument',
+                             repositoryId: repository.id,
+                             sourceId: cmis_object_id,
+                             objectId: folder.cmis_object_id }, opts)
 
       repository.object(id)
     end
 
     def content(opts = {})
-      connection.execute!({ cmisselector: 'content',
-                            repositoryId: repository.id,
-                            objectId: cmis_object_id }, opts)
+      server.execute!({ cmisselector: 'content',
+                        repositoryId: repository.id,
+                        objectId: cmis_object_id }, opts)
 
     rescue Exceptions::Constraint
       # Check for specific constraint?
@@ -55,11 +55,11 @@ module CMIS
       if detached?
         @local_content = content
       else
-        update_change_token connection.execute!({ cmisaction: 'setContent',
-                                                  repositoryId: repository.id,
-                                                  objectId: cmis_object_id,
-                                                  content: content,
-                                                  changeToken: change_token }, opts)
+        update_change_token server.execute!({ cmisaction: 'setContent',
+                                              repositoryId: repository.id,
+                                              objectId: cmis_object_id,
+                                              content: content,
+                                              changeToken: change_token }, opts)
       end
     end
   end

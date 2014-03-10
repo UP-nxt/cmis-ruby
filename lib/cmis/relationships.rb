@@ -80,15 +80,15 @@ module CMIS
     end
 
     def do_get_relationships
-      connection = @object.repository.connection
-      result = connection.execute!({ cmisselector: 'relationships',
-                                     repositoryId: @object.repository.id,
-                                     objectId: @object.cmis_object_id,
-                                     maxItems: @max_items,
-                                     skipCount: @skip_count,
-                                     relationshipDirection: @direction,
-                                     includeSubRelationshipTypes: @include_subtypes,
-                                     typeId: @type_id }, @opts)
+      server = @object.repository.server
+      result = server.execute!({ cmisselector: 'relationships',
+                                 repositoryId: @object.repository.id,
+                                 objectId: @object.cmis_object_id,
+                                 maxItems: @max_items,
+                                 skipCount: @skip_count,
+                                 relationshipDirection: @direction,
+                                 includeSubRelationshipTypes: @include_subtypes,
+                                 typeId: @type_id }, @opts)
 
       results = result['objects'].map do |r|
         ObjectFactory.create(r, @object.repository)

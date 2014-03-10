@@ -80,15 +80,15 @@ module CMIS
     end
 
     def do_get_children
-      repository = @folder.repository
-      result = repository.connection.execute!({ cmisselector: 'children',
-                                                repositoryId: @folder.repository.id,
-                                                objectId: @folder.cmis_object_id,
-                                                maxItems: @max_items,
-                                                skipCount: @skip_count,
-                                                orderBy: @order_by,
-                                                includeRelationships: @include_relationships,
-                                                filter: @filter}, @opts)
+      server = @folder.repository.server
+      result = server.execute!({ cmisselector: 'children',
+                                 repositoryId: @folder.repository.id,
+                                 objectId: @folder.cmis_object_id,
+                                 maxItems: @max_items,
+                                 skipCount: @skip_count,
+                                 orderBy: @order_by,
+                                 includeRelationships: @include_relationships,
+                                 filter: @filter}, @opts)
 
       results = result['objects'].map { |o| build_object_with_relationships(o) }
       QueryResult.new(results, result['numItems'], result['hasMoreItems'])

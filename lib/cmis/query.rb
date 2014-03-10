@@ -88,7 +88,7 @@ module CMIS
         params.merge!(cmisaction: 'query', statement: @statement)
       end
 
-      result = @repository.connection.execute!(params, @opts)
+      result = @repository.server.execute!(params, @opts)
 
       results = result['results'].map do |r|
         ObjectFactory.create(r, @repository)
