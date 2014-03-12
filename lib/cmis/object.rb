@@ -3,7 +3,7 @@ module CMIS
     include Helpers
 
     attr_reader :repository
-    attr_accessor :properties
+    attr_reader :properties
 
     def initialize(raw, repository)
       initialize_properties(raw)
