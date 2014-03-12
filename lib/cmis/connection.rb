@@ -3,8 +3,8 @@ module CMIS
     def initialize(options)
       options.symbolize_keys!
 
-      @service_url = options[:service_url] || ENV['CMIS_BROWSER_URL'] or raise \
-        "option `:service_url` or ENV['CMIS_BROWSER_URL'] must be set"
+      @service_url = options[:service_url] || ENV['CMIS_BROWSER_URL'] or \
+        raise "option `:service_url` or ENV['CMIS_BROWSER_URL'] must be set"
 
       adapter = (options[:adapter] || :net_http).to_sym
 
@@ -130,16 +130,26 @@ module CMIS
   end
 
   class ResponseParser < Faraday::Middleware
+    JSON_CONTENT_TYPE = /\/(x-)?json(;.+?)?$/
+
     def call(env)
       @app.call(env).on_complete do |env|
-        if env[:response_headers][:content_type] =~ /\/(x-)?json(;.+?)?$/
+        if env[:response_headers][:content_type] =~ JSON_CONTENT_TYPE
           env[:body] = JSON.parse(env[:body]).with_indifferent_access
-          if env[:body].is_a?(Hash) && ex = env[:body][:exception]
-            ruby_exception = "CMIS::Exceptions::#{ex.camelize}".constantize
-            message = "#{ex.underscore.humanize}: #{env[:body][:message]}"
-            raise ruby_exception, message
-          end
+          check_for_exception!(env[:body])
         end
+      end
+    end
+
+    private
+
+    def check_for_exception!(body)
+      return unless body.is_a?(Hash)
+
+      if ex = body[:exception]
+        ruby_exception = "CMIS::Exceptions::#{ex.camelize}".constantize
+        message = "#{ex.underscore.humanize}: #{body[:message]}"
+        raise ruby_exception, message
       end
     end
   end
