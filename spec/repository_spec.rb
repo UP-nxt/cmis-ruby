@@ -42,8 +42,8 @@ describe CMIS::Repository do
     end
 
     it 'repository' do
-      r = CMIS::Server.new.repository('generali')
-      r.name.should eq 'generali'
+      r = CMIS::Server.new.repository('meta')
+      r.name.should eq 'meta'
     end
 
     it 'root' do
