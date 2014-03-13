@@ -37,9 +37,12 @@ module CMIS
                         repositoryId: repository.id,
                         objectId: cmis_object_id }, opts)
 
-    rescue Exceptions::Constraint
-      # Check for specific constraint?
-      nil
+    rescue Exceptions::Constraint => e
+      if e.message =~ /no content stream/
+        nil
+      else
+        raise e
+      end
     end
 
     def set_content(opts = {})
