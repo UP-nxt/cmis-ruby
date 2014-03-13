@@ -12,13 +12,14 @@ module CMIS
       end
     end
 
-    def update_change_token(r)
-      if r['properties']
-        @change_token = r['properties']['cmis:changeToken']['value']
-      elsif r['succinctProperties']
-        @change_token = r['succinctProperties']['cmis:changeToken']
+    def with_change_token(&block)
+      json = yield
+      if props = json['properties']
+        self.change_token = props['cmis:changeToken']['value']
+      elsif succinct_props = json['succinctProperties']
+        self.change_token = succinct_props['cmis:changeToken']
       else
-        raise "Unexpected input: #{r}"
+        raise "Unexpected input: #{json}"
       end
     end
 

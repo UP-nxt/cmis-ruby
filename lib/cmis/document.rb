@@ -55,11 +55,13 @@ module CMIS
       if detached?
         @local_content = content
       else
-        update_change_token server.execute!({ cmisaction: 'setContent',
-                                              repositoryId: repository.id,
-                                              objectId: cmis_object_id,
-                                              content: content,
-                                              changeToken: change_token }, opts)
+        with_change_token do
+          server.execute!({ cmisaction: 'setContent',
+                            repositoryId: repository.id,
+                            objectId: cmis_object_id,
+                            content: content,
+                            changeToken: change_token }, opts)
+        end
       end
     end
   end

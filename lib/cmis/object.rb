@@ -27,11 +27,13 @@ module CMIS
     end
 
     def update_properties(properties, opts = {})
-      update_change_token server.execute!({ cmisaction: 'update',
-                                            repositoryId: repository.id,
-                                            objectId: cmis_object_id,
-                                            properties: properties,
-                                            changeToken: change_token }, opts)
+      with_change_token do
+        server.execute!({ cmisaction: 'update',
+                          repositoryId: repository.id,
+                          objectId: cmis_object_id,
+                          properties: properties,
+                          changeToken: change_token }, opts)
+      end
     end
 
     def parents(opts = {})
