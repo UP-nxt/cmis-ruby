@@ -68,14 +68,17 @@ module CMIS
     def sanitize(prop)
       value = prop['value']
 
-      # Sometimes (when?) single values come in an array
-      if value.is_a?(Array) && prop['cardinality'] == 'single'
-        value = value.first
-      end
+      # Sometimes (when?) single values come in an array.
+      # For now, we do nothing to hide this and leave it up to the user.
+      # #  value = value.first if value.is_a?(Array)
 
       if !!value && prop['type'] == 'datetime'
         # CMIS sends millis since epoch
-        value = Time.at(value / 1000.0)
+        if value.is_a? Array
+          value.map! { |v| Time.at(v / 1000.0) }
+        else
+          value = Time.at(value / 1000.0)
+        end
       end
 
       value
