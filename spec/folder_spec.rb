@@ -27,9 +27,9 @@ describe CMIS::Folder do
     new_object = @repo.new_document
     new_object.name = 'doc1'
     new_object.object_type_id = 'cmis:document'
-    new_object.set_content(stream: StringIO.new('apple is a fruit'),
+    new_object.content = { stream: StringIO.new('apple is a fruit'),
                            mime_type: 'text/plain',
-                           filename: 'apple.txt')
+                           filename: 'apple.txt' }
     object = @repo.root.create(new_object)
     object.should be_a_kind_of CMIS::Document
     object.name.should eq 'doc1'

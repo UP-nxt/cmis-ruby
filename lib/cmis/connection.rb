@@ -35,7 +35,7 @@ module CMIS
       options.symbolize_keys!
 
       query = options[:query] || {}
-      headers = options[:headers]|| {}
+      headers = options[:headers] || {}
       url = url(params.delete(:repositoryId), params[:objectId])
 
       response = if params[:cmisaction]

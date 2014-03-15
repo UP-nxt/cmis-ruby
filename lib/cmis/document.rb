@@ -45,7 +45,7 @@ module CMIS
       end
     end
 
-    def set_content(opts = {})
+    def content=(opts = {})
       opts.stringify_keys!
       content = { stream: opts.delete('stream'),
                   mime_type: opts.delete('mime_type'),

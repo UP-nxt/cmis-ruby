@@ -68,7 +68,7 @@ module CMIS
       Type.new(result, self)
     end
 
-    def has_type?(type_id)
+    def type?(type_id)
       type(type_id)
       true
     rescue Exceptions::ObjectNotFound
@@ -120,7 +120,7 @@ module CMIS
         value = value.strftime('%Y-%m-%dT%H:%M:%S.%L')
         "TIMESTAMP '#{value}'"
       else
-        # TODO Correct escaping for find_object
+        # TODO: Correct escaping for find_object
         # value = value.gsub(BACKSLASH, BACKSLASH * 4).gsub(QUOTE, "#{BACKSLASH * 2}#{QUOTE}")
         "'#{value}'"
       end
@@ -130,7 +130,7 @@ module CMIS
       types = []
       a.each do |t|
         types << Type.new(t['type'], self)
-        types << construct_types(t['children']) if t.has_key?('children')
+        types << construct_types(t['children']) if t.key?('children')
       end
       types.flatten
     end

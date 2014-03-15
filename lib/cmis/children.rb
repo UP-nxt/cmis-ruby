@@ -88,7 +88,7 @@ module CMIS
                                  skipCount: @skip_count,
                                  orderBy: @order_by,
                                  includeRelationships: @include_relationships,
-                                 filter: @filter}, @opts)
+                                 filter: @filter }, @opts)
 
       results = result['objects'].map { |o| build_object_with_relationships(o) }
       QueryResult.new(results, result['numItems'], result['hasMoreItems'])

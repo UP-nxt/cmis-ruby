@@ -1,6 +1,5 @@
 module CMIS
   class Server < Connection
-
     def initialize(options = {})
       super
     end
@@ -20,7 +19,7 @@ module CMIS
       Repository.new(result[repository_id], self)
     end
 
-    def has_repository?(repository_id)
+    def repository?(repository_id)
       repository(repository_id)
       true
     rescue Exceptions::ObjectNotFound
