@@ -3,8 +3,8 @@ module CMIS
     def initialize(options)
       options.symbolize_keys!
 
-      @service_url = options[:service_url] || ENV['CMIS_BROWSER_URL'] or \
-        raise "option `:service_url` or `CMIS_BROWSER_URL` env var must be set"
+      message = "option `service_url` must be set"
+      @service_url = options[:service_url] or raise message
 
       adapter = (options[:adapter] || :net_http).to_sym
 
@@ -18,9 +18,8 @@ module CMIS
         builder.request :multipart
         builder.request :url_encoded
 
-        if username = options[:username] || ENV['CMIS_USER']
-          password = options[:password] || ENV['CMIS_PASSWORD']
-          builder.basic_auth(username, password)
+        if options[:username]
+          builder.basic_auth(options[:username], options[:password])
         end
 
         builder.adapter adapter
