@@ -1,4 +1,4 @@
-require 'cmis-ruby'
+require 'spec_helper'
 
 module CMIS
   PRIMARY_BASE_TYPES = %w( cmis:document
@@ -8,44 +8,39 @@ module CMIS
                            cmis:item )
 
   describe Repository do
-    before :all do
-      fail '`TEST_REPOSITORY_ID` not configured' unless ENV['TEST_REPOSITORY_ID']
-      @repository = CMIS::Server.new.repository(ENV['TEST_REPOSITORY_ID'])
-    end
-
     it 'is supported by the library' do
-      expect(@repository.cmis_version_supported).to eq('1.1')
+      expect(repository.cmis_version_supported).to eq('1.1')
     end
 
     it 'has the correct id' do
-      expect(@repository.id).to eq('test')
+      expect(repository.id).to eq(repository_id)
     end
 
     it 'has non null fields' do
-      expect(@repository.id)              .to_not be_nil
-      expect(@repository.name)            .to_not be_nil
-      expect(@repository.product_version) .to_not be_nil
-      expect(@repository.description)     .to_not be_nil
-      expect(@repository.root_folder_id)  .to_not be_nil
-      expect(@repository.capabilities)    .to_not be_nil
-      expect(@repository.url)             .to_not be_nil
-      expect(@repository.changes_on_type) .to_not be_nil
-      expect(@repository.root_folder_url) .to_not be_nil
-      expect(@repository.product_name)    .to_not be_nil
-      expect(@repository.product_version) .to_not be_nil
+      expect(repository.id)              .to_not be_nil
+      expect(repository.name)            .to_not be_nil
+      expect(repository.product_version) .to_not be_nil
+      expect(repository.description)     .to_not be_nil
+      expect(repository.root_folder_id)  .to_not be_nil
+      expect(repository.capabilities)    .to_not be_nil
+      expect(repository.url)             .to_not be_nil
+      expect(repository.changes_on_type) .to_not be_nil
+      expect(repository.root_folder_url) .to_not be_nil
+      expect(repository.product_name)    .to_not be_nil
+      expect(repository.product_version) .to_not be_nil
     end
 
     it 'has a root folder' do
-      root = @repository.root
+      root = repository.root
       expect(root).to be_a(CMIS::Folder)
 
-      expect(root.cmis_object_id).to eq(@repository.root_folder_id)
+      expect(root.cmis_object_id).to eq(repository.root_folder_id)
     end
 
     describe '#object' do
       it 'returns the object' do
-        id = @repository.root_folder_id
-        object = @repository.object(id)
+        id = repository.root_folder_id
+        object = repository.object(id)
         expect(object).to be_a(CMIS::Folder)
         expect(object.cmis_object_id).to eq(id)
       end
@@ -54,7 +49,7 @@ module CMIS
     describe '#type' do
       it 'returns the type for primitive types' do
         PRIMARY_BASE_TYPES.each do |t|
-          type = @repository.type(t)
+          type = repository.type(t)
           expect(type).to be_a(CMIS::Type)
           expect(type.id).to eq(t)
         end
@@ -63,55 +58,55 @@ module CMIS
 
     describe '#new_[document|folder|relationship|item|policy|type]' do
       it 'returns the correct type' do
-        expect(@repository.new_document)     .to be_a Document
-        expect(@repository.new_folder)       .to be_a Folder
-        expect(@repository.new_relationship) .to be_a Relationship
-        expect(@repository.new_item)         .to be_a Item
-        expect(@repository.new_policy)       .to be_a Policy
-        expect(@repository.new_type)         .to be_a Type
+        expect(repository.new_document)     .to be_a Document
+        expect(repository.new_folder)       .to be_a Folder
+        expect(repository.new_relationship) .to be_a Relationship
+        expect(repository.new_item)         .to be_a Item
+        expect(repository.new_policy)       .to be_a Policy
+        expect(repository.new_type)         .to be_a Type
       end
     end
 
-    describe 'type related method' do
+    context 'type related method' do
       before :all do
-        create_apple_type(@repository)
+        create_apple_type
       end
 
       after :all do
-        @repository.type('apple').delete
+        repository.type('apple').delete
       end
 
       describe '#type?' do
         it 'returns true for a present type' do
-          expect(@repository.type?('apple')).to be_true
+          expect(repository.type?('apple')).to be_true
         end
 
         it 'returns false for an absent type' do
-          expect(@repository.type?('banana')).to be_false
+          expect(repository.type?('banana')).to be_false
         end
       end
 
       describe '#types' do
         it 'includes a present type' do
-          type_array = @repository.types.map(&:id)
+          type_array = repository.types.map(&:id)
           expect(type_array).to include('apple')
         end
 
         it 'does not include an absent type' do
-          type_array = @repository.types.map(&:id)
+          type_array = repository.types.map(&:id)
           expect(type_array).to_not include('banana')
         end
       end
 
       describe '#type' do
         it 'returns the type' do
-          apple = @repository.type('apple')
+          apple = repository.type('apple')
           expect(apple).to be_a CMIS::Type
           expect(apple.id).to eq('apple')
         end
       end
 
-      def create_apple_type(repository)
+      def create_apple_type
         type = repository.new_type
         type.id = 'apple'
         type.local_name = 'apple'
