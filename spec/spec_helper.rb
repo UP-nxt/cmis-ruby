@@ -18,7 +18,15 @@ module SpecHelpers
   private
 
   def options
-    YAML::load_file(File.join(File.dirname(File.expand_path(__FILE__)), 'config.yml'))
+    file = File.join(File.dirname(File.expand_path(__FILE__)), 'config.yml')
+    config = YAML::load_file(file)
+    test_env = ENV['TEST_ENV'] || 'local'
+
+    if config.key?(test_env)
+      config[test_env]
+    else
+      raise "No configuration found for #{test_env}"
+    end
   end
 
 end

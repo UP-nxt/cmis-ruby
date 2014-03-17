@@ -1,4 +1,11 @@
 ---
-server:
-  service_url: http://33.33.33.100:8080/browser
-repository: test
+local:
+  server:
+    service_url: http://33.33.33.100:8080/browser
+  repository: test
+nuxeo:
+  server:
+    service_url: http://cmis.demo.nuxeo.com/nuxeo/json/cmis
+    username: Administrator
+    password: Administrator
+  repository: default
