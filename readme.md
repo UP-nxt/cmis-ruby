@@ -4,12 +4,7 @@
 
 ## Running Specs
 
-Running the tests requires a separate CMIS server and two environment variables:
-
-- `CMIS_BROWSER_URL` – The URL of the CMIS server's browser binding.
-- `TEST_REPOSITORY_ID` – The ID of the configured repository that can be used for running the specs on that server.
-
-The default rake task runs the specs.
+Running the tests requires a separate CMIS server. The default rake task runs the specs.
 
 ## TODO
 
