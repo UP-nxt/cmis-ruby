@@ -46,16 +46,6 @@ module CMIS
       end
     end
 
-    describe '#type' do
-      it 'returns the type for primitive types' do
-        PRIMARY_BASE_TYPES.each do |t|
-          type = repository.type(t)
-          expect(type).to be_a(CMIS::Type)
-          expect(type.id).to eq(t)
-        end
-      end
-    end
-
     describe '#new_[document|folder|relationship|item|policy|type]' do
       it 'returns the correct type' do
         expect(repository.new_document)     .to be_a Document
@@ -74,6 +64,16 @@ module CMIS
 
       after :all do
         repository.type('apple').delete
+      end
+
+      describe '#type' do
+        it 'returns the type for primitive types' do
+          PRIMARY_BASE_TYPES.each do |t|
+            type = repository.type(t)
+            expect(type).to be_a(CMIS::Type)
+            expect(type.id).to eq(t)
+          end
+        end
       end
 
       describe '#type?' do

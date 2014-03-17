@@ -1,100 +1,71 @@
-# require_relative './helper'
+require 'spec_helper'
 
-# describe CMIS::Object do
+module CMIS
+  describe Object do
+    before do
+      @document = create_document
+    end
 
-#   before :all do
-#     @repo = create_repository('test')
-#   end
+    after do
+      @document.delete
+    end
 
-#   after :all do
-#     delete_repository('test')
-#   end
+    describe '#object_type' do
+      it 'returns the type' do
+        expect(@document.object_type).to be_a CMIS::Type
+        expect(@document.object_type.id).to eq('cmis:document')
+      end
+    end
 
-#   it 'repository' do
-#     doc = create_document
-#     doc.repository.should be_a_kind_of CMIS::Repository
-#     doc.repository.id.should eq 'test'
-#     doc.delete
-#   end
+    describe '#parents' do
+      it 'has the root as only parent' do
+        expect(@document.parents.size).to eq(1)
+        expect(@document.parents.first.cmis_object_id).to eq(repository.root_folder_id)
+      end
+    end
 
-#   it 'object_type' do
-#     doc = create_document
-#     doc.object_type.should be_a_kind_of CMIS::Type
-#     doc.object_type.id.should eq 'cmis:document'
-#     doc.delete
-#   end
+    describe '#allowable_actions' do
+      it 'returns the allowable actions' do
+        actions = @document.allowable_actions
+        expect(actions).to_not be_nil
+        expect(actions).to_not be_empty
+        actions.values.each do |v|
+          expect([true, false]).to include(v)
+        end
+      end
+    end
 
-#   it 'delete' do
-#     doc = create_document
-#     doc.delete
-#     # TODO check
-#   end
+    describe '#relationships' do
+      it 'returns all relationships' do
+        relationships = @document.relationships
+        expect(relationships).to be_a_kind_of(Relationships)
+        relationships.each_relationship do |r|
+          expect(r).to be_a(Relationship)
+        end
+      end
+    end
 
-#   it 'allowable actions' do
-#     doc = create_document
-#     actions = doc.allowable_actions
-#     actions.should_not be_nil
-#     actions.should_not be_empty
-#     actions.values.each { |v| [true, false].should include v }
-#     doc.delete
-#   end
+    describe '#unfile' do
+      it 'unfiles it from the parent folder' do
+        @document.unfile
+        expect(@document.parents).to be_empty
+      end
+    end
 
-#   it 'relationships' do
-#     doc = create_document
-#     rels = doc.relationships
-#     rels.should_not be_nil
-#     rels.each_relationship do |r|
-#       r.should be_a_kind_of CMIS::Relationship
-#     end
-#     doc.delete
-#   end
+    describe '#acls' do
+      it 'returns acls' do
+        acls = @document.acls
+        expect(acls).to have_key(:aces)
+        expect(acls).to have_key(:isExact)
+        expect([true, false]).to include(acls[:isExact])
+      end
+    end
 
-#   it 'policies' do
-#     doc = create_document
-#     pols = doc.policies
-#     pols.should_not be_nil
-#     pols.each do |p|
-#       p.should be_a_kind_of CMIS::Policy
-#     end
-#     doc.delete
-#   end
-
-#   it 'unfile' do
-#     doc = create_document
-#     doc.unfile
-#     # TODO check
-#     doc.delete
-#   end
-
-#   it 'acls' do
-#     doc = create_document
-#     acls = doc.acls
-#     acls.should_not be_nil
-#     acls.should_not be_empty
-#     acls.should have_key :aces
-#     acls.should have_key :isExact
-#     [true, false].should include acls[:isExact]
-#     doc.delete
-#   end
-
-#   # it 'add aces' do
-#   #   doc = create_document
-#   #   doc.add_aces({})
-#   #   #TODO check
-#   #   doc.delete
-#   # end
-
-#   # it 'remove aces' do
-#   #   doc = create_document
-#   #   doc.remove_aces({})
-#   #   #TODO check
-#   #   doc.delete
-#   # end
-
-#   def create_document
-#     new_object = @repo.new_document
-#     new_object.name = 'doc'
-#     new_object.object_type_id = 'cmis:document'
-#     @repo.root.create(new_object)
-#   end
-# end
+    def create_document
+      document = repository.new_document
+      document.name = 'test_document'
+      document.object_type_id = 'cmis:document'
+      repository.root.create(document)
+    end
+  end
+end
