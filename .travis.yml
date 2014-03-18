@@ -3,4 +3,4 @@ rvm:
   - 1.9.3
   - 2.0.0
 env:
-  - TEST_ENV=nuxeo
+  - TEST_ENV=alfresco

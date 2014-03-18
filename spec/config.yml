@@ -9,3 +9,9 @@ nuxeo:
     username: Administrator
     password: Administrator
   repository: default
+alfresco:
+  server:
+    service_url: http://cmis.alfresco.com/cmisbrowser
+    username: admin
+    password: admin
+  repository: bb212ecb-122d-47ea-b5c1-128affb9cd8f
