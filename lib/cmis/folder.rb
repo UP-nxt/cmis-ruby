@@ -21,29 +21,16 @@ module CMIS
 
     def create(object, opts = {})
       case object
-      when Relationship
-        raise "'cmis:relationship' is not fileable. Use Repository#create_relationship"
-
       when Document
         return object.create_in_folder(self, opts)
-
       when Folder
-        o = server.execute!({ cmisaction: 'createFolder',
-                              repositoryId: repository.id,
-                              properties: object.properties,
-                              objectId: cmis_object_id }, opts)
-
+        o = create_in_self(object, 'createFolder', opts)
       when Policy
-        o = server.execute!({ cmisaction: 'createPolicy',
-                              repositoryId: repository.id,
-                              properties: object.properties,
-                              objectId: cmis_object_id }, opts)
+        o = create_in_self(object, 'createPolicy', opts)
       when Item
-        o = server.execute!({ cmisaction: 'createItem',
-                              repositoryId: repository.id,
-                              properties: object.properties,
-                              objectId: cmis_object_id }, opts)
-
+        o = create_in_self(object, 'createItem', opts)
+      when Relationship
+        raise "`cmis:relationship` is not fileable. Use Repository#create_relationship."
       else
         raise "Unexpected base_type_id: #{object.base_type_id}"
       end
@@ -69,6 +56,15 @@ module CMIS
                         repositoryId: repository.id,
                         objectId: object.cmis_object_id,
                         folderId: cmis_object_id }, opts)
+    end
+
+    private
+
+    def create_in_self(object, cmis_action, opts)
+      server.execute!({ cmisaction: cmis_action,
+                        repositoryId: repository.id,
+                        properties: object.properties,
+                        objectId: cmis_object_id }, opts)
     end
   end
 end
