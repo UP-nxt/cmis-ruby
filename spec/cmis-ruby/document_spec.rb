@@ -1,49 +1,58 @@
-# require_relative './helper'
+require 'spec_helper'
 
-# describe CMIS::Document do
+module CMIS
+  describe Document do
+    context 'when creating a document with content' do
+      it 'has properties and content' do
+        document = repository.new_document
+        document.name = 'apple_document'
+        document.object_type_id = 'cmis:document'
+        document.content = { stream: StringIO.new('apple is a fruit'),
+                             mime_type: 'text/apple',
+                             filename: 'apple.txt' }
+        document = document.create_in_folder(repository.root)
 
-#   before :all do
-#     @repo = create_repository('test')
-#   end
+        expect(document.content_stream_mime_type).to eq('text/apple')
+        expect(document.content_stream_file_name).to eq('apple.txt')
+        expect(document.content).to eq('apple is a fruit')
 
-#   after :all do
-#     delete_repository('test')
-#   end
+        document.delete
+      end
+    end
 
-#   it 'create_in_folder with content' do
-#     new_object = @repo.new_document
-#     new_object.name = 'doc1'
-#     new_object.object_type_id = 'cmis:document'
-#     new_object.content = { stream: StringIO.new('content1'),
-#                            mime_type: 'text/plain',
-#                            filename: 'doc1.txt' }
-#     doc = new_object.create_in_folder(@repo.root)
-#     doc.name.should eq 'doc1'
-#     doc.content_stream_mime_type.should eq 'text/plain'
-#     doc.content_stream_file_name.should eq 'doc1.txt'
-#     doc.content.should eq 'content1'
-#     doc.delete
-#   end
+    context 'when creating a document without content' do
+      it 'has properties and no content' do
+        document = repository.new_document
+        document.name = 'apple_document'
+        document.object_type_id = 'cmis:document'
+        document = document.create_in_folder(repository.root)
 
-#   it 'create_in_folder without content' do
-#     new_object = @repo.new_document
-#     new_object.name = 'doc2'
-#     new_object.object_type_id = 'cmis:document'
-#     doc = new_object.create_in_folder(@repo.root)
-#     doc.name.should eq 'doc2'
-#     doc.content.should be nil
-#     doc.delete
-#   end
+        expect(document.content_stream_mime_type).to be_nil
+        expect(document.content_stream_file_name).to be_nil
+        expect(document.content).to be_nil
 
-#   # it 'set content - attached' do
-#   #   new_object = @repo.new_document
-#   #   new_object.name = 'doc3'
-#   #   new_object.object_type_id = 'cmis:document'
-#   #   doc = @repo.root.create(new_object)
-#   # doc.content =  { stream: StringIO.new('content3'),
-#   #                  mime_type: 'text/plain',
-#   #                  filename: 'doc3.txt' }
-#   #   doc.content.should eq 'content3'
-#   #   doc.delete
-#   # end
-# end
+        document.delete
+      end
+    end
+
+    context 'when creating a document and then setting the content' do
+      it 'has properties and content' do
+        document = repository.new_document
+        document.name = 'apple_document'
+        document.object_type_id = 'cmis:document'
+        document = document.create_in_folder(repository.root)
+
+        document.content = { stream: StringIO.new('apple is a fruit'),
+                             mime_type: 'text/apple',
+                             filename: 'apple.txt' }
+
+        # Why doesn't this work?
+        # expect(document.content_stream_mime_type).to eq('text/apple')
+        # expect(document.content_stream_file_name).to eq('apple.txt')
+        expect(document.content).to eq('apple is a fruit')
+
+        document.delete
+      end
+    end
+  end
+end

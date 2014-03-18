@@ -6,9 +6,12 @@
 
 Running the tests requires a separate CMIS server. The default rake task runs the specs.
 
-## Code status
+## Status
 
+[![Gem Version](https://badge.fury.io/rb/cmis-ruby.png)](http://badge.fury.io/rb/cmis-ruby)
+[![Code Climate](https://codeclimate.com/github/UP-nxt/cmis-ruby.png)](https://codeclimate.com/github/UP-nxt/cmis-ruby)
 [![Build Status](https://travis-ci.org/UP-nxt/cmis-ruby.png?branch=master)](https://travis-ci.org/UP-nxt/cmis-ruby)
+[![Dependency Status](https://gemnasium.com/UP-nxt/cmis-ruby.png)](https://gemnasium.com/UP-nxt/cmis-ruby)
 
 ## TODO
 

@@ -1,53 +1,33 @@
-# require_relative './helper'
+require 'spec_helper'
 
-# describe CMIS::Folder do
+module CMIS
+  describe Folder do
+    before do
+      @folder = create_folder
+    end
 
-#   before :all do
-#     @repo = create_repository('test')
-#   end
+    after do
+      @folder.delete
+    end
 
-#   after :all do
-#     delete_repository('test')
-#   end
+    describe '#parent' do
+      it 'is nil for the root folder' do
+        expect(repository.root.parent).to be_nil
+      end
 
-#   it 'parent - root' do
-#     @repo.root.parent.should be_nil
-#   end
+      it 'is the root folder for its child' do
+        expect(@folder.parent.cmis_object_id).to eq(repository.root_folder_id)
+      end
+    end
 
-#   it 'parent - root child' do
-#     new_object = @repo.new_folder
-#     new_object.name = 'folder1'
-#     new_object.object_type_id = 'cmis:folder'
-#     folder = @repo.root.create(new_object)
-#     folder.parent.cmis_object_id.should eq @repo.root_folder_id
-#     folder.delete
-#   end
-
-#   it 'create document' do
-#     new_object = @repo.new_document
-#     new_object.name = 'doc1'
-#     new_object.object_type_id = 'cmis:document'
-#     new_object.content = { stream: StringIO.new('apple is a fruit'),
-#                            mime_type: 'text/plain',
-#                            filename: 'apple.txt' }
-#     object = @repo.root.create(new_object)
-#     object.should be_a_kind_of CMIS::Document
-#     object.name.should eq 'doc1'
-#     object.content_stream_mime_type.should eq 'text/plain'
-#     object.content_stream_file_name.should eq 'apple.txt'
-#     object.content.should eq 'apple is a fruit'
-#     object.delete
-#   end
-
-#   it 'create folder' do
-#     new_object = @repo.new_folder
-#     new_object.name = 'folder1'
-#     new_object.object_type_id = 'cmis:folder'
-#     object = @repo.root.create(new_object)
-#     object.should be_a_kind_of CMIS::Folder
-#     object.name.should eq 'folder1'
-#     object.delete
-#   end
+    def create_folder
+      folder = repository.new_folder
+      folder.name = 'test_folder'
+      folder.object_type_id = 'cmis:folder'
+      repository.root.create(folder)
+    end
+  end
+end
 
 #   it 'create relationship' do
 #     new_object = @repo.new_relationship

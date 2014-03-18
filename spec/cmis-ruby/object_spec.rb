@@ -10,6 +10,10 @@ module CMIS
       @document.delete
     end
 
+    describe '#properties' do
+      # Property accessor behavior...
+    end
+
     describe '#object_type' do
       it 'returns the type' do
         expect(@document.object_type).to be_a CMIS::Type
