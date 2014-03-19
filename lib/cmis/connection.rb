@@ -4,7 +4,7 @@ module CMIS
       options.symbolize_keys!
 
       message = "option `service_url` must be set"
-      @service_url = options[:service_url] or raise message
+      service_url = options[:service_url] or raise message
 
       adapter = (options[:adapter] || :net_http).to_sym
 
@@ -27,7 +27,7 @@ module CMIS
         builder.use ResponseParser
       end
 
-      @url_cache = {}
+      @url_resolver = URLResolver.new(@http, service_url)
     end
 
     def execute!(params = {}, options = {})
@@ -35,7 +35,7 @@ module CMIS
 
       query = options[:query] || {}
       headers = options[:headers] || {}
-      url = url(params.delete(:repositoryId), params[:objectId])
+      url = @url_resolver.url(params.delete(:repositoryId), params[:objectId])
 
       response = if params[:cmisaction]
         @http.post(url, params, headers)
@@ -45,8 +45,14 @@ module CMIS
 
       response.body
     end
+  end
 
-    private
+  class URLResolver
+    def initialize(http, service_url)
+      @http = http
+      @service_url = service_url
+      @url_cache = {}
+    end
 
     def url(repository_id, object_id)
       if repository_id.nil?
@@ -56,6 +62,8 @@ module CMIS
         urls[object_id ? :root_folder_url : :repository_url]
       end
     end
+
+    private
 
     def repository_urls(repository_id)
       if @url_cache[repository_id].nil?
