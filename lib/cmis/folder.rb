@@ -1,3 +1,5 @@
+require 'cmis/children'
+
 module CMIS
   class Folder < Object
     def initialize(raw, repository)

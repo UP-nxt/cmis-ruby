@@ -1,3 +1,6 @@
+require 'bigdecimal'
+require 'cmis/query_result'
+
 module CMIS
   class Relationships
     # Options: from, page_size

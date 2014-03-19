@@ -1,3 +1,5 @@
+require 'faraday'
+require 'cmis/version'
 require 'cmis/connection/url_resolver'
 require 'cmis/connection/request_modifier'
 require 'cmis/connection/response_parser'

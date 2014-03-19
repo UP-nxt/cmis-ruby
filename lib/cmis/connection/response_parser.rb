@@ -1,3 +1,6 @@
+require 'faraday'
+require 'json'
+
 module CMIS
   class Connection
     class ResponseParser < Faraday::Middleware

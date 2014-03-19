@@ -1,3 +1,6 @@
+require 'json'
+require 'cmis/query'
+
 module CMIS
   class Repository
     attr_reader :server

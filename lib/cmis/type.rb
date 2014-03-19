@@ -1,3 +1,5 @@
+require 'json'
+
 module CMIS
   class Type
     attr_accessor :repository

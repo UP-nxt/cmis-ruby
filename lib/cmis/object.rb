@@ -1,3 +1,5 @@
+require 'cmis/relationships'
+
 module CMIS
   class Object
     include Helpers

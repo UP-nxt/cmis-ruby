@@ -1,3 +1,5 @@
+require 'faraday'
+
 module CMIS
   class Connection
     class RequestModifier < Faraday::Middleware
