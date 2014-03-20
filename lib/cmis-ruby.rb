@@ -1,4 +1,3 @@
-# TODO: Remove ActiveSupport dependency
 require 'active_support/core_ext'
 require 'core_ext'
 

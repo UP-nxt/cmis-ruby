@@ -13,7 +13,11 @@ Running the tests requires a separate CMIS server. The default rake task runs th
 
 ## TODO
 
-* facilitate copy between servers (make a flow)
+* remove ActiveSupport dependency:
+    * stringify_keys! -> to_options!
+    * symbolize_keys! -> to_options!
+    * compact!
+    * with_indifferent_access -> ?
 * caching
 
 ## Contributing
