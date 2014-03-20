@@ -1,4 +1,5 @@
 require 'cmis-ruby'
+require 'yaml'
 
 module SpecHelpers
 
