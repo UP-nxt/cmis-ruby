@@ -1,5 +1,6 @@
 require 'cmis-ruby'
 require 'yaml'
+require 'erb'
 
 module SpecHelpers
 
@@ -18,10 +19,10 @@ module SpecHelpers
   private
 
   def options
-    file = File.join(File.dirname(File.expand_path(__FILE__)), 'config.yml')
-    config = YAML::load_file(file)
-    test_env = ENV['TEST_ENV'] || 'local'
+    path = File.join(File.dirname(File.expand_path(__FILE__)), 'config.yml')
+    config = YAML.load ERB.new(File.read(path)).result
 
+    test_env = ENV['TEST_ENV'] || 'local'
     if config.key?(test_env)
       config[test_env]
     else

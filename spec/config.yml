@@ -3,6 +3,12 @@ local:
   server:
     service_url: http://33.33.33.100:8080/browser
   repository: test
+ci:
+  server:
+    service_url: https://cmis-service.ci.apps.up-nxt.com/browser
+    username: <%= ENV['CI_USERNAME'] %>
+    password: <%= ENV['CI_PASSWORD'] %>
+  repository: travis_cmis_ruby
 nuxeo:
   server:
     service_url: http://cmis.demo.nuxeo.com/nuxeo/json/cmis
