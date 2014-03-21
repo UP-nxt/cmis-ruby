@@ -106,14 +106,26 @@ module CMIS
       Query.new(self, statement, opts)
     end
 
-    def find_object(type_id, properties, opts = {})
-      clause = properties.map { |k, v| "#{k}=#{normalize(v)}" }.join(' and ')
-      statement = "select * from #{type_id} where #{clause}"
+    def find_object(type_id, properties = {}, opts = {})
       opts.merge!(page_size: 1)
+      statement = construct_statement(type_id, properties)
       query(statement, opts).results.first
     end
 
+    def count_objects(type_id, properties = {}, opts = {})
+      opts.merge!(page_size: 0)
+      statement = construct_statement(type_id, properties)
+      query(statement, opts).total
+    end
+
     private
+
+    def construct_statement(type_id, properties)
+      statement = "select * from #{type_id}"
+      clause = properties.map { |k, v| "#{k}=#{normalize(v)}" }.join(' and ')
+      statement << " where #{clause}" if clause.present?
+      statement
+    end
 
     BACKSLASH = "\\"
     QUOTE = "\'"

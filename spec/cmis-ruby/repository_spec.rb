@@ -46,6 +46,17 @@ module CMIS
       end
     end
 
+    describe '#count_objects' do
+      it 'returns 1 folder (which is the root folder)' do
+        count = repository.count_objects('cmis:folder')
+        expect(count).to eq 1
+      end
+      it 'returns 0 documents' do
+        count = repository.count_objects('cmis:document')
+        expect(count).to eq 0
+      end
+    end
+
     describe '#new_[document|folder|relationship|item|policy|type]' do
       it 'returns the correct type' do
         expect(repository.new_document)     .to be_a Document
