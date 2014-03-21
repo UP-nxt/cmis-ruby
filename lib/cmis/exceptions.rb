@@ -13,5 +13,8 @@ module CMIS
     class StreamNotSupported      < Exception; end
     class UpdateConflict          < Exception; end
     class Versioning              < Exception; end
+
+    # Non-CMIS
+    class Unauthorized            < Exception; end
   end
 end
