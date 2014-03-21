@@ -50,8 +50,6 @@ module CMIS
     end
 
     def get_properties_map(raw)
-      raw = raw.with_indifferent_access
-
       if raw['succinctProperties']
         result = raw['succinctProperties']
       elsif raw['properties']
