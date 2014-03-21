@@ -3,17 +3,16 @@ require 'yaml'
 require 'erb'
 
 module SpecHelpers
-
   def server
-    @server ||= CMIS::Server.new(options['server'])
+    @@server ||= CMIS::Server.new(options['server'])
   end
 
   def repository
-    @repository ||= server.repository(options['repository'])
+    @@repository ||= server.repository(repository_id)
   end
 
   def repository_id
-    options['repository']
+    @@repository_id ||= options['repository']
   end
 
   private
@@ -26,10 +25,9 @@ module SpecHelpers
     if config.key?(test_env)
       config[test_env]
     else
-      raise "No configuration found for #{test_env}"
+      raise "No configuration found for environment `#{test_env}`"
     end
   end
-
 end
 
 RSpec.configure do |c|
