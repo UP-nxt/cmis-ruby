@@ -9,22 +9,23 @@
 
 ## Example usage
 
-### `CMIS::Server` and `CMIS::Repository`
+#### `CMIS::Server` and `CMIS::Repository`
 
 ```ruby
-server = CMIS::Server.new(service_url: 'http://33.33.33.100:8080/browser', username: 'foo', password: 'bar')
-
+server = CMIS::Server.new(service_url: 'http://33.33.33.100:8080/browser',
+                          username: 'foo', password: 'bar')
 repository = server.repository('my_repository')
 ```
 
-### `CMIS::document`
+#### `CMIS::document`
 
 ```ruby
 # get by object id
 document = repository.object('f3y5wbb6slhkeq3ciu3uazbpxeu')
 
 # find by unique property
-document = repository.find_object('cmis:document', 'cmis:name' => 'some_unique_name')
+document = repository.find_object('cmis:document', 
+                                  'cmis:name' => 'some_unique_name')
 
 # set content
 document.content = { stream: StringIO.new('Apple is a fruit'),
@@ -40,7 +41,7 @@ document = document.create_in_folder(repository.root)
 
 ## Running specs
 
-The default rake task runs the specs. This requires a separate CMIS server. The environment variable `TEST_ENV` selects the test environment from `spec/config.yml`.
+The default rake task runs the specs. This requires a separate CMIS server. The environment variable `TEST_ENV` selects the test environment from `spec/config.yml`. The Travis build uses the private `ci` environment.
 
 ## Contributing
 
