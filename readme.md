@@ -10,25 +10,20 @@
 
 ## Example usage
 
-#### `CMIS::Server` and `CMIS::Repository`
-
 ```ruby
+# get the repository object
 server = CMIS::Server.new(service_url: 'http://33.33.33.100:8080/browser',
                           username: 'foo', password: 'bar')
 repository = server.repository('my_repository')
-```
 
-#### `CMIS::Document`
-
-```ruby
-# get by object id
+# get object by object id
 document = repository.object('f3y5wbb6slhkeq3ciu3uazbpxeu')
 
-# find by unique property
+# or by unique property
 document = repository.find_object('cmis:document', 
                                   'cmis:name' => 'some_unique_name')
 
-# set content
+# set document content
 document.content = { stream: StringIO.new('Apple is a fruit'),
                      mime_type: 'text/plain',
                      filename: 'apple.txt' }
@@ -38,6 +33,10 @@ document = repository.new_document
 document.name = 'new_document'
 document.object_type_id = 'cmis:document'
 document = document.create_in_folder(repository.root)
+
+# query for first 50 documents where the property foo is 'bar'
+query = repository.query("select * from cmis:document where foo='bar'")
+query.each_result(limit: 50) { |document| puts document.cmis_object_id }
 ```
 
 ## Running specs
