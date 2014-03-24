@@ -4,16 +4,19 @@ module CMIS
       def initialize(http, service_url)
         @http = http
         @service_url = service_url
-        @infos = {}
+        @repository_infos = {}
       end
 
       def url(repository_id, object_id)
         return @service_url unless repository_id
 
-        @infos = @http.get(@service_url).body unless @infos.key?(repository_id)
+        unless @repository_infos.key?(repository_id)
+          @repository_infos = @http.get(@service_url).body
+        end
 
-        if @infos.key?(repository_id)
-          @infos[repository_id][object_id ? 'rootFolderUrl' : 'repositoryUrl']
+        if @repository_infos.key?(repository_id)
+          key = object_id ? 'rootFolderUrl' : 'repositoryUrl'
+          @repository_infos[repository_id][key]
         else
           raise Exceptions::ObjectNotFound, "repositoryId: #{repository_id}"
         end

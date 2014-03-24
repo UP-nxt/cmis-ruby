@@ -9,16 +9,13 @@ module CMIS
 
       def call(env)
         @app.call(env).on_complete do |env|
-          content_type = env[:response_headers][:content_type]
-
-          # TODO: Use status first to raise exceptions
-          if content_type =~ JSON_CONTENT_TYPE
-            env[:body] = JSON.parse(env[:body]).with_indifferent_access
-            check_for_cmis_exception!(env[:body])
-          elsif content_type =~ HTML_CONTENT_TYPE
-            case env[:status]
-            when 401
-              raise Exceptions::Unauthorized
+          case env[:status]
+          when 401
+            raise Exceptions::Unauthorized
+          else
+            if env[:response_headers][:content_type] =~ JSON_CONTENT_TYPE
+              env[:body] = JSON.parse(env[:body]).with_indifferent_access
+              check_for_cmis_exception!(env[:body])
             end
           end
         end
