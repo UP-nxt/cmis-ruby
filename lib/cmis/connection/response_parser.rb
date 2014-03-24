@@ -35,7 +35,7 @@ module CMIS
       def exception_class(exception)
         clazz = exception.dup
         clazz[0] = clazz[0].upcase
-        Object.const_get("CMIS::Exceptions::#{clazz}")
+        CMIS::Exceptions.const_get(clazz)
       end
     end
   end
