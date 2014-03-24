@@ -1,5 +1,7 @@
 require 'bigdecimal'
 require 'cmis/query_result'
+require 'core_ext/hash/keys'
+require 'core_ext/hash/slice'
 
 module CMIS
   class Query
@@ -7,7 +9,7 @@ module CMIS
     def initialize(repository, statement, options = {})
       @repository = repository
       @statement = statement
-      @options = options.stringify_keys
+      @options = options.symbolize_keys
 
       init_options
     end
@@ -65,17 +67,17 @@ module CMIS
     private
 
     def init_options
-      @method = (@options['method'] || 'get').to_s.downcase
-      @max_items = @options['page_size'] || 10
-      @skip_count = @options['from'] || 0
+      @method = (@options[:method] || 'get').to_s.downcase
+      @max_items = @options[:page_size] || 10
+      @skip_count = @options[:from] || 0
       @has_next = true
 
-      @opts = @options.slice('query', 'headers')
+      @opts = @options.slice(:query, :headers)
     end
 
     def parse_limit(options)
-      options.stringify_keys!
-      limit = options['limit'] || 10
+      options.symbolize_keys!
+      limit = options[:limit] || 10
       limit = BigDecimal::INFINITY if limit == :all
       raise 'Not a valid limit' unless limit.is_a? Numeric
       limit

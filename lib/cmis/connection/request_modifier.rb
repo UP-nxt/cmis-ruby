@@ -1,3 +1,4 @@
+require 'core_ext/hash/compact'
 require 'faraday'
 
 module CMIS

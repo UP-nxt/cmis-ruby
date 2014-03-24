@@ -1,5 +1,3 @@
-# Added in active_support 4.1
-
 class Hash
   # Returns a hash with non +nil+ values.
   #

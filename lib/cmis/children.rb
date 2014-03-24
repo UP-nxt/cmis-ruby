@@ -1,12 +1,14 @@
 require 'bigdecimal'
 require 'cmis/query_result'
+require 'core_ext/hash/keys'
+require 'core_ext/hash/slice'
 
 module CMIS
   class Children
     # Options: from, page_size
     def initialize(folder, options = {})
       @folder = folder
-      @options = options.stringify_keys!
+      @options = options.symbolize_keys
 
       init_options
     end
@@ -64,19 +66,19 @@ module CMIS
     private
 
     def init_options
-      @max_items = @options['page_size'] || 10
-      @skip_count = @options['from'] || 0
-      @order_by = @options['order_by']
-      @filter = @options['filter']
-      @include_relationships = @options['include_relationships']
+      @max_items = @options[:page_size] || 10
+      @skip_count = @options[:from] || 0
+      @order_by = @options[:order_by]
+      @filter = @options[:filter]
+      @include_relationships = @options[:include_relationships]
       @has_next = true
 
-      @opts = @options.slice('query', 'headers')
+      @opts = @options.slice(:query, :headers)
     end
 
     def parse_limit(options)
-      options.stringify_keys!
-      limit = options['limit'] || 10
+      options.symbolize_keys!
+      limit = options[:limit] || 10
       limit = BigDecimal::INFINITY if limit == :all
       raise 'Not a valid limit' unless limit.is_a? Numeric
       limit

@@ -1,8 +1,10 @@
-require 'faraday'
-require 'cmis/version'
-require 'cmis/connection/url_resolver'
 require 'cmis/connection/request_modifier'
 require 'cmis/connection/response_parser'
+require 'cmis/connection/url_resolver'
+require 'cmis/version'
+require 'core_ext/hash/compact'
+require 'core_ext/hash/keys'
+require 'faraday'
 
 module CMIS
   class Connection
@@ -37,6 +39,7 @@ module CMIS
     end
 
     def execute!(params = {}, options = {})
+      params.symbolize_keys!
       options.symbolize_keys!
 
       query = options[:query] || {}

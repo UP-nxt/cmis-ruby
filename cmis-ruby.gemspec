@@ -20,7 +20,6 @@ Gem::Specification.new do |s|
   s.required_ruby_version = '>= 1.9.3'
 
   s.add_dependency        'faraday', '~> 0.9'
-  s.add_dependency        'activesupport', '>= 3.2', '< 5.0'
 
   s.description = <<-DESCRIPTION
 CMIS browser binding client library in ruby.

@@ -1,5 +1,6 @@
-require 'json'
 require 'cmis/query'
+require 'core_ext/string/underscore'
+require 'json'
 
 module CMIS
   class Repository
@@ -8,8 +9,8 @@ module CMIS
     def initialize(raw, server)
       @hash = raw
       @hash.each_key do |key|
-        class_eval "def #{key.underscore};@hash['#{key}'];end"
-        class_eval "def #{key.gsub('repository', '').underscore};@hash['#{key}'];end" if key =~ /^repository/
+        self.class.class_eval "def #{key.underscore};@hash['#{key}'];end"
+        self.class.class_eval "def #{key.gsub('repository', '').underscore};@hash['#{key}'];end" if key =~ /^repository/
       end
 
       @server = server
@@ -123,7 +124,7 @@ module CMIS
     def construct_statement(type_id, properties)
       statement = "select * from #{type_id}"
       clause = properties.map { |k, v| "#{k}=#{normalize(v)}" }.join(' and ')
-      statement << " where #{clause}" if clause.present?
+      statement << " where #{clause}" unless clause.empty?
       statement
     end
 

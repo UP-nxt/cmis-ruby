@@ -1,3 +1,5 @@
+require 'core_ext/hash/indifferent_access'
+require 'core_ext/string/underscore'
 require 'json'
 
 module CMIS
@@ -15,11 +17,11 @@ module CMIS
                        contentStreamAllowed allowedSourceTypes allowedTargetTypes )
 
       properties.each do |key|
-        class_eval "def #{key.underscore};@hash['#{key}'];end"
-        class_eval "def #{key.underscore}=(value);@hash['#{key}']=value;end"
+        self.class.class_eval "def #{key.underscore};@hash['#{key}'];end"
+        self.class.class_eval "def #{key.underscore}=(value);@hash['#{key}']=value;end"
       end
 
-      @hash['propertyDefinitions'] ||= ActiveSupport::HashWithIndifferentAccess.new
+      @hash['propertyDefinitions'] ||= HashWithIndifferentAccess.new
       @hash['propertyDefinitions'].each do |key, value|
         @hash['propertyDefinitions'][key] = PropertyDefinition.new(value)
       end

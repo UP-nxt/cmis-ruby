@@ -1,3 +1,6 @@
+require 'core_ext/hash/indifferent_access'
+require 'core_ext/string/underscore'
+
 module CMIS
   module Helpers
     def initialize_properties(raw)
@@ -7,8 +10,8 @@ module CMIS
     def cmis_properties(properties)
       properties.each do |property_name|
         method_name = method_name(property_name)
-        class_eval "def #{method_name};@properties['#{property_name}'];end"
-        class_eval "def #{method_name}=(value);@properties['#{property_name}']=value;end"
+        self.class.class_eval "def #{method_name};@properties['#{property_name}'];end"
+        self.class.class_eval "def #{method_name}=(value);@properties['#{property_name}']=value;end"
       end
     end
 

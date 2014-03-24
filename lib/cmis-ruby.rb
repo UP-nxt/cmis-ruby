@@ -1,6 +1,3 @@
-require 'active_support/core_ext'
-require 'core_ext'
-
 require 'cmis/exceptions'
 require 'cmis/helpers'
 require 'cmis/object_factory'

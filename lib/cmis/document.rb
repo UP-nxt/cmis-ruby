@@ -1,3 +1,5 @@
+require 'core_ext/hash/keys'
+
 module CMIS
   class Document < Object
     def initialize(raw, repository)
@@ -46,10 +48,10 @@ module CMIS
     end
 
     def content=(opts = {})
-      opts.stringify_keys!
-      content = { stream: opts.delete('stream'),
-                  mime_type: opts.delete('mime_type'),
-                  filename: opts.delete('filename') }
+      opts.symbolize_keys!
+      content = { stream: opts.delete(:stream),
+                  mime_type: opts.delete(:mime_type),
+                  filename: opts.delete(:filename) }
 
       if content[:stream].is_a? String
         content[:stream] = StringIO.new(content[:stream])
