@@ -21,15 +21,15 @@ module SpecHelpers
   private
 
   def options
-    path = File.join(File.dirname(File.expand_path(__FILE__)), 'config.yml')
-    config = YAML.load ERB.new(File.read(path)).result
-
-    test_env = ENV['TEST_ENV'] || 'local'
-    if config.key?(test_env)
-      config[test_env]
-    else
-      raise "No configuration found for environment `#{test_env}`"
+    @@options ||= begin
+      path = File.join(File.dirname(File.expand_path(__FILE__)), 'config.yml')
+      config = YAML.load(ERB.new(File.read(path)).result)
+      config[config_key] or raise "No configuration found for `#{config_key}`"
     end
+  end
+
+  def config_key
+    ENV['TEST_ENV'] || 'local'
   end
 end
 
