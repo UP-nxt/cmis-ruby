@@ -17,7 +17,7 @@ server = CMIS::Server.new(service_url: 'http://33.33.33.100:8080/browser',
 repository = server.repository('my_repository')
 ```
 
-#### `CMIS::document`
+#### `CMIS::Document`
 
 ```ruby
 # get by object id
