@@ -1,6 +1,9 @@
 require 'cmis-ruby'
-require 'yaml'
+require 'coveralls'
 require 'erb'
+require 'yaml'
+
+Coveralls.wear!
 
 module SpecHelpers
   def server
