@@ -8,7 +8,7 @@ ci:
     service_url: https://cmis-service.ci.apps.up-nxt.com/browser
     username: <%= ENV['CI_USERNAME'] %>
     password: <%= ENV['CI_PASSWORD'] %>
-  repository: travis_cmis_ruby
+  repository: travis_cmis_ruby_<%= RUBY_VERSION.tr(?., ?_) %>
 nuxeo:
   server:
     service_url: http://cmis.demo.nuxeo.com/nuxeo/json/cmis
