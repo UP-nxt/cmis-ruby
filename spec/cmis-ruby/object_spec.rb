@@ -59,9 +59,9 @@ module CMIS
     describe '#acls' do
       it 'returns acls' do
         acls = @document.acls
-        expect(acls).to have_key(:aces)
-        expect(acls).to have_key(:isExact)
-        expect([true, false]).to include(acls[:isExact])
+        expect(acls).to have_key('aces')
+        expect(acls).to have_key('isExact')
+        expect([true, false]).to include(acls['isExact'])
       end
     end
 

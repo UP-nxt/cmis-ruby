@@ -1,4 +1,4 @@
-require 'core_ext/hash/indifferent_access'
+require 'core_ext/hash/keys'
 require 'core_ext/string/underscore'
 require 'json'
 
@@ -8,7 +8,7 @@ module CMIS
 
     def initialize(hash, repository)
       @repository = repository
-      @hash = hash.with_indifferent_access
+      @hash = hash.deep_stringify_keys
 
       properties = %w( id localName localNamespace queryName displayName baseId
                        parentId description creatable fileable queryable
@@ -21,14 +21,15 @@ module CMIS
         self.class.class_eval "def #{key.underscore}=(value);@hash['#{key}']=value;end"
       end
 
-      @hash['propertyDefinitions'] ||= HashWithIndifferentAccess.new
+      @hash['propertyDefinitions'] ||= {}
       @hash['propertyDefinitions'].each do |key, value|
         @hash['propertyDefinitions'][key] = PropertyDefinition.new(value)
       end
     end
 
     def add_property_definition(property)
-      property_definitions[property[:id]] = property
+      property.stringify_keys!
+      property_definitions[property['id']] = property
     end
 
     def create
@@ -36,8 +37,9 @@ module CMIS
     end
 
     def update(changed_property_defs, opts = {})
+      changed_property_defs.deep_stringify_keys!
       new_defs = changed_property_defs.map(&:to_hash).reduce({}) do |result, element|
-        result[element[:id]] = element
+        result[element['id']] = element
         result
       end
 

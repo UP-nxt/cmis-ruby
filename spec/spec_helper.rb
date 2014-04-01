@@ -10,12 +10,12 @@ module SpecHelpers
     @@server ||= CMIS::Server.new(options['server'])
   end
 
-  def repository
-    @@repository ||= server.repository(repository_id)
-  end
-
   def repository_id
     @@repository_id ||= options['repository']
+  end
+
+  def repository
+    @@repository ||= server.repository(repository_id)
   end
 
   private

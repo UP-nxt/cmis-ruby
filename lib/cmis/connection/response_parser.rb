@@ -1,5 +1,3 @@
-require 'core_ext/array/indifferent_access'
-require 'core_ext/hash/indifferent_access'
 require 'faraday'
 require 'json'
 
@@ -15,7 +13,7 @@ module CMIS
             raise Exceptions::Unauthorized
           else
             if env[:response_headers][:content_type] =~ JSON_CONTENT_TYPE
-              env[:body] = JSON.parse(env[:body]).with_indifferent_access
+              env[:body] = JSON.parse(env[:body])
               check_for_cmis_exception!(env[:body])
             end
           end
@@ -27,8 +25,8 @@ module CMIS
       def check_for_cmis_exception!(body)
         return unless body.is_a?(Hash)
 
-        if exception = body[:exception]
-          raise exception_class(exception), "#{exception}: #{body[:message]}"
+        if exception = body['exception']
+          raise exception_class(exception), "#{exception}: #{body['message']}"
         end
       end
 

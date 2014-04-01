@@ -1,4 +1,3 @@
-require 'core_ext/hash/indifferent_access'
 require 'core_ext/string/underscore'
 
 module CMIS
@@ -54,16 +53,14 @@ module CMIS
 
     def get_properties_map(raw)
       if raw['succinctProperties']
-        result = raw['succinctProperties']
+        raw['succinctProperties']
       elsif raw['properties']
-        result = raw['properties'].reduce({}) do |h, (k, v)|
+        raw['properties'].reduce({}) do |h, (k, v)|
           h.merge(k => sanitize(v))
         end
       else
-        result = {}
+        {}
       end
-
-      result.with_indifferent_access
     end
 
     def sanitize(prop)
