@@ -1,5 +1,5 @@
 require 'cmis/query'
-require 'core_ext/string/underscore'
+require 'core_ext/string/as_ruby_property'
 require 'json'
 
 module CMIS
@@ -9,8 +9,8 @@ module CMIS
     def initialize(raw, server)
       @hash = raw
       @hash.each_key do |key|
-        self.class.class_eval "def #{key.underscore};@hash['#{key}'];end"
-        self.class.class_eval "def #{key.gsub('repository', '').underscore};@hash['#{key}'];end" if key =~ /^repository/
+        self.class.class_eval "def #{key.as_ruby_property};@hash['#{key}'];end"
+        self.class.class_eval "def #{key.gsub('repository', '').as_ruby_property};@hash['#{key}'];end" if key =~ /^repository/
       end
 
       @server = server

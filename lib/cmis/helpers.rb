@@ -1,4 +1,4 @@
-require 'core_ext/string/underscore'
+require 'core_ext/string/as_ruby_property'
 
 module CMIS
   module Helpers
@@ -47,7 +47,7 @@ module CMIS
       if property_name == 'cmis:objectId'
         'cmis_object_id'
       else
-        property_name.gsub('cmis:', '').underscore
+        property_name.gsub('cmis:', '').as_ruby_property
       end
     end
 

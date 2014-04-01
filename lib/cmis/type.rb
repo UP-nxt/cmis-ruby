@@ -1,5 +1,5 @@
 require 'core_ext/hash/keys'
-require 'core_ext/string/underscore'
+require 'core_ext/string/as_ruby_property'
 require 'json'
 
 module CMIS
@@ -17,8 +17,8 @@ module CMIS
                        contentStreamAllowed allowedSourceTypes allowedTargetTypes )
 
       properties.each do |key|
-        self.class.class_eval "def #{key.underscore};@hash['#{key}'];end"
-        self.class.class_eval "def #{key.underscore}=(value);@hash['#{key}']=value;end"
+        self.class.class_eval "def #{key.as_ruby_property};@hash['#{key}'];end"
+        self.class.class_eval "def #{key.as_ruby_property}=(value);@hash['#{key}']=value;end"
       end
 
       @hash['propertyDefinitions'] ||= {}
@@ -37,7 +37,8 @@ module CMIS
     end
 
     def update(changed_property_defs, opts = {})
-      changed_property_defs.deep_stringify_keys!
+      changed_property_defs.map!(&:deep_stringify_keys)
+
       new_defs = changed_property_defs.map(&:to_hash).reduce({}) do |result, element|
         result[element['id']] = element
         result
