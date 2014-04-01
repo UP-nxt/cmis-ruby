@@ -5,7 +5,7 @@ module CMIS
     class RequestModifier < Faraday::Middleware
       def call(env)
         if env[:body]
-          env[:body].compact!
+          env[:body].reject! { |_, v| v.nil? }
           wrap_content(env)
           massage_properties(env)
         end

@@ -12,14 +12,9 @@ module CMIS
       message = "option `service_url` must be set"
       service_url = options[:service_url] or raise message
 
-      adapter = (options[:adapter] || :net_http).to_sym
+      options[:adapter] ||= :net_http
 
-      headers = {
-        user_agent: "cmis-ruby/#{VERSION} [#{adapter}]"
-      }.merge(options[:headers] || {})
-      conn_opts = { headers: headers, ssl: options[:ssl] }.compact
-
-      @http = Faraday.new(conn_opts) do |builder|
+      @http = Faraday.new(connection_options(options)) do |builder|
         builder.use RequestModifier
         builder.request :multipart
         builder.request :url_encoded
@@ -28,7 +23,7 @@ module CMIS
           builder.basic_auth(options[:username], options[:password])
         end
 
-        builder.adapter adapter
+        builder.adapter options[:adapter].to_sym
         builder.response :logger if options[:log_requests]
         builder.use ResponseParser
       end
@@ -51,6 +46,18 @@ module CMIS
       end
 
       response.body
+    end
+
+    private
+
+    def connection_options(options)
+      headers = { user_agent: "cmis-ruby/#{VERSION} [#{options[:adapter]}]" }
+      headers.merge!(options[:headers]) if options[:headers]
+
+      conn_opts = { headers: headers }
+      conn_opts[:ssl] = options[:ssl] if options[:ssl]
+
+      conn_opts
     end
   end
 end
