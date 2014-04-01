@@ -1,7 +1,5 @@
 require 'bigdecimal'
 require 'cmis/query_result'
-require 'core_ext/hash/keys'
-require 'core_ext/hash/slice'
 
 module CMIS
   class Children

@@ -1,3 +1,5 @@
+require 'ext/all'
+
 require 'cmis/exceptions'
 require 'cmis/helpers'
 require 'cmis/object_factory'

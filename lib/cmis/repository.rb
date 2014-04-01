@@ -1,5 +1,4 @@
 require 'cmis/query'
-require 'core_ext/string/as_ruby_property'
 require 'json'
 
 module CMIS

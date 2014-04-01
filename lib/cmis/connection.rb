@@ -2,8 +2,6 @@ require 'cmis/connection/request_modifier'
 require 'cmis/connection/response_parser'
 require 'cmis/connection/url_resolver'
 require 'cmis/version'
-require 'core_ext/hash/compact'
-require 'core_ext/hash/keys'
 require 'faraday'
 
 module CMIS

@@ -1,5 +1,3 @@
-require 'core_ext/hash/keys'
-
 module CMIS
   class Document < Object
     def initialize(raw, repository)

@@ -1,5 +1,3 @@
-require 'core_ext/string/as_ruby_property'
-
 module CMIS
   module Helpers
     def initialize_properties(raw)

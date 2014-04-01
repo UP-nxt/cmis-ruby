@@ -1,6 +1,3 @@
-require 'core_ext/hash/keys'
-require 'core_ext/string/as_ruby_property'
-
 module CMIS
   class PropertyDefinition
     def initialize(hash = {})
