@@ -2,6 +2,24 @@ require 'spec_helper'
 
 module CMIS
   describe Folder do
+    describe '#root?' do
+      before do
+        @folder = create_folder
+      end
+
+      after do
+        @folder.delete
+      end
+
+      it 'returns true for the root folder' do
+        expect(repository.root.root?).to be_true
+      end
+
+      it 'returns false for another folder' do
+        expect(@folder.root?).to be_false
+      end
+    end
+
     describe '#parent' do
       before do
         @folder = create_folder
@@ -17,13 +35,6 @@ module CMIS
 
       it 'is the root folder for its child' do
         expect(@folder.parent.cmis_object_id).to eq(repository.root_folder_id)
-      end
-
-      def create_folder
-        folder = repository.new_folder
-        folder.name = 'test_folder'
-        folder.object_type_id = 'cmis:folder'
-        repository.root.create(folder)
       end
     end
 
@@ -61,6 +72,13 @@ module CMIS
           }.to raise_exception
         end
       end
+    end
+
+    def create_folder
+      folder = repository.new_folder
+      folder.name = 'test_folder'
+      folder.object_type_id = 'cmis:folder'
+      repository.root.create(folder)
     end
   end
 end

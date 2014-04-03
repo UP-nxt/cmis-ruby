@@ -60,6 +60,10 @@ module CMIS
                         folderId: cmis_object_id }, opts)
     end
 
+    def root?
+      cmis_object_id == repository.root_folder_id
+    end
+
     private
 
     def create_in_self(object, cmis_action, opts)
