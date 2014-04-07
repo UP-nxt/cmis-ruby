@@ -35,8 +35,8 @@ module CMIS
       params.symbolize_keys!
       options.symbolize_keys!
 
-      query = options.fetch(:query], {})
-      headers = options.fetch(:headers], {})
+      query = options.fetch(:query, {})
+      headers = options.fetch(:headers, {})
       url = @url_resolver.url(params.delete(:repositoryId), params[:objectId])
 
       response = if params[:cmisaction]
