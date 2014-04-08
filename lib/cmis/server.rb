@@ -1,7 +1,18 @@
 module CMIS
   class Server < Connection
     def initialize(options = {})
-      super
+      @options = options.symbolize_keys
+    end
+
+    def execute!(params = {}, options = {})
+      params.symbolize_keys!
+
+      options.symbolize_keys!
+      query = options.fetch(:query, {})
+      headers = options.fetch(:headers, {})
+
+      response = connection.do_request(params, query, headers)
+      response.body
     end
 
     def repositories(opts = {})
@@ -24,6 +35,20 @@ module CMIS
       true
     rescue Exceptions::ObjectNotFound
       false
+    end
+
+    private
+
+    def connection
+      @connection ||= Connection.new(@options)
+    end
+
+    def marshal_dump
+      @options
+    end
+
+    def marshal_load(options)
+      @options = options
     end
   end
 end
