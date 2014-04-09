@@ -1,5 +1,5 @@
 module CMIS
-  class Server < Connection
+  class Server
     def initialize(options = {})
       @options = options.symbolize_keys
     end
