@@ -54,5 +54,22 @@ module CMIS
         document.delete
       end
     end
+
+    context 'when creating a document with json content' do
+      it 'has the json content' do
+        document = repository.new_document
+        document.name = 'json_document'
+        document.object_type_id = 'cmis:document'
+        document.content = { stream: '{ "foo" : "bar" }',
+                             mime_type: 'application/json',
+                             filename: 'foo.json' }
+        document = document.create_in_folder(repository.root)
+
+        expect(document.content_stream_mime_type).to eq('application/json')
+        expect(document.content).to eq '{ "foo" : "bar" }'
+
+        document.delete
+      end
+    end
   end
 end
