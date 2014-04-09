@@ -13,7 +13,7 @@ module CMIS
             raise Exceptions::Unauthorized
           else
             if env[:response_headers][:content_type] =~ JSON_CONTENT_TYPE
-              env[:body] = JSON.parse(env[:body])
+              parse_body(env)
               check_for_cmis_exception!(env[:body])
             end
           end
@@ -21,6 +21,12 @@ module CMIS
       end
 
       private
+
+      def parse_body(env)
+        unless env[:response_headers][:content_disposition]
+          env[:body] = JSON.parse(env[:body])
+        end
+      end
 
       def check_for_cmis_exception!(body)
         return unless body.is_a?(Hash)
