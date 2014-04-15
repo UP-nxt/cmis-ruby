@@ -30,8 +30,8 @@ module CMIS
       property_definitions[property['id']] = property
     end
 
-    def create
-      repository.create_type(self)
+    def create(opts = {})
+      repository.create_type(self, opts)
     end
 
     def update(changed_property_defs, opts = {})
