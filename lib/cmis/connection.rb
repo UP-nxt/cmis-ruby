@@ -33,7 +33,7 @@ module CMIS
       url = infer_url(repository_id, params[:objectId])
 
       if params[:cmisaction]
-        @http.post(url, params, headers)
+        @http.post(url, params, headers) { |req| req.params = query }
       else
         @http.get(url, params.merge(query), headers)
       end
