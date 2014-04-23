@@ -11,7 +11,6 @@ module CMIS
       @service_url = options[:service_url] or raise message
 
       @http = Faraday.new(connection_options(options)) do |builder|
-
         builder.options.params_encoder = Faraday::FlatParamsEncoder
         builder.use RequestModifier
         builder.request :multipart
