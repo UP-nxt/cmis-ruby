@@ -127,16 +127,14 @@ module CMIS
       statement
     end
 
-    BACKSLASH = "\\"
-    QUOTE = "\'"
-
     def normalize(value)
       if value.respond_to?(:strftime)
         value = value.strftime('%Y-%m-%dT%H:%M:%S.%L')
         "TIMESTAMP '#{value}'"
       else
-        # TODO: Correct escaping for find_object
-        # value = value.gsub(BACKSLASH, BACKSLASH * 4).gsub(QUOTE, "#{BACKSLASH * 2}#{QUOTE}")
+        value = value.to_s
+        value.gsub!(/\\/, Regexp.escape('\\\\'))
+        value.gsub!(/'/, Regexp.escape('\\\''))
         "'#{value}'"
       end
     end
