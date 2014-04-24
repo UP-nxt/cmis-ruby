@@ -1,20 +1,20 @@
 module CMIS
   module Exceptions
-    class InvalidArgument         < Exception; end
-    class NotSupported            < Exception; end
-    class ObjectNotFound          < Exception; end
-    class PermissionDenied        < Exception; end
-    class Runtime                 < Exception; end
-    class Constraint              < Exception; end
-    class ContentAlreadyExists    < Exception; end
-    class FilterNotValid          < Exception; end
-    class NameConstraintViolation < Exception; end
-    class Storage                 < Exception; end
-    class StreamNotSupported      < Exception; end
-    class UpdateConflict          < Exception; end
-    class Versioning              < Exception; end
+    InvalidArgument         = Class.new(Exception)
+    NotSupported            = Class.new(Exception)
+    ObjectNotFound          = Class.new(Exception)
+    PermissionDenied        = Class.new(Exception)
+    Runtime                 = Class.new(Exception)
+    Constraint              = Class.new(Exception)
+    ContentAlreadyExists    = Class.new(Exception)
+    FilterNotValid          = Class.new(Exception)
+    NameConstraintViolation = Class.new(Exception)
+    Storage                 = Class.new(Exception)
+    StreamNotSupported      = Class.new(Exception)
+    UpdateConflict          = Class.new(Exception)
+    Versioning              = Class.new(Exception)
 
     # Non-CMIS
-    class Unauthorized            < Exception; end
+    Unauthorized            = Class.new(Exception)
   end
 end
