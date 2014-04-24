@@ -1,8 +1,8 @@
-require 'cmis/connection/follow_redirects'
 require 'cmis/connection/request_modifier'
 require 'cmis/connection/response_parser'
 require 'cmis/version'
 require 'faraday'
+require 'faraday_middleware'
 
 module CMIS
   class Connection
@@ -21,7 +21,7 @@ module CMIS
         end
 
         builder.adapter (options[:adapter] || :net_http).to_sym
-        builder.use FollowRedirects
+        builder.response :follow_redirects, standards_compliant: true
         builder.response :logger if options[:log_requests]
         builder.use ResponseParser
       end
