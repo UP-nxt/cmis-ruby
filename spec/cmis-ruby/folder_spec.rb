@@ -38,6 +38,18 @@ module CMIS
       end
     end
 
+    context 'when creating an item in a folder' do
+      it 'has the item available' do
+        item = repository.new_item
+        item.name = 'test_item'
+        item.object_type_id = 'cmis:item'
+        item = repository.root.create(item)
+        expect(item).to be_a CMIS::Item
+        expect(item.name).to eq('test_item')
+        item.delete
+      end
+    end
+
     describe '#create' do
       context 'when creating a relationship in a folder' do
         it 'raises an exception' do
@@ -47,18 +59,6 @@ module CMIS
           expect {
             repository.root.create(new_object)
           }.to raise_exception
-        end
-      end
-
-      context 'when creating an item in a folder' do
-        it 'raises an exception' do
-          item = repository.new_item
-          item.name = 'test_item'
-          item.object_type_id = 'cmis:item'
-          item = repository.root.create(item)
-          expect(item).to be_a CMIS::Item
-          expect(item.name).to eq('test_item')
-          item.delete
         end
       end
 
