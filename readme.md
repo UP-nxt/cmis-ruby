@@ -24,7 +24,7 @@ document = repository.find_object('cmis:document',
                                   'cmis:name' => 'some_unique_name')
 
 # set document content
-document.content = { stream: StringIO.new('Apple is a fruit'),
+document.content = { stream: 'Apple is a fruit',
                      mime_type: 'text/plain',
                      filename: 'apple.txt' }
 
