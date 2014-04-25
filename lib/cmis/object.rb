@@ -112,6 +112,10 @@ module CMIS
       cmis_object_id.nil?
     end
 
+    def refresh(opts = {})
+      detached? ? self : repository.object(cmis_object_id, opts)
+    end
+
     private
 
     def server

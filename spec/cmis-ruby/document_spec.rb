@@ -46,9 +46,9 @@ module CMIS
                              mime_type: 'text/apple',
                              filename: 'apple.txt' }
 
-        # Why doesn't this work?
-        # expect(document.content_stream_mime_type).to eq('text/apple')
-        # expect(document.content_stream_file_name).to eq('apple.txt')
+        document = document.refresh
+        expect(document.content_stream_mime_type).to eq('text/apple')
+        expect(document.content_stream_file_name).to eq('apple.txt')
         expect(document.content).to eq('apple is a fruit')
 
         document.delete
