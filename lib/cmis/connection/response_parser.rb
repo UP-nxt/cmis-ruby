@@ -31,8 +31,9 @@ module CMIS
       def check_for_cmis_exception!(body)
         return unless body.is_a?(Hash)
 
-        if exception = body['exception']
-          raise exception_class(exception), "#{exception}: #{body['message']}"
+        if body.key?('exception')
+          e, m, s = body.values_at('exception', 'message', 'stacktrace')
+          raise exception_class(e), "[#{e}] #{m}\n#{s}"
         end
       end
 
