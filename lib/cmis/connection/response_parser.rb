@@ -40,7 +40,7 @@ module CMIS
       def exception_class(exception)
         clazz = exception.dup
         clazz[0] = clazz[0].upcase
-        CMIS::Exceptions.const_get(clazz)
+        CMIS::Exceptions.const_get(clazz) rescue Exception
       end
     end
   end
