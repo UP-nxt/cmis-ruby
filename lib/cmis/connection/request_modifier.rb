@@ -38,10 +38,10 @@ module CMIS
         end
       end
 
-      def normalize(value)
-        value = value.to_time if value.is_a?(Date)
-        value = (value.to_f * 1000).to_i if value.is_a?(Time)
-        value
+      def normalize(v)
+        v = Time.utc(v.year, v.month, v.day) if v.is_a?(Date)
+        v = (v.to_f * 1000).to_i if v.is_a?(Time)
+        v
       end
 
       def id_key(index)
