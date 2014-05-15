@@ -116,6 +116,10 @@ module CMIS
       detached? ? self : repository.object(cmis_object_id, opts)
     end
 
+    def inspect
+      "#{self.class}[#{cmis_object_id}] @ #{repository.inspect}"
+    end
+
     private
 
     def server

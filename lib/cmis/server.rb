@@ -37,6 +37,10 @@ module CMIS
       false
     end
 
+    def inspect
+      "#{self.class}[#{@options[:service_url]}]"
+    end
+
     private
 
     def connection

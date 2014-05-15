@@ -118,6 +118,10 @@ module CMIS
       query(statement, opts).total
     end
 
+    def inspect
+      "#{self.class}[#{id}] @ #{server.inspect}"
+    end
+
     private
 
     def construct_statement(type_id, properties)

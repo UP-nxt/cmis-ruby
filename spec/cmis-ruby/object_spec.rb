@@ -10,6 +10,14 @@ module CMIS
       @document.delete
     end
 
+    describe '#inspect' do
+      REG_EXP = /CMIS::Document\[.*\] @ CMIS::Repository\[.*\] @ CMIS::Server\[.*\]/
+
+      it 'displays not too much crap' do
+        expect(@document.inspect).to match REG_EXP
+      end
+    end
+
     describe '#properties' do
       # Property accessor behavior...
     end
