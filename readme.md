@@ -11,7 +11,7 @@
 ## Example usage
 
 ```ruby
-require 'cmis-ruby'
+require 'cmis'
 
 # get the repository object
 server = CMIS::Server.new(service_url: 'http://33.33.33.100:8080/browser',
