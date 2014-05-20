@@ -11,6 +11,8 @@
 ## Example usage
 
 ```ruby
+require 'cmis-ruby'
+
 # get the repository object
 server = CMIS::Server.new(service_url: 'http://33.33.33.100:8080/browser',
                           username: 'foo', password: 'bar')
@@ -34,8 +36,8 @@ document.name = 'new_document'
 document.object_type_id = 'cmis:document'
 document = document.create_in_folder(repository.root)
 
-# query for first 50 documents where the property foo is 'bar'
-query = repository.query("select * from cmis:document where foo='bar'")
+# query for first 50 documents where the property 'cmis:name' is 'bar'
+query = repository.query("select * from cmis:document where cmis:name='bar'")
 query.each_result(limit: 50) { |document| puts document.cmis_object_id }
 ```
 
