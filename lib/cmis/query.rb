@@ -18,13 +18,14 @@ module CMIS
 
       init_options
       limit = parse_limit(options)
-      counter = 0
+      return if limit == 0
 
+      counter = 0
       while has_next?
         results.each do |object|
-          break unless counter < limit
           yield object
           counter = counter.next
+          return unless counter < limit
         end
       end
     end
