@@ -1,4 +1,5 @@
 require 'cmis/query'
+require 'cmis/utils'
 require 'json'
 
 module CMIS
@@ -108,13 +109,13 @@ module CMIS
 
     def find_object(type_id, properties = {}, opts = {})
       opts.merge!(page_size: 1)
-      statement = construct_statement(type_id, properties)
+      statement = Utils.build_query_statement(type_id, properties)
       query(statement, opts).results.first
     end
 
     def count_objects(type_id, properties = {}, opts = {})
       opts.merge!(page_size: 0)
-      statement = construct_statement(type_id, properties)
+      statement = Utils.build_query_statement(type_id, properties)
       query(statement, opts).total
     end
 
@@ -123,25 +124,6 @@ module CMIS
     end
 
     private
-
-    def construct_statement(type_id, properties)
-      statement = "select * from #{type_id}"
-      clause = properties.map { |k, v| "#{k}=#{normalize(v)}" }.join(' and ')
-      statement << " where #{clause}" unless clause.empty?
-      statement
-    end
-
-    def normalize(value)
-      if value.respond_to?(:strftime)
-        value = value.strftime('%Y-%m-%dT%H:%M:%S.%L')
-        "TIMESTAMP '#{value}'"
-      else
-        value = value.to_s
-        value.gsub!(/\\/, Regexp.escape('\\\\'))
-        value.gsub!(/'/, Regexp.escape('\\\''))
-        "'#{value}'"
-      end
-    end
 
     def construct_types(a)
       types = []

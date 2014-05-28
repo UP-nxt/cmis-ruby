@@ -1,7 +1,7 @@
 require 'coveralls'
 Coveralls.wear!
 
-require 'cmis-ruby'
+require 'cmis'
 require 'erb'
 require 'yaml'
 

@@ -16,7 +16,7 @@ module CMIS
       expect(repository.id).to eq(repository_id)
     end
 
-    it 'has non null fields' do
+    it 'has non nil fields' do
       expect(repository.id)              .to_not be_nil
       expect(repository.name)            .to_not be_nil
       expect(repository.product_version) .to_not be_nil
@@ -43,6 +43,17 @@ module CMIS
         object = repository.object(id)
         expect(object).to be_a(CMIS::Folder)
         expect(object.cmis_object_id).to eq(id)
+      end
+    end
+
+    describe '#find_object' do
+      it 'returns the object when it is present' do
+        object = repository.find_object('cmis:folder', 'cmis:name' => 'root')
+        expect(object).to be_a(CMIS::Folder)
+      end
+      it 'returns nil when it is not present' do
+        object = repository.find_object('cmis:folder', 'cmis:name' => 'rat')
+        expect(object).to be_nil
       end
     end
 
