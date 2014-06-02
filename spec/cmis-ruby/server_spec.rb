@@ -28,12 +28,12 @@ module CMIS
 
     describe '#repository?' do
       it 'returns true for a present repository' do
-        expect(server.repository?(repository_id)).to be_true
+        expect(server.repository?(repository_id)).to be true
       end
 
       it 'returns false for an absent repository' do
         absent_repository_id = SecureRandom.uuid
-        expect(server.repository?(absent_repository_id)).to be_false
+        expect(server.repository?(absent_repository_id)).to be false
       end
     end
   end

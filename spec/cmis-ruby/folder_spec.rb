@@ -12,11 +12,11 @@ module CMIS
       end
 
       it 'returns true for the root folder' do
-        expect(repository.root.root?).to be_true
+        expect(repository.root.root?).to be true
       end
 
       it 'returns false for another folder' do
-        expect(@folder.root?).to be_false
+        expect(@folder.root?).to be false
       end
     end
 

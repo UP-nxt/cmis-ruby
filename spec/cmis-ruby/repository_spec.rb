@@ -100,11 +100,11 @@ module CMIS
 
       describe '#type?' do
         it 'returns true for a present type' do
-          expect(repository.type?('apple')).to be_true
+          expect(repository.type?('apple')).to be true
         end
 
         it 'returns false for an absent type' do
-          expect(repository.type?('banana')).to be_false
+          expect(repository.type?('banana')).to be false
         end
       end
 
