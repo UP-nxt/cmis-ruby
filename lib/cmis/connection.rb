@@ -20,10 +20,12 @@ module CMIS
           builder.basic_auth(options[:username], options[:password])
         end
 
-        builder.adapter (options[:adapter] || :net_http).to_sym
         builder.response :follow_redirects, standards_compliant: true
         builder.response :logger if options[:log_requests]
         builder.use ResponseParser
+
+        # The adapter must be the last one
+        builder.adapter (options[:adapter] || :net_http).to_sym
       end
 
       @repository_infos = {}
