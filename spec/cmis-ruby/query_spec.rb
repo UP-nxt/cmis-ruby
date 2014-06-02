@@ -13,21 +13,13 @@ module CMIS
 
     context 'when querying with a limit' do
       it 'should execute only one query if limit is under 10' do
-        CMIS::Query.any_instance.stub(:do_query).and_call_original
-
-        result = documents_query_result(limit: 3)
-        expect(result.size).to eq(3)
-
-        @query.should have_received(:do_query).exactly(1).times
+        expect_any_instance_of(CMIS::Query).to receive(:do_query).once.and_call_original
+        documents_query_result(limit: 3)
       end
 
       it 'should execute only 2 queries if limit is 20' do
-        CMIS::Query.any_instance.stub(:do_query).and_call_original
-
-        result = documents_query_result(limit: 20)
-        expect(result.size).to eq(20)
-
-        @query.should have_received(:do_query).exactly(2).times
+        expect_any_instance_of(CMIS::Query).to receive(:do_query).twice.and_call_original
+        documents_query_result(limit: 20)
       end
 
       it 'should receive 5 documents if limit is 5' do
