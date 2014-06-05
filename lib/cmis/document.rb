@@ -32,6 +32,10 @@ module CMIS
       repository.object(id)
     end
 
+    def content?
+      !content_stream_length.nil?
+    end
+
     def content(opts = {})
       server.execute!({ cmisselector: 'content',
                         repositoryId: repository.id,

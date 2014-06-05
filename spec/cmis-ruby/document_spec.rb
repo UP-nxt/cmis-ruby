@@ -12,6 +12,7 @@ module CMIS
                              filename: 'apple.txt' }
         document = document.create_in_folder(repository.root)
 
+        expect(document.content?).to be true
         expect(document.content_stream_mime_type).to eq('text/apple')
         expect(document.content_stream_file_name).to eq('apple.txt')
         expect(document.content).to eq('apple is a fruit')
@@ -27,6 +28,7 @@ module CMIS
         document.object_type_id = 'cmis:document'
         document = document.create_in_folder(repository.root)
 
+        expect(document.content?).to be false
         expect(document.content_stream_mime_type).to be_nil
         expect(document.content_stream_file_name).to be_nil
         expect(document.content).to be_nil
@@ -47,6 +49,7 @@ module CMIS
                              filename: 'apple.txt' }
 
         document = document.refresh
+        expect(document.content?).to be true
         expect(document.content_stream_mime_type).to eq('text/apple')
         expect(document.content_stream_file_name).to eq('apple.txt')
         expect(document.content).to eq('apple is a fruit')
