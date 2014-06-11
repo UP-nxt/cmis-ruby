@@ -2,18 +2,20 @@ module CMIS
   module Utils
     module_function
 
-    def build_query_statement(type_id, properties)
-      QueryStatementBuilder.new(type_id, properties).build
+    def build_query_statement(type_id, properties, *queried_properties)
+      QueryStatementBuilder.new(type_id, properties, queried_properties).build
     end
 
     class QueryStatementBuilder
-      def initialize(type_id, properties)
+      def initialize(type_id, properties, queried_properties)
         @type_id = type_id
         @properties = properties
+        @queried_properties = Array(queried_properties).join(', ')
+        @queried_properties = '*' if @queried_properties.empty?
       end
 
       def build
-        statement = "select * from #{@type_id}"
+        statement = "select #{@queried_properties} from #{@type_id}"
         clause = @properties.map { |k, v| "#{k}=#{normalize(v)}" }.join(' and ')
         statement << " where #{clause}" unless clause.empty?
         statement

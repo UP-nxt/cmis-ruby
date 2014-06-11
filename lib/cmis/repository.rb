@@ -115,7 +115,7 @@ module CMIS
 
     def count_objects(type_id, properties = {}, opts = {})
       opts.merge!(page_size: 0)
-      statement = Utils.build_query_statement(type_id, properties)
+      statement = Utils.build_query_statement(type_id, properties, 'cmis:objectId')
       query(statement, opts).total
     end
 
