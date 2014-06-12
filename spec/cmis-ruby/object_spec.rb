@@ -77,6 +77,9 @@ module CMIS
       document = repository.new_document
       document.name = 'test_document'
       document.object_type_id = 'cmis:document'
+      document.content = { stream: 'Apple is a fruit',
+                           mime_type: 'text/plain',
+                           filename: 'apple.txt' }
       repository.root.create(document)
     end
   end

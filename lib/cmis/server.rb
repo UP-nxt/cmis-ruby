@@ -4,6 +4,10 @@ module CMIS
       @options = options.symbolize_keys
     end
 
+    def connection
+      @connection ||= Connection.new(@options)
+    end
+
     def execute!(params = {}, options = {})
       params.symbolize_keys!
 
@@ -42,10 +46,6 @@ module CMIS
     end
 
     private
-
-    def connection
-      @connection ||= Connection.new(@options)
-    end
 
     def marshal_dump
       @options

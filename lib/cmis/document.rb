@@ -49,6 +49,11 @@ module CMIS
       end
     end
 
+    def content_url
+      root_folder_url = server.connection.send(:infer_url, repository.id, true)
+      "#{root_folder_url}?cmisselector=content&objectId=#{cmis_object_id}"
+    end
+
     def content=(opts = {})
       opts.symbolize_keys!
       content = { stream: opts.delete(:stream),
