@@ -7,7 +7,17 @@ module CMIS
       JSON_CONTENT_TYPE = /\/(x-)?json(;.+?)?$/i.freeze
 
       def call(env)
-        @app.call(env).on_complete do |env|
+        response = @app.call(env)
+
+        response.on_complete do |env|
+
+          # Remove Authorization header when following redirects
+          # This hack should be removed when issue #81 is merged
+          # Cf. https://github.com/lostisland/faraday_middleware/pull/81
+          if [301, 302, 303, 307].include?(response.status)
+            env[:request_headers].delete('Authorization')
+          end
+
           case env[:status]
           when 401
             raise Exceptions::Unauthorized
