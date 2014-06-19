@@ -55,6 +55,10 @@ module CMIS
         object = repository.find_object('cmis:folder', 'cmis:name' => 'rat')
         expect(object).to be_nil
       end
+      it 'returns nil when it is not present (bis)' do
+        object = repository.find_object('cmis:folder', 'cmis:name' => nil)
+        expect(object).to be_nil
+      end
     end
 
     describe '#count_objects' do

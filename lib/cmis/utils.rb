@@ -16,12 +16,20 @@ module CMIS
 
       def build
         statement = "select #{@queried_properties} from #{@type_id}"
-        clause = @properties.map { |k, v| "#{k}=#{normalize(v)}" }.join(' and ')
+        clause = @properties.map { |k, v| build_predicate(k, v) }.join(' and ')
         statement << " where #{clause}" unless clause.empty?
         statement
       end
 
       private
+
+      def build_predicate(k, v)
+        if v.nil?
+          "#{k} is null"
+        else
+          [k, normalize(v)].join('=')
+        end
+      end
 
       def normalize(value)
         if value.respond_to?(:strftime)
