@@ -32,10 +32,17 @@ module CMIS
       end
 
       def normalize(value)
-        if value.respond_to?(:strftime)
+        if value.respond_to?(:strftime) # datetime literal
           value = value.strftime('%Y-%m-%dT%H:%M:%S.%L')
           "TIMESTAMP '#{value}'"
-        else
+
+        elsif value.is_a?(Numeric) # signed numeric literal
+          value
+
+        elsif value.is_a?(TrueClass) || value.is_a?(FalseClass) # boolean literal
+          value
+
+        else # treat as a character string literal
           value = value.to_s
           value.gsub!(/\\/, Regexp.escape('\\\\'))
           value.gsub!(/'/, Regexp.escape('\\\''))
