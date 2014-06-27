@@ -28,6 +28,13 @@ module CMIS
                         allVersions: true }, opts)
     end
 
+    def delete_with_relationships(opts = {})
+      relationships.each_relationship(limit: :all) do |rel|
+        rel.delete(opts)
+      end
+      delete(opts)
+    end
+
     def update_properties(properties, opts = {})
       with_change_token do
         server.execute!({ cmisaction: 'update',

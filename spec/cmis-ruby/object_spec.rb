@@ -73,6 +73,40 @@ module CMIS
       end
     end
 
+    describe '#delete' do
+      it 'deletes the document' do
+        ephemeral_document = create_document
+        ephemeral_document.delete
+
+        expect {
+          repository.object(ephemeral_document.cmis_object_id)
+        }.to raise_exception(Exceptions::ObjectNotFound)
+      end
+    end
+
+    describe '#delete_with_relationships' do
+      it 'deletes the document and its relationships' do
+        ephemeral_document = create_document
+
+        rel = repository.new_relationship
+        rel.object_type_id = 'cmis:relationship'
+        rel.name = 'relationship'
+        rel.source_id = ephemeral_document.cmis_object_id
+        rel.target_id = ephemeral_document.cmis_object_id
+        rel = rel.create
+
+        ephemeral_document.delete_with_relationships
+
+        expect {
+          repository.object(ephemeral_document.cmis_object_id)
+        }.to raise_exception(Exceptions::ObjectNotFound)
+
+        expect {
+          repository.object(rel.cmis_object_id)
+        }.to raise_exception(Exceptions::ObjectNotFound)
+      end
+    end
+
     def create_document
       document = repository.new_document
       document.name = 'test_document'
