@@ -24,12 +24,8 @@ module SpecHelpers
     @@options ||= begin
       path = File.join(File.dirname(File.expand_path(__FILE__)), 'config.yml')
       config = YAML.load(ERB.new(File.read(path)).result)
-      config[config_key] or raise "No configuration found for `#{config_key}`"
+      config[ENV.fetch('TEST_ENV', 'local')]
     end
-  end
-
-  def config_key
-    ENV['TEST_ENV'] || 'local'
   end
 end
 
