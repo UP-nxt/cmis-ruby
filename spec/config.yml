@@ -3,6 +3,12 @@ local:
   server:
     service_url: http://33.33.33.100:8080/browser
   repository: test
+dev:
+  server:
+     service_url: http://localhost:8150/browser
+     username: cmis_ruby_test
+     password: cmis_ruby_test
+  repository: demo
 ci:
   server:
     service_url: https://cmis-service.ci.apps.up-nxt.com/browser

@@ -21,6 +21,12 @@ module CMIS
       Children.new(self, opts)
     end
 
+    def folder_tree(opts = {})
+      server.execute!({ cmisselector: 'folderTree',
+                        repositoryId: repository.id,
+                        objectId: cmis_object_id }, opts)
+    end
+
     def create(object, opts = {})
       case object
       when Document
