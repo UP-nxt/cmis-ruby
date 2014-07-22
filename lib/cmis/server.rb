@@ -15,8 +15,7 @@ module CMIS
       query = options.fetch(:query, {})
       headers = options.fetch(:headers, {})
 
-      response = connection.do_request(params, query, headers)
-      response.body
+      connection.do_request(params, query, headers).body
     end
 
     def repositories(opts = {})

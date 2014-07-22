@@ -40,9 +40,19 @@ module CMIS
       else
         @http.get(url, params.merge(query), headers)
       end
+
+    rescue Exception
+      raise_enriched_exception(repository_id, params)
     end
 
     private
+
+    def raise_enriched_exception(repo_id, params)
+      params_to_log = { repository_id: repo_id }.merge(params)
+      msg_parts = $!.to_s.split("\n", 2)
+      msg_parts.insert(1, JSON.pretty_generate(params_to_log))
+      raise $!, msg_parts.join("\n"), $!.backtrace
+    end
 
     def connection_options(options)
       adapter = (options[:adapter] || :net_http).to_sym
