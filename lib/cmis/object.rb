@@ -35,13 +35,17 @@ module CMIS
       delete(opts)
     end
 
-    def update_properties(properties, opts = {})
-      with_change_token do
-        server.execute!({ cmisaction: 'update',
-                          repositoryId: repository.id,
-                          objectId: cmis_object_id,
-                          properties: properties,
-                          changeToken: change_token }, opts)
+    def update_properties(props, opts = {})
+      if detached?
+        properties.merge!(props)
+      else
+        with_change_token do
+          server.execute!({ cmisaction: 'update',
+                            repositoryId: repository.id,
+                            objectId: cmis_object_id,
+                            properties: props,
+                            changeToken: change_token }, opts)
+        end
       end
     end
 
