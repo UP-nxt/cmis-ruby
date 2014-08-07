@@ -59,8 +59,10 @@ module CMIS
 
     describe '#unfile' do
       it 'unfiles it from the parent folder' do
-        @document.unfile
-        expect(@document.parents).to be_empty
+        if repository.capabilities['capabilityUnfiling']
+          @document.unfile
+          expect(@document.parents).to be_empty
+        end
       end
     end
 

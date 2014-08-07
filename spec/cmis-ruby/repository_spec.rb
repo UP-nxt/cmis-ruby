@@ -1,11 +1,13 @@
 require 'spec_helper'
 
 module CMIS
-  PRIMARY_BASE_TYPES = %w( cmis:document
-                           cmis:folder
-                           cmis:relationship
-                           cmis:policy
-                           cmis:item )
+  PRIMARY_BASE_TYPES = [
+    'cmis:document',
+    'cmis:folder',
+    'cmis:relationship',
+    # 'cmis:policy',
+    'cmis:item'
+  ]
 
   describe Repository do
     it 'is supported by the library' do
