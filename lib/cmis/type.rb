@@ -31,11 +31,21 @@ module CMIS
     end
 
     def create(opts = {})
-      repository.create_type(self, opts)
+      opts.symbolize_keys!
+
+      type_hash = to_hash
+      type_hash.merge!(opts.delete(:extensions) || {})
+
+      result = server.execute!({ cmisaction: 'createType',
+                                 repositoryId: repository.id,
+                                 type: JSON.generate(type_hash) }, opts)
+
+      Type.new(result, repository)
     end
 
     def update(changed_property_defs, opts = {})
       changed_property_defs.map!(&:deep_stringify_keys)
+      opts.symbolize_keys!
 
       new_defs = changed_property_defs.map(&:to_hash).reduce({}) do |result, element|
         result[element['id']] = element
@@ -44,6 +54,7 @@ module CMIS
 
       hash = to_hash
       hash['propertyDefinitions'] = new_defs
+      hash.merge!(opts.delete(:extensions) || {})
 
       result = server.execute!({ cmisaction: 'updateType',
                                  repositoryId: repository.id,

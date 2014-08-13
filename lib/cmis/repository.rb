@@ -80,11 +80,7 @@ module CMIS
     end
 
     def create_type(type, opts = {})
-      result = server.execute!({ cmisaction: 'createType',
-                                 repositoryId: id,
-                                 type: JSON.generate(type.to_hash) }, opts)
-
-      Type.new(result, self)
+      type.create(opts)
     end
 
     def create_relationship(object, opts = {})
