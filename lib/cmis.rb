@@ -14,3 +14,15 @@ require 'cmis/policy'
 require 'cmis/relationship'
 require 'cmis/type'
 require 'cmis/property_definition'
+
+# Faraday doesn't allow to set the content type
+# of param parts of multipart posts
+module Parts
+  class ParamPart
+    alias_method :old_initialize, :initialize
+    def initialize(boundary, name, value, headers = {})
+      headers.merge!('Content-Type' => 'text/plain; charset=utf-8')
+      old_initialize(boundary, name, value, headers)
+    end
+  end
+end
