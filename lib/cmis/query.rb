@@ -9,6 +9,8 @@ module CMIS
       @statement = statement
       @options = options.symbolize_keys
 
+      @total = -1
+
       init_options
     end
 
@@ -60,7 +62,8 @@ module CMIS
     end
 
     def total
-      @total ||= do_query.num_items
+      # CMIS AWS trickery
+      @total = @total == -1 ? do_query.num_items : @total
     end
 
     private
