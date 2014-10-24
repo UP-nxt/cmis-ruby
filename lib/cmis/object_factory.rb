@@ -8,7 +8,7 @@ module CMIS
       when 'cmis:relationship' then Relationship.new(raw, repository)
       when 'cmis:policy' then Policy.new(raw, repository)
       when 'cmis:item' then Item.new(raw, repository)
-      else raise "Unexpected baseTypeId: #{base_type_id}"
+      else raise "Unexpected baseTypeId: #{base_type_id(raw)}, response: #{raw}"
       end
     end
 

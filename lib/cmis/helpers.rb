@@ -10,6 +10,8 @@ module CMIS
         self.class.class_eval "def #{method_name};@properties['#{property_name}'];end"
         self.class.class_eval "def #{method_name}=(value);@properties['#{property_name}']=value;end"
       end
+    rescue Exception => e
+      raise "Unable to generate accessors for properties: #{properties}"
     end
 
     def with_change_token(&block)
