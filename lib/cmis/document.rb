@@ -49,9 +49,12 @@ module CMIS
       end
     end
 
-    def content_url
+    def content_url(query_params = {})
       root_folder_url = server.connection.send(:infer_url, repository.id, true)
-      "#{root_folder_url}?cmisselector=content&objectId=#{cmis_object_id}"
+      content_url = "#{root_folder_url}?cmisselector=content&objectId=#{cmis_object_id}"
+      query = query_params.map { |k, v| "#{k}=#{v}" }.join('&')
+      content_url << "&#{query}" unless query.empty?
+      content_url
     end
 
     def content=(opts = {})
