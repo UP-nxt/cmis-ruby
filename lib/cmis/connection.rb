@@ -73,7 +73,7 @@ module CMIS
       end
 
       if @repository_infos.key?(repository_id)
-        key = object_id ? 'rootFolderUrl' : 'repositoryUrl'
+        key = (object_id && !object_id.is_a?(Array)) ? 'rootFolderUrl' : 'repositoryUrl'
         @repository_infos[repository_id][key]
       else
         raise Exceptions::ObjectNotFound, "repositoryId: #{repository_id}"

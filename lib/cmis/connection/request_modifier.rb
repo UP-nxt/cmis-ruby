@@ -36,6 +36,13 @@ module CMIS
             end
           end
         end
+
+        if tuples = env[:body].delete(:objectIdAndChangeToken)
+          tuples.each_with_index do |(object_id, change_token), index|
+            env[:body]["objectId[#{index}]"] = object_id
+            env[:body]["changeToken[#{index}]"] = change_token
+          end
+        end
       end
 
       def normalize(v)

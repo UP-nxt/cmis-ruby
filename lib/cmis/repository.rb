@@ -115,6 +115,20 @@ module CMIS
       query(statement, opts).total
     end
 
+    def update_objects(type_id, conditions, properties)
+      statement = Utils.build_query_statement(type_id, conditions, 'cmis:objectId', 'cmis:changeToken')
+      object_ids_and_change_tokens = []
+      query(statement).each_result(limit: :all) do |r|
+        object_ids_and_change_tokens << [r.cmis_object_id, r.change_token]
+      end
+      unless object_ids_and_change_tokens.empty?
+        server.execute!({ cmisaction: 'bulkUpdate',
+                          repositoryId: id,
+                          objectIdAndChangeToken: object_ids_and_change_tokens,
+                          properties: properties })
+      end
+    end
+
     def inspect
       "#{self.class}[#{id}] @ #{server.inspect}"
     end
