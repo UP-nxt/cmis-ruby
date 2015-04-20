@@ -101,7 +101,7 @@ module CMIS
         ObjectFactory.create(r, @repository)
       end
 
-      QueryResult.new(results, result['numItems'], result['hasMoreItems'])
+      QueryResult.new(results, result['numItems'], result['hasMoreItems'], result['queryDebugInfo'])
     end
   end
 end
