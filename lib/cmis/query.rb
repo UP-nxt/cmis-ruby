@@ -62,15 +62,15 @@ module CMIS
       @has_next
     end
 
-    def debug_info
-      @debug_info
+    def total
+      result = do_query
+
+      @debug_info = result.debug_info
+      @total = @total == -1 ? result.num_items : @total # CMIS AWS trickery
     end
 
-    def total
-      # CMIS AWS trickery
-      result = do_query
-      @debug_info = result.debug_info
-      @total = @total == -1 ? result.num_items : @total
+    def debug_info
+      @debug_info
     end
 
     private
