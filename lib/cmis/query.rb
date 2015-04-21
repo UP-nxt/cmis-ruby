@@ -53,6 +53,7 @@ module CMIS
       @skip_count += result.results.size
       @has_next = result.has_more_items
       @total = result.num_items
+      @debug_info = result.debug_info
 
       result.results
     end
@@ -61,9 +62,15 @@ module CMIS
       @has_next
     end
 
+    def debug_info
+      @debug_info
+    end
+
     def total
       # CMIS AWS trickery
-      @total = @total == -1 ? do_query.num_items : @total
+      result = do_query
+      @debug_info = result.debug_info
+      @total = @total == -1 ? result.num_items : @total
     end
 
     private
