@@ -33,6 +33,10 @@ module CMIS
       Repository.new(result[repository_id], self)
     end
 
+    def repository_by_name(repository_name, opts = {})
+      repositories(opts).find { |r| r.name == repository_name }
+    end
+
     def repository?(repository_id)
       repository(repository_id)
       true
