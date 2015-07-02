@@ -54,7 +54,7 @@ module CMIS
           value
 
         else # treat as a character string literal
-          value = value.to_s
+          value = value.to_s.dup
           value.gsub!(/\\/, Regexp.escape('\\\\'))
           value.gsub!(/'/, Regexp.escape('\\\''))
           "'#{value}'"
