@@ -24,21 +24,26 @@ module CMIS
       private
 
       MAP = {
-        '_eq' => ' =',
+        '_eq'     => ' =',
         '_not_eq' => ' <>',
-        '_lt' => ' <',
-        '_lteq' => ' <=',
-        '_gt' => ' >',
-        '_gteq' => ' >='
+        '_lt'     => ' <',
+        '_lteq'   => ' <=',
+        '_gt'     => ' >',
+        '_gteq'   => ' >=',
+        '_eqany'  => ''
       }
       def build_predicate(k, v)
         key = k.to_s.dup
         key << '_eq' unless key.end_with?(*MAP.keys)
         if key.end_with?('_eq') && v.nil?
           "#{key[0..-4]} is null"
+        elsif key.end_with?('_eqany')
+          value = normalize(v)
+          "#{value} = ANY #{key[0..-7]}"
         else
+          value = normalize(v)
           re = Regexp.new(MAP.keys.map { |x| Regexp.escape(x) + '$' }.join('|'))
-          [key.gsub(re, MAP), normalize(v)].join(' ')
+          [key.gsub(re, MAP), value].join(' ')
         end
       end
 
