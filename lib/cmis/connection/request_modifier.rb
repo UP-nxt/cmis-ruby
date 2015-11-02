@@ -1,4 +1,5 @@
 require 'faraday'
+require 'date'
 
 module CMIS
   class Connection
