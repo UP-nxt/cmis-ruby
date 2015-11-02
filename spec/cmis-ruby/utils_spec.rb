@@ -11,8 +11,8 @@ module CMIS
         expect(qs('T', {})).to eq 'select * from T'
         expect(qs('T', foo: 'bar')).to eq "select * from T where foo = 'bar'"
         expect(qs('T', bar: 'baz', pif: 'poef')).to eq "select * from T where bar = 'baz' and pif = 'poef'"
-        expect(qs('T', foo: { bar: 'baz', pif: 'poef' })).to eq "select * from T join foo as X on cmis:objectId = X.cmis:objectId where bar = 'baz' and pif = 'poef'"
-        expect(qs('T', a: 'b', c: 'd', foo: { bar: 'baz', pif: 'poef' })).to eq "select * from T join foo as X on cmis:objectId = X.cmis:objectId where a = 'b' and c = 'd' and bar = 'baz' and pif = 'poef'"
+        expect(qs(['T', 'foo'], bar: 'baz', pif: 'poef')).to eq "select * from T join foo as X on cmis:objectId = X.cmis:objectId where bar = 'baz' and pif = 'poef'"
+        expect(qs(['T', 'foo'], a: 'b', c: 'd', bar: 'baz', pif: 'poef')).to eq "select * from T join foo as X on cmis:objectId = X.cmis:objectId where a = 'b' and c = 'd' and bar = 'baz' and pif = 'poef'"
       end
     end
   end

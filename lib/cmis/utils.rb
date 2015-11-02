@@ -15,18 +15,12 @@ module CMIS
       end
 
       def build
-        sec_types = @properties.select { |k, v| v.is_a? Hash }.keys
-        statement = "select #{@queried_properties} from #{@type_id}"
-        if sec_types.first # TODO Support multiple secondary types
-          statement << " join #{sec_types.first} as X on cmis:objectId = X.cmis:objectId"
+        @type_id = Array(@type_id)
+        statement = "select #{@queried_properties} from #{@type_id[0]}"
+        if @type_id[1]
+          statement << " join #{@type_id[1]} as X on cmis:objectId = X.cmis:objectId"
         end
-        clause = @properties.map do |k, v|
-          if v.is_a? Hash
-            v.map { |kk, vv| build_predicate(kk, vv) }
-          else
-            build_predicate(k, v)
-          end
-        end.flatten.join(' and ')
+        clause = @properties.map { |k, v| build_predicate(k, v) }.join(' and ')
         statement << " where #{clause}" unless clause.empty?
         statement
       end
