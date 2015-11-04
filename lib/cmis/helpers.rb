@@ -25,7 +25,7 @@ module CMIS
       end
     end
 
-    def self.respond_to?(name, include_private = false)
+    def respond_to?(name, include_private = false)
       if @properties.has_key?(name.to_s)
         true
       else

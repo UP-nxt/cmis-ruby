@@ -1,7 +1,7 @@
 ---
 local:
   server:
-    service_url: http://33.33.33.100:8080/browser
+    service_url: http://33.33.33.100:8150/browser
   repository: test
 dev:
   server:
