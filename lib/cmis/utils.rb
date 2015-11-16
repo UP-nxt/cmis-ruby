@@ -34,7 +34,8 @@ module CMIS
         '_lteq'   => ' <=',
         '_gt'     => ' >',
         '_gteq'   => ' >=',
-        '_eqany'  => ''
+        '_eqany'  => '',
+        '_in'     => ''
       }
       def build_predicate(k, v)
         key = k.to_s.dup
@@ -44,6 +45,9 @@ module CMIS
         elsif key.end_with?('_eqany')
           value = normalize(v)
           "#{value} = ANY #{key[0..-7]}"
+        elsif key.end_with?('_in')
+          values = v.map { |vv| normalize(vv) } # v must be an array
+          "#{key[0..-4]} in (#{values.join(', ')})"
         else
           value = normalize(v)
           re = Regexp.new(MAP.keys.map { |x| Regexp.escape(x) + '$' }.join('|'))
