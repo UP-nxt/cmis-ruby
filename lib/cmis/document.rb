@@ -23,6 +23,14 @@ module CMIS
       ObjectFactory.create(r, repository)
     end
 
+    def create_unfiled(opts={})
+      r = server.execute!({ cmisaction: 'createDocument',
+                            repositoryId: repository.id,
+                            properties: properties,
+                            content: @local_content }, opts)
+      ObjectFactory.create(r, repository)
+    end
+
     def copy_in_folder(folder, opts = {})
       id = server.execute!({ cmisaction: 'createDocument',
                              repositoryId: repository.id,
