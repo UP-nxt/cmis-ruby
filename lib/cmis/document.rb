@@ -23,7 +23,7 @@ module CMIS
       ObjectFactory.create(r, repository)
     end
 
-    def create_unfiled(opts={})
+    def create_unfiled(opts = {})
       r = server.execute!({ cmisaction: 'createDocument',
                             repositoryId: repository.id,
                             properties: properties,
