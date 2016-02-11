@@ -1,4 +1,7 @@
-require 'ext/all'
+require 'ext/hash/except'
+require 'ext/hash/keys'
+require 'ext/hash/slice'
+require 'ext/string/as_ruby_property'
 
 require 'cmis/exceptions'
 require 'cmis/helpers'
