@@ -56,6 +56,12 @@ module CMIS
       ObjectFactory.create(result, self)
     end
 
+    def type_tree(opts = {})
+      server.execute!({ cmisselector: 'typeDescendants',
+                        repositoryId: id,
+                        includePropertyDefinitions: false }, opts)
+    end
+
     def types(opts = {})
       result = server.execute!({ cmisselector: 'typeDescendants',
                                  repositoryId: id,
