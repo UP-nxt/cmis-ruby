@@ -2,7 +2,6 @@
 
 [![Gem Version](https://img.shields.io/gem/v/cmis-ruby.svg)](https://rubygems.org/gems/cmis-ruby)
 [![Dependency Status](http://img.shields.io/gemnasium/UP-nxt/cmis-ruby.svg)](https://gemnasium.com/UP-nxt/cmis-ruby)
-[![Build Status](http://img.shields.io/travis/UP-nxt/cmis-ruby.svg)](https://travis-ci.org/UP-nxt/cmis-ruby)
 [![Code Climate](http://img.shields.io/codeclimate/github/UP-nxt/cmis-ruby.svg)](https://codeclimate.com/github/UP-nxt/cmis-ruby)
 [![Coverage Status](https://img.shields.io/coveralls/UP-nxt/cmis-ruby.svg)](https://coveralls.io/r/UP-nxt/cmis-ruby)
 
@@ -22,7 +21,7 @@ repository = server.repository('my_repository')
 document = repository.object('f3y5wbb6slhkeq3ciu3uazbpxeu')
 
 # or by unique property
-document = repository.find_object('cmis:document', 
+document = repository.find_object('cmis:document',
                                   'cmis:name' => 'some_unique_name')
 
 # set document content
@@ -43,7 +42,7 @@ query.each_result(limit: 50) { |document| puts document.cmis_object_id }
 
 ## Running specs
 
-The default rake task runs the specs. This requires a separate CMIS server. The environment variable `TEST_ENV` selects the test environment from `spec/config.yml`. The Travis build uses the private `ci` environment.
+The default rake task runs the specs. This requires a separate CMIS server. The environment variable `TEST_ENV` selects the test environment from `spec/config.yml`.
 
 ## Contributing
 

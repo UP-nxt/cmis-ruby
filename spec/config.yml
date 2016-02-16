@@ -3,18 +3,12 @@ local:
   server:
     service_url: http://33.33.33.100:8150/browser
   repository: test
-dev:
-  server:
-     service_url: http://localhost:8150/browser
-     username: cmis_ruby_test
-     password: cmis_ruby_test
-  repository: demo
 ci:
   server:
-    service_url: https://cmis-service.ci.apps.up-nxt.com/browser
-    username: <%= ENV['CI_USERNAME'] %>
-    password: <%= ENV['CI_PASSWORD'] %>
-  repository: travis_cmis_ruby_<%= RUBY_VERSION.tr(?., ?_) %>
+    service_url: <%= ENV['CMIS_SERVICE_URL'] %>
+    username: <%= ENV['SERVICE_USER'] %>
+    password: <%= ENV['SERVICE_PASSWORD'] %>
+  repository: <%= ENV['REPOSITORY'] %>
 nuxeo:
   server:
     service_url: http://cmis.demo.nuxeo.com/nuxeo/json/cmis
