@@ -69,7 +69,7 @@ module CMIS
     end
 
     def content=(opts = {})
-      opts.symbolize_keys!
+      opts = opts.symbolize_keys
       content = { stream: opts.delete(:stream),
                   mime_type: opts.delete(:mime_type),
                   filename: opts.delete(:filename) }
