@@ -3,7 +3,6 @@
 [![Gem Version](https://img.shields.io/gem/v/cmis-ruby.svg)](https://rubygems.org/gems/cmis-ruby)
 [![Dependency Status](http://img.shields.io/gemnasium/UP-nxt/cmis-ruby.svg)](https://gemnasium.com/UP-nxt/cmis-ruby)
 [![Code Climate](http://img.shields.io/codeclimate/github/UP-nxt/cmis-ruby.svg)](https://codeclimate.com/github/UP-nxt/cmis-ruby)
-[![Coverage Status](https://img.shields.io/coveralls/UP-nxt/cmis-ruby.svg)](https://coveralls.io/r/UP-nxt/cmis-ruby)
 
 **CMIS ruby** is a [CMIS](http://chemistry.apache.org/project/cmis.html) client library, using the the _CMIS Browser Binding_ ([CMIS 1.1](http://docs.oasis-open.org/cmis/CMIS/v1.1/CMIS-v1.1.html)).
 

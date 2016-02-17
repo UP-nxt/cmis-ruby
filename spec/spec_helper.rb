@@ -1,6 +1,3 @@
-require 'coveralls'
-Coveralls.wear!
-
 require 'cmis'
 require 'erb'
 require 'yaml'
