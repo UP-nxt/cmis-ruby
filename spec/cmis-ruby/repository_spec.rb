@@ -5,7 +5,7 @@ module CMIS
     'cmis:document',
     'cmis:folder',
     'cmis:relationship',
-    # 'cmis:policy',
+     # 'cmis:policy',
     'cmis:item'
   ]
 
@@ -131,6 +131,20 @@ module CMIS
           apple = repository.type('apple')
           expect(apple).to be_a CMIS::Type
           expect(apple.id).to eq('apple')
+        end
+      end
+
+      describe '#type_tree' do
+        it 'returns type tree' do
+          type_tree = repository.type_tree
+          expect(type_tree).to be_a(Array)
+          expect(type_tree.size).to eq 5
+          ids = type_tree.map { |elem| elem['type']['id'] }
+          expect(ids).to include('cmis:document', 'cmis:folder', 'cmis:item', 'cmis:relationship', 'cmis:secondary')
+          document_type = type_tree.select { |elem| elem['type']['id'] == 'cmis:document' }.first
+          document_subtypes = document_type['children']
+          expect(document_subtypes.size).to eq 1
+          expect(document_subtypes.first['type']['id']).to eq 'apple'
         end
       end
 
