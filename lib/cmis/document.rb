@@ -45,10 +45,13 @@ module CMIS
     end
 
     def content(opts = {})
-      server.execute!({ cmisselector: 'content',
-                        repositoryId: repository.id,
-                        objectId: cmis_object_id }, opts)
-
+      if detached?
+        @local_content
+      else
+        server.execute!({ cmisselector: 'content',
+                          repositoryId: repository.id,
+                          objectId: cmis_object_id }, opts)
+      end
     rescue Exceptions::Constraint => e
       if e.message =~ /no content stream/
         nil
