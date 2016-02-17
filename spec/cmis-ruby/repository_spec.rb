@@ -5,7 +5,7 @@ module CMIS
     'cmis:document',
     'cmis:folder',
     'cmis:relationship',
-     # 'cmis:policy',
+    # 'cmis:policy',
     'cmis:item'
   ]
 
