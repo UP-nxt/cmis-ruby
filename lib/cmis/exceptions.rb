@@ -13,7 +13,6 @@ module CMIS
     StreamNotSupported                     = Class.new(StandardError)
     UpdateConflict                         = Class.new(StandardError)
     Versioning                             = Class.new(StandardError)
-    ProvisionedThroughputExceededException = Class.new(StandardError)
 
     # Non-CMIS
     Unauthorized            = Class.new(StandardError)
