@@ -56,7 +56,9 @@ module CMIS
 
     def connection_options(options)
       adapter = (options[:adapter] || :net_http).to_sym
-      headers = { user_agent: "cmis-ruby/#{VERSION} [#{adapter}]" }
+      user_agent = "cmis-ruby/#{VERSION} [#{adapter}]"
+      user_agent += " -- #{options[:app_id]}" if options[:app_id]
+      headers = { user_agent: user_agent }
       headers.merge!(options[:headers]) if options[:headers]
 
       conn_opts = { headers: headers }
