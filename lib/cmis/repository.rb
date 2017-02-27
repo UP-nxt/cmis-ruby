@@ -131,12 +131,12 @@ module CMIS
       if object_ids_and_change_tokens.empty?
         []
       else
-        result = r.server.execute!({ cmisaction: 'bulkUpdate',
-                                     repositoryId: id,
-                                     objectIdAndChangeToken: object_ids_and_change_tokens,
-                                     properties: properties })
+        result = server.execute!({ cmisaction: 'bulkUpdate',
+                                   repositoryId: id,
+                                   objectIdAndChangeToken: object_ids_and_change_tokens,
+                                   properties: properties })
         result.map do |h|
-          object = CMIS::Object.new({}, r)
+          object = CMIS::Object.new({}, self)
           object.cmis_object_id = h['id']
           object
         end
