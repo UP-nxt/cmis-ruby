@@ -28,6 +28,9 @@ module CMIS
             end
           end
         end
+
+      rescue Faraday::ConnectionFailed
+        raise Exceptions::Timeout
       end
 
       private

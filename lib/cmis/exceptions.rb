@@ -15,6 +15,7 @@ module CMIS
     Versioning                             = Class.new(StandardError)
 
     # Non-CMIS
-    Unauthorized            = Class.new(StandardError)
+    Unauthorized                           = Class.new(StandardError)
+    Timeout                                = Class.new(StandardError)
   end
 end
