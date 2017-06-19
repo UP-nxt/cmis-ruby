@@ -70,8 +70,7 @@ module CMIS
     end
 
     def do_token_query(max, token=nil)
-      params = { repositoryId: @repository.id,
-      maxItems:max }
+      params = { repositoryId: @repository.id, maxItems: max }
       params[:nextToken] = token if token
 
       if @method == 'post'
