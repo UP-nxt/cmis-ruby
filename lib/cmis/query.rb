@@ -69,6 +69,23 @@ module CMIS
       @total = @total == -1 ? result.num_items : @total # CMIS AWS trickery
     end
 
+    def do_token_query(max, token=nil)
+      params = { repositoryId: @repository.id, maxItems: max }
+      params[:nextToken] = token if token
+
+      if @method == 'post'
+        params.merge!(cmisselector: 'query', q: @statement)
+      else
+        params.merge!(cmisaction: 'query', statement: @statement)
+      end
+
+      result = @repository.server.execute!(params, @opts)
+      {
+        nextToken: result['nextToken'] ,
+        objects: result['results'].map { |r| ObjectFactory.create(r, @repository) }
+      }
+    end
+
     def debug_info
       @debug_info
     end
