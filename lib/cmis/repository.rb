@@ -143,6 +143,13 @@ module CMIS
       end
     end
 
+    def bulk_update_objects(object_ids_and_change_tokens, properties)
+      server.execute!(cmisaction: 'bulkUpdate',
+                      repositoryId: id,
+                      objectIdAndChangeToken: object_ids_and_change_tokens,
+                      properties: properties)
+    end
+
     def inspect
       "#{self.class}[#{id}] @ #{server.inspect}"
     end
