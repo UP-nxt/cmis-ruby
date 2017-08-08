@@ -121,7 +121,7 @@ module CMIS
       query(statement, opts).total
     end
 
-    # Returns the changes objects
+    # Returns the changed objects
     def update_objects(type_id, conditions, properties)
       statement = Utils.build_query_statement(type_id, conditions, 'cmis:objectId', 'cmis:changeToken')
       object_ids_and_change_tokens = []
@@ -131,15 +131,20 @@ module CMIS
       if object_ids_and_change_tokens.empty?
         []
       else
-        result = server.execute!({ cmisaction: 'bulkUpdate',
-                                   repositoryId: id,
-                                   objectIdAndChangeToken: object_ids_and_change_tokens,
-                                   properties: properties })
-        result.map do |h|
-          object = CMIS::Object.new({}, self)
-          object.cmis_object_id = h['id']
-          object
+        results = []
+        object_ids_and_change_tokens.each_slice(10) do |part|
+          r = server.execute!({ cmisaction: 'bulkUpdate',
+                                repositoryId: id,
+                                objectIdAndChangeToken: part,
+                                properties: properties })
+          r.map! do |h|
+            object = CMIS::Object.new({}, self)
+            object.cmis_object_id = h['id']
+            object
+          end
+          results.concat(r)
         end
+        results
       end
     end
 
