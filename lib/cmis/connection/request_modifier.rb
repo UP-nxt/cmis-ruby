@@ -47,7 +47,7 @@ module CMIS
       end
 
       def normalize(v)
-        v = Time.utc(v.year, v.month, v.day) if v.is_a?(Date)
+        v = Time.parse(v.to_s).utc if v.is_a?(Date)
         v = (v.to_f * 1000).to_i if v.is_a?(Time)
         v
       end
