@@ -90,5 +90,18 @@ module CMIS
         end
       end
     end
+
+    def delete_content
+      if detached?
+        @local_content = nil
+      else
+        with_change_token do
+          server.execute!({ cmisaction: 'deleteContent',
+                            repositoryId: repository.id,
+                            objectId: cmis_object_id,
+                            changeToken: change_token })
+        end
+      end
+    end
   end
 end
