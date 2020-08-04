@@ -1,18 +1,20 @@
 module CMIS
   module Exceptions
-    InvalidArgument                        = Class.new(StandardError)
-    NotSupported                           = Class.new(StandardError)
-    ObjectNotFound                         = Class.new(StandardError)
-    PermissionDenied                       = Class.new(StandardError)
-    Runtime                                = Class.new(StandardError)
-    Constraint                             = Class.new(StandardError)
-    ContentAlreadyExists                   = Class.new(StandardError)
-    FilterNotValid                         = Class.new(StandardError)
-    NameConstraintViolation                = Class.new(StandardError)
-    Storage                                = Class.new(StandardError)
-    StreamNotSupported                     = Class.new(StandardError)
-    UpdateConflict                         = Class.new(StandardError)
-    Versioning                             = Class.new(StandardError)
+    ServiceError                           = Class.new(StandardError)
+
+    Constraint                             = Class.new(ServiceError)
+    ContentAlreadyExists                   = Class.new(ServiceError)
+    FilterNotValid                         = Class.new(ServiceError)
+    InvalidArgument                        = Class.new(ServiceError)
+    NameConstraintViolation                = Class.new(ServiceError)
+    NotSupported                           = Class.new(ServiceError)
+    ObjectNotFound                         = Class.new(ServiceError)
+    PermissionDenied                       = Class.new(ServiceError)
+    Runtime                                = Class.new(ServiceError)
+    Storage                                = Class.new(ServiceError)
+    StreamNotSupported                     = Class.new(ServiceError)
+    UpdateConflict                         = Class.new(ServiceError)
+    Versioning                             = Class.new(ServiceError)
 
     # Non-CMIS
     Unauthorized                           = Class.new(StandardError)
