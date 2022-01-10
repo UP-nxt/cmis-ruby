@@ -17,8 +17,8 @@ module CMIS
       def build
         @type_id = Array(@type_id)
         statement = "select #{@queried_properties} from #{@type_id[0]}"
-        if @type_id[1]
-          statement << " join #{@type_id[1]} as X on cmis:objectId = X.cmis:objectId"
+        @type_id[1..-1].each_with_index do |secondary_type_id, index|
+          statement << " join #{secondary_type_id} as X#{index} on cmis:objectId = X#{index}.cmis:objectId"
         end
         clause = @properties.map { |k, v| build_predicate(k, v) }.join(' and ')
         statement << " where #{clause}" unless clause.empty?
@@ -29,6 +29,7 @@ module CMIS
 
       MAP = {
         '_eq'     => ' =',
+        '_like' => ' LIKE',
         '_not_eq' => ' <>',
         '_lt'     => ' <',
         '_lteq'   => ' <=',
